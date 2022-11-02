@@ -1,0 +1,29 @@
+.button{
+    color: #333;;
+    padding: 10px 25px;
+    text-decoration: none;
+    text-align: center;
+    background-color: white;
+    background-image: linear-gradient(to left, transparent, transparent 50%, #333 50%, #333);
+    background-position: 100%;
+    background-size: 200% 100%;
+    transition: all .40s ease-in;
+    font: 400 18px 'Poppins', sans-serif;
+    font-weight: 200;
+    border: none;
+}
+
+.buttonActive{
+    color: white;
+    padding: 10px 25px;
+    text-decoration: none;
+    text-align: center;
+    background-color: #333;
+    font: 400 18px 'Poppins', sans-serif;
+    font-weight: 200;
+}
+
+.button:hover{
+    background-position: 0 0;
+    color: #fff;
+}

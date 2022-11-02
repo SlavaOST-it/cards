@@ -1,0 +1,46 @@
+.default {
+    padding: 3px 10px;
+    border: 2px solid #484848;
+}
+
+.button {
+    color: black;
+    padding: 3px 15px;
+    /*width:50px;*/
+    text-decoration: none;
+    text-align: center;
+    margin: 2px;
+    /*display: block;*/
+    background-color: white;
+    background-image: linear-gradient(to left, transparent, transparent 50%, black 50%, black);
+    background-position: 100% 0;
+    background-size: 200% 100%;
+    transition: all .50s ease-in;
+    font: 400 18px Tahoma;
+    font-weight: bold;
+    border: 0.5px solid black;
+    /*border: none;*/
+
+}
+.button:active {
+    background-color: black;
+    color: white;
+    height: 100%;
+    z-index: 100;
+
+}
+.button:hover {
+    background-position: 0 0;
+    color: #fff;
+}
+.button:disabled {
+
+    color: #969696;
+    cursor: not-allowed;
+    opacity: 1;
+}
+
+
+.red {
+    background: #ea6f6f;
+}

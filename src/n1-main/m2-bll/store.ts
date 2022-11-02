@@ -1,13 +1,14 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import thunkMiddleware, {ThunkAction, ThunkDispatch} from 'redux-thunk'
+import {AppActionType, appReducer} from "./reducers/app-reducer";
 
 
 const rootReducer = combineReducers({
-
+    app: appReducer,
 })
 
 // ===== Принимаем типизацию всех редьюсеров ===== //
-type ReduxActionType = any
+type ReduxActionType = AppActionType
 
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 export type AppRootStateType = ReturnType<typeof rootReducer>
