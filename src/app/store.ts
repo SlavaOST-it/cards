@@ -1,14 +1,16 @@
 import {applyMiddleware, combineReducers, legacy_createStore} from "redux";
 import thunkMiddleware, {ThunkAction, ThunkDispatch} from 'redux-thunk'
 import {AppActionType, appReducer} from "./app-reducer";
+import {authReducer, LoginActionType} from "../features/login/auth-reducer";
 
 
 const rootReducer = combineReducers({
     app: appReducer,
+    auth:authReducer
 })
 
 // ===== Принимаем типизацию всех редьюсеров ===== //
-type ReduxActionType = AppActionType
+type ReduxActionType = AppActionType|LoginActionType
 
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunkMiddleware));
 export type AppRootStateType = ReturnType<typeof rootReducer>
