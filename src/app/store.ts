@@ -1,6 +1,7 @@
 import {applyMiddleware, combineReducers, legacy_createStore} from "redux";
 import thunkMiddleware, {ThunkAction, ThunkDispatch} from 'redux-thunk'
 import {AppActionType, appReducer} from "./app-reducer";
+import {authReducer, LoginActionType} from "../features/login/auth-reducer";
 import {registerReducer} from '../features/registration/registration-reducer'
 import {ProfileActionsType, profileReducer} from "../features/profile/profile-reducer";
 import {PassRecoveryActionType, passRecoveryReducer} from "../features/passwordRecovery/passRecovery-reducer";
@@ -9,6 +10,7 @@ import {NewPassReducerActionType, setNewPassReducer} from "../features/newPasswo
 
 const rootReducer = combineReducers({
     app: appReducer,
+    login:authReducer,
     auth: registerReducer,
     profile: profileReducer,
     passRecovery: passRecoveryReducer,
@@ -16,7 +18,8 @@ const rootReducer = combineReducers({
 })
 
 // ===== Принимаем типизацию всех редьюсеров ===== //
-type ReduxActionType = AppActionType | ProfileActionsType | PassRecoveryActionType | NewPassReducerActionType
+type ReduxActionType = AppActionType|LoginActionType|ProfileActionsType | PassRecoveryActionType | NewPassReducerActionType
+
 
 export type AppStateType = ReturnType<typeof rootReducer>
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunkMiddleware));

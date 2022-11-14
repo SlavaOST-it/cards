@@ -13,6 +13,9 @@ export type RegisterResponseType = {
 }
 
 export const cardsAPI = {
+ login:(email:string,password:string,rememberMe:boolean)=>{
+    return  instance.post('auth/login',{email:email,password:password,rememberMe:rememberMe})
+ },
     register(data: RegisterType) {
         return instance.post<RegisterResponseType>('auth/register', data)
     }
