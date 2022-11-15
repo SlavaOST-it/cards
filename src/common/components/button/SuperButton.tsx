@@ -3,7 +3,8 @@ import style from "./SuperButton.module.css";
 
 type SuperButtonType = {
     title?: string,
-    callBack?: (event: React.MouseEvent<HTMLButtonElement>) => void,
+    img? : string,
+    callBack?: () => void,
     disable?: boolean,
     className?: string
 
@@ -17,6 +18,6 @@ export const SuperButton =(props: SuperButtonType) => {
             className={finalClassName}
             onClick={props.callBack}
             disabled={props.disable}
-        >{props.title}</button>
+        >{props.img}{props.title}</button>
     )
 }
