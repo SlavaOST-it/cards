@@ -4,14 +4,17 @@ import {NavLink} from "react-router-dom";
 import {PATH} from "../../utils/routes/routes";
 import style from "./PasswordRecovery.module.css"
 import {sendEmailTC} from "./passRecovery-reducer";
-import {useAppDispatch} from "../../app/hooks";
+import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "../../app/store";
 
 
 type FormikErrorType = {
     email?: string
 }
 export const PasswordRecovery = () => {
-    const dispatch = useAppDispatch                  // заменить на свой хук
+    const dispatch = useAppDispatch()               // заменить на свой хук
+    const message = useSelector<AppRootStateType, string>(state => state.passRecovery.infoMessage)
 
     const formik = useFormik({
         initialValues: {
@@ -26,10 +29,10 @@ export const PasswordRecovery = () => {
             }
             return errors
         },
-        onSubmit: values => {
-            dispatch(sendEmailTC(values.email))
+        onSubmit: (values) => {
+            dispatch(sendEmailTC(values))
             formik.resetForm()
-        },
+        }
     })
 
     return (
@@ -58,6 +61,7 @@ export const PasswordRecovery = () => {
                 </form>
                 <span>Did you remember your password?</span>
                 <NavLink to={PATH.login}>Try logging in</NavLink>
+                {message}
             </div>
         </div>
     );
