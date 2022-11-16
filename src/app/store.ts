@@ -1,7 +1,7 @@
 import {applyMiddleware, combineReducers, legacy_createStore} from "redux";
 import thunkMiddleware, {ThunkAction, ThunkDispatch} from 'redux-thunk'
 import {AppActionType, appReducer} from "./app-reducer";
-import {passRecoveryReducer} from "../features/passwordRecovery/passRecovery-reducer";
+import {PassRecoveryActionType, passRecoveryReducer} from "../features/passwordRecovery/passRecovery-reducer";
 
 
 const rootReducer = combineReducers({
@@ -10,7 +10,7 @@ const rootReducer = combineReducers({
 })
 
 // ===== Принимаем типизацию всех редьюсеров ===== //
-type ReduxActionType = AppActionType
+type ReduxActionType = AppActionType | PassRecoveryActionType
 
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunkMiddleware));
 export type AppRootStateType = ReturnType<typeof rootReducer>

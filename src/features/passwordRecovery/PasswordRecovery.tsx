@@ -1,17 +1,17 @@
 import React from 'react';
 import {useFormik} from "formik";
-import {useDispatch} from "react-redux";
 import {NavLink} from "react-router-dom";
 import {PATH} from "../../utils/routes/routes";
 import style from "./PasswordRecovery.module.css"
 import {sendEmailTC} from "./passRecovery-reducer";
+import {useAppDispatch} from "../../app/hooks";
 
 
 type FormikErrorType = {
     email?: string
 }
 export const PasswordRecovery = () => {
-    const dispatch = useDispatch()                  // заменить на свой хук
+    const dispatch = useAppDispatch                  // заменить на свой хук
 
     const formik = useFormik({
         initialValues: {
