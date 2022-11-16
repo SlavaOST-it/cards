@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
 import axios, {AxiosError} from "axios";
-import {ressPassAPI} from "../../api/cards-api";
+import {forgotPassAPI} from "../../api/cards-api";
 
 export type InfoMessageAT = ReturnType<typeof infoMessageAC>
 export type PassRecoveryActionType = InfoMessageAT
@@ -29,7 +29,7 @@ export const infoMessageAC = (infoMessage: string) => ({type: "PassRECOVERY/pass
 // ======ThunkCreators ===== //
 export const sendEmailTC = (email: string) => async (dispatch: Dispatch<PassRecoveryActionType>) => {
     try {
-        let res = await ressPassAPI.sendEmail(email)
+        let res = await forgotPassAPI.sendEmail(email)
         dispatch(infoMessageAC(res.info))
     } catch (e) {
         const err = e as Error | AxiosError
