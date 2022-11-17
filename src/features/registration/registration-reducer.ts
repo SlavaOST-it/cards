@@ -24,18 +24,16 @@ const setRegisterIn = (isRegisterIn: boolean) => {
 export const registerReducer = (state: InitialStateType = initialState, action: SetRegisterInType): InitialStateType => {
     switch (action.type) {
         case "register/SET-REGISTER-IN":
-            return {...state, isRegisterIn: action.value}
+            return {isRegisterIn: action.value}
         default:
             return state
     }
 }
 
-const setIsRegisterInAC = (value: boolean) => ({type: 'register/SET-IS-REGISTER-IN', value} as const)
-
 export const RegisterTC = (data: RegisterType) => (dispatch: Dispatch) => {
     cardsAPI.register(data)
         .then((res) => {
-            dispatch(setIsRegisterInAC(true))
+            dispatch(setRegisterIn(true))
         })
 }
 

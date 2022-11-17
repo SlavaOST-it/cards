@@ -1,7 +1,7 @@
 import React from 'react'
-import {useFormik} from "formik";
-import {useDispatch, useSelector} from "react-redux";
-import {Navigate,NavLink} from "react-router-dom";
+import {useFormik} from 'formik'
+import {useDispatch, useSelector} from 'react-redux'
+import {Navigate, NavLink} from 'react-router-dom'
 import {SuperButton} from '../../common/components/button/SuperButton'
 import {SuperInput} from '../../common/components/input/SuperInput'
 import {RegisterTC} from './registration-reducer'
@@ -25,33 +25,33 @@ const Registration = () => {
             confirmPassword: ''
         },
         validate: (values) => {
-            const errors: FormikErrorType = {};
+            const errors: FormikErrorType = {}
             if (!values.email) {
-                errors.email = 'Required';
+                errors.email = 'Required'
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-                errors.email = 'Invalid email address';
+                errors.email = 'Invalid email address'
             }
             if (!values.password) {
-                errors.password = "Password must not be a null"
+                errors.password = 'Password must not be a null'
             } else if (values.password.length < 4) {
-                errors.email = 'To small password';
+                errors.email = 'To small password'
             }
-            return errors;
+            return errors
         },
         onSubmit: values => {
             // @ts-ignore
-            dispatch(RegisterTC(values));
+            dispatch(RegisterTC(values))
         },
     })
     if (isRegisterIn) {
-        return <Navigate to={PATH.login}/>
+        return <Navigate to={'/login'}/>
     }
     return <form onSubmit={formik.handleSubmit}>
         <h2>Registration</h2>
         <div>
             <SuperInput
                 placeholder={'email'}
-                {...formik.getFieldProps("email")}
+                {...formik.getFieldProps('email')}
             />
         </div>
         <div>
@@ -60,7 +60,7 @@ const Registration = () => {
                 <div style={{color: 'red'}}>{formik.errors.email}</div>}
 
             <SuperInput placeholder={'password'}
-                   {...formik.getFieldProps("password")}
+                        {...formik.getFieldProps('password')}
             />
         </div>
         {formik.touched.password &&
@@ -68,14 +68,14 @@ const Registration = () => {
             <div style={{color: 'red'}}>{formik.errors.password}</div>
         }
         <SuperInput
-            placeholder={' confirmPassword'}
-            {...formik.getFieldProps(" confirmPassword")}
+            placeholder={'confirmPassword'}
+            {...formik.getFieldProps(' confirmPassword')}
         />
         {formik.touched.password &&
             formik.errors.password &&
             <div style={{color: 'red'}}>{formik.errors.password}</div>}
         <div>
-            <button>
+            <button type="submit">
                 Register
             </button>
         </div>
