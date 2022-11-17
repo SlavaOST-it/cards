@@ -17,7 +17,7 @@ export type SetRegisterInType = ReturnType<typeof setRegisterIn>
 const setRegisterIn = (isRegisterIn: boolean) => {
     return {
         type: "register/SET-REGISTER-IN",
-        isRegisterIn
+        value: isRegisterIn
     } as const
 }
 

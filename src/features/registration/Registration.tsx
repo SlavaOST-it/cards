@@ -6,6 +6,7 @@ import {SuperButton} from '../../common/components/button/SuperButton'
 import {SuperInput} from '../../common/components/input/SuperInput'
 import {RegisterTC} from './registration-reducer'
 import {AppStateType} from '../../app/store'
+import {PATH} from '../../utils/routes/routes'
 
 type FormikErrorType = {
     email?: string
@@ -38,17 +39,16 @@ const Registration = () => {
             return errors;
         },
         onSubmit: values => {
+            // @ts-ignore
             dispatch(RegisterTC(values));
-
         },
     })
     if (isRegisterIn) {
-        return <Navigate to={'/login'}/>
+        return <Navigate to={PATH.login}/>
     }
     return <form onSubmit={formik.handleSubmit}>
         <h2>Registration</h2>
         <div>
-
             <SuperInput
                 placeholder={'email'}
                 {...formik.getFieldProps("email")}
@@ -61,24 +61,23 @@ const Registration = () => {
 
             <SuperInput placeholder={'password'}
                    {...formik.getFieldProps("password")}
-
             />
         </div>
         {formik.touched.password &&
             formik.errors.password &&
-            <div style={{color: 'red'}}>{formik.errors.password}</div>}
+            <div style={{color: 'red'}}>{formik.errors.password}</div>
+        }
         <SuperInput
             placeholder={' confirmPassword'}
             {...formik.getFieldProps(" confirmPassword")}
-
         />
         {formik.touched.password &&
             formik.errors.password &&
             <div style={{color: 'red'}}>{formik.errors.password}</div>}
         <div>
-            <SuperButton>
+            <button>
                 Register
-            </SuperButton>
+            </button>
         </div>
     </form>
 }
