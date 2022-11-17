@@ -1,33 +1,42 @@
 import {Dispatch} from "redux"
 import {cardsAPI} from '../../api/cards-api'
 
-type RegisterType = {
+export type RegisterType = {
     email: string
     password: string
-
 }
 
 const initialState = {
     isRegisterIn: false
 }
 
-export const registerReducer = (state: InitialStateType = initialState, action: ): InitialStateType => {
+type InitialStateType = typeof initialState
+
+export type SetRegisterInType = ReturnType<typeof setRegisterIn>
+
+const setRegisterIn = (isRegisterIn: boolean) => {
+    return {
+        type: "register/SET-REGISTER-IN",
+        isRegisterIn
+    } as const
+}
+
+export const registerReducer = (state: InitialStateType = initialState, action: SetRegisterInType): InitialStateType => {
     switch (action.type) {
-        case "register/SET-IS-REGISTER-IN":
+        case "register/SET-REGISTER-IN":
             return {...state, isRegisterIn: action.value}
         default:
             return state
     }
 }
 
-//actions
-export const setIsRegisterInAC = (value: boolean) => ({type: 'register/SET-IS-REGISTER-IN', value} as const)
-//thunks
-export const registerTC = (data: RegisterType) => (dispatch: Dispatch) => {
+const setIsRegisterInAC = (value: boolean) => ({type: 'register/SET-IS-REGISTER-IN', value} as const)
+
+export const RegisterTC = (data: RegisterType) => (dispatch: Dispatch) => {
     cardsAPI.register(data)
         .then((res) => {
             dispatch(setIsRegisterInAC(true))
         })
 }
-//types
-type InitialStateType = typeof initialState
+
+
