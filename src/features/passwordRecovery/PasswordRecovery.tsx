@@ -4,7 +4,7 @@ import {NavLink} from "react-router-dom";
 import {PATH} from "../../utils/routes/routes";
 import style from "./PasswordRecovery.module.css"
 import {sendEmailTC} from "./passRecovery-reducer";
-import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import {useAppDispatch} from "../../app/hooks";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../app/store";
 
@@ -30,7 +30,7 @@ export const PasswordRecovery = () => {
             return errors
         },
         onSubmit: (values) => {
-            dispatch(sendEmailTC(values))
+            dispatch(sendEmailTC(values.email))
             formik.resetForm()
         }
     })
