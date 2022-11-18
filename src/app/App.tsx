@@ -8,7 +8,6 @@ import {Navigate} from "react-router-dom";
 import {PATH} from "../utils/routes/routes";
 
 const App = () => {
-    const isRegisterIn = useAppSelector(state => state.auth.isRegisterIn)
     const isInitialized = useAppSelector((state) => state.app.isInitialized)
     const dispatch = useAppDispatch()
 
@@ -16,11 +15,9 @@ const App = () => {
         dispatch(initializeAppTC())
     }, [])
 
-if (!isRegisterIn){
-    return <Navigate to={PATH.registration}/>
-}
+
 if (!isInitialized) {
-    return <div>Loading...</div>}
+    return <Navigate to={PATH.registration}/>}
 
     return (
         <div className="App">
