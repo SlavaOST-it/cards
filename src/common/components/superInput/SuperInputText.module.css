@@ -1,0 +1,54 @@
+.input:focus {
+    outline: none;
+    border: #2900cf 2px solid;
+}
+
+
+.superInput {
+    border: lightblue 2px solid;
+    border-radius: 10px;
+    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.5)
+}
+
+.superInput:focus {
+    border-radius: 10px;
+    outline: none;
+    border: white 2px solid;
+
+}
+
+.errorInput {
+    border: 2px solid red;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.5)
+}
+
+.errorInput:focus {
+    outline: none;
+    border: red 2px solid;
+}
+
+.error {
+    color: red;
+}
+
+.blue {
+    border: #2900cf;
+
+}
+
+.testSpanError {
+    color: gold;
+}
+.passwordContainer{
+    position: relative;
+}
+.passwordImg{
+    position: absolute;
+    top: 3px;
+    right: 11px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-size: cover;
+}

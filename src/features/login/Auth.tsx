@@ -1,11 +1,13 @@
 import React from 'react';
 import {useFormik} from "formik";
-import {SuperInput} from "../../common/components/input/SuperInput";
 import style from './Auth.module.css'
 import {SuperCheckbox} from "../../common/components/checkbox/SuperCheckbox";
 import {loginThunkCreator} from "./auth-reducer";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {Navigate} from "react-router-dom";
+import SuperInputText from "../../common/components/superInput/SuperInputText";
+import SuperButton from "../../common/components/superButton/SuperButton";
+import SuperInputPassword from "../../common/components/superInput/SuperInputPassword";
 
 
 type FormikErrorType = {
@@ -21,10 +23,10 @@ export const Auth = () => {
         initialValues: {
             email: '',
             password: '',
-            rememberMe:'false'
+            rememberMe:false
         },
         onSubmit: values => {
-            dispatch((loginThunkCreator(values.email,values.password,JSON.parse(values.rememberMe))))
+            dispatch((loginThunkCreator(values.email,values.password,values.rememberMe)))
         },
         validate:values=>{
             const errors:FormikErrorType ={};
@@ -53,7 +55,7 @@ export const Auth = () => {
             <div className={style.singIn}>Sing in</div>
             <form onSubmit={formik.handleSubmit}>
                 <div className={style.form}>
-                    <SuperInput id="email"
+                    <SuperInputText id="email"
                                 name="email"
                                 type="email"
                                 onChange={formik.handleChange}
@@ -61,7 +63,7 @@ export const Auth = () => {
                     {formik.touched.email && formik.errors.email ? (
                         <div className={style.error}>{formik.errors.email}</div>
                     ) : null}
-                    <input id="password"
+                    <SuperInputPassword id="password"
                                 name="password"
                                 type="password"
                                 onChange={formik.handleChange}
@@ -74,10 +76,10 @@ export const Auth = () => {
                                        name="rememberMe"
                                        type="checkbox"
                                        onChange={formik.handleChange}
-                                       value={formik.values.rememberMe}
+                                       checked={formik.values.rememberMe}
                         />Remember me
                     </div>
-                    <button type='submit'>Sing in</button>
+                    <SuperButton type='submit'>Sing in</SuperButton>
                 </div>
             </form>
         </div>
