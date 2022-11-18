@@ -1,7 +1,7 @@
 import React from 'react'
 import {useFormik} from 'formik'
 import {useDispatch, useSelector} from 'react-redux'
-import {Navigate, NavLink} from 'react-router-dom'
+import {Navigate} from 'react-router-dom'
 import {SuperButton} from '../../common/components/button/SuperButton'
 import {SuperInput} from '../../common/components/input/SuperInput'
 import {RegisterTC} from './registration-reducer'
@@ -44,7 +44,7 @@ const Registration = () => {
         },
     })
     if (isRegisterIn) {
-        return <Navigate to={'/login'}/>
+        return <Navigate to={PATH.login}/>
     }
     return <form onSubmit={formik.handleSubmit}>
         <h2>Registration</h2>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, Routes} from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 import {PATH} from "../../utils/routes/routes";
 import {TestPage} from "../testPage/TestPage";
 import {Auth} from "../login/Auth";
@@ -13,6 +13,7 @@ export const Main = () => {
     return (
         <div className={""}>
             <Routes>
+                <Route path={'/'} element={<Navigate to={PATH.registration}/>}/>
                 <Route path={PATH.login} element={<Auth/>}/>
                 <Route path={PATH.registration} element={<Registration/>}/>
                 <Route path={PATH.profile} element={<Profile/>}/>
