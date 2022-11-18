@@ -8,6 +8,7 @@ import {PassRecoveryActionType, passRecoveryReducer} from "../features/passwordR
 import {NewPassReducerActionType, setNewPassReducer} from "../features/newPassword/newPass-reducer";
 
 
+
 const rootReducer = combineReducers({
     app: appReducer,
     login:authReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
     profile: profileReducer,
     passRecovery: passRecoveryReducer,
     newPassword: setNewPassReducer,
+
 })
 
 // ===== Принимаем типизацию всех редьюсеров ===== //
