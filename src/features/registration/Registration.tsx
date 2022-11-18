@@ -7,6 +7,7 @@ import {SuperInput} from '../../common/components/input/SuperInput'
 import {RegisterTC} from './registration-reducer'
 import {AppStateType} from '../../app/store'
 import {PATH} from '../../utils/routes/routes'
+import {useAppDispatch} from "../../app/hooks";
 
 type FormikErrorType = {
     email?: string
@@ -15,7 +16,7 @@ type FormikErrorType = {
 }
 const Registration = () => {
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const isRegisterIn = useSelector<AppStateType, boolean>(state => state.auth.isRegisterIn)
 
     const formik = useFormik({
@@ -39,7 +40,6 @@ const Registration = () => {
             return errors
         },
         onSubmit: values => {
-            // @ts-ignore
             dispatch(RegisterTC(values))
         },
     })
