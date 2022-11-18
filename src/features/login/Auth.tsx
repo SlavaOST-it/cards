@@ -16,7 +16,7 @@ type FormikErrorType = {
 
 export const Auth = () => {
     const dispatch=useAppDispatch()
-    const loggedIn=useAppSelector(state=>state.auth.loggedIn)
+    const loggedIn=useAppSelector(state=>state.login.loggedIn)
     const formik = useFormik({
         initialValues: {
             email: '',
