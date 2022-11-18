@@ -5,5 +5,5 @@ export const PATH = {
     error: '/error',
     test: '/test',
     passwordRecovery: '/passwordRecovery',
-    enterNewPassword: '/enterNewPassword',
+    setNewPassword: '/setNewPass/:token',
 }

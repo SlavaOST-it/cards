@@ -11,7 +11,7 @@ export const Nav = () => {
         {link: PATH.profile, title: 'PROFILE'},
         {link: PATH.test, title: 'TEST PAGE'},
         {link: PATH.passwordRecovery, title: 'PASSWORD RECOVERY'},
-        {link: PATH.enterNewPassword, title: 'ENTER NEW PASSWORD'},
+        {link: PATH.setNewPassword, title: 'ENTER NEW PASSWORD'},
     ]
     return (
         <div className={""}>
