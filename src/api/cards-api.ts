@@ -22,8 +22,14 @@ export const forgotPassAPI = {
         return axios.post(`https://neko-back.herokuapp.com/2.0/auth/forgot`,
             {
                 email: email,
-                message: "`<h3>password recovery link: <a href='http://localhost:3000/#/set-new-password/$token$'>link</a></h3>`"
+                message: "`<h3>password recovery link: <a href='http://localhost:3000/#/setNewPass/$token$'>link</a></h3>`"
             })
-            .then(res=>res.data)
+            .then(res => res.data)
+    },
+    setNewPas(newPass: string, token:  string | undefined) {
+        return instance.post(`https://neko-back.herokuapp.com/2.0/auth/set-new-password`, {
+            password: newPass,
+            resetPasswordToken: token
+        }).then(res => res.data)
     }
 }
