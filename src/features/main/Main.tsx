@@ -5,9 +5,9 @@ import {PATH} from "../../utils/routes/routes";
 import {TestPage} from "../testPage/TestPage";
 import {Auth} from "../login/Auth";
 import {Profile} from "../profile/Profile";
-import {Registration} from "../registration/Registration";
 import {Error404} from "../../common/components/errorPage/Error404";
 import {PasswordRecovery} from "../passwordRecovery/PasswordRecovery";
+import Registration from '../registration/Registration';
 
 export const Main = () => {
     return (
