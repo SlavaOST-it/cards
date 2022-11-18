@@ -35,8 +35,8 @@ export const Auth = () => {
             }
             if (!values.password){
                 errors.password='Required'
-            }else if(values.password.length<=8){
-                errors.password='password length less than 8 characters'
+            }else if(values.password.length<=4){
+                errors.password='password length less than 4 characters'
             }else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
                 errors.password = 'Invalid password'
             }

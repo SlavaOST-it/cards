@@ -1,5 +1,5 @@
 import {Dispatch} from "redux"
-import {cardsAPI} from '../../api/cards-api'
+import {authAPI} from '../../api/cards-api'
 
 export type RegisterType = {
     email: string
@@ -31,7 +31,7 @@ export const registerReducer = (state: InitialStateType = initialState, action: 
 }
 
 export const RegisterTC = (data: RegisterType) => (dispatch: Dispatch) => {
-    cardsAPI.register(data)
+    authAPI.register(data)
         .then((res) => {
             dispatch(setRegisterIn(true))
         })

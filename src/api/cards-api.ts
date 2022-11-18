@@ -12,12 +12,27 @@ export type RegisterResponseType = {
     error?: string;
 }
 
-export const cardsAPI = {
- login:(email:string,password:string,rememberMe:boolean)=>{
-    return  instance.post('auth/login',{email:email,password:password,rememberMe:rememberMe})
- },
+export const authAPI = {
+    me() {
+        return instance.post('auth/me').then(res=>res.data)
+    },
+
+    login: (email: string, password: string, rememberMe: boolean) => {
+        return instance.post('auth/login', {email: email, password: password, rememberMe: rememberMe})
+            .then(res => res.data)
+    },
     register(data: RegisterType) {
         return instance.post<RegisterResponseType>('auth/register', data)
+    }
+}
+export const profileAPI = {
+    changeName(newName: string) {
+        return instance.put(`/auth/me`, {name: newName})
+            .then(res => res.data)
+    },
+    updatePhoto(avatar: string) {
+        return instance.put(`/auth/me` + avatar)
+            .then(res => res.data)
     }
 }
 export const forgotPassAPI = {
@@ -29,7 +44,7 @@ export const forgotPassAPI = {
             })
             .then(res => res.data)
     },
-    setNewPas(newPass: string, token:  string | undefined) {
+    setNewPas(newPass: string, token: string | undefined) {
         return instance.post(`https://neko-back.herokuapp.com/2.0/auth/set-new-password`, {
             password: newPass,
             resetPasswordToken: token

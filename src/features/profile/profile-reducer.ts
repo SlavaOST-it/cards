@@ -1,6 +1,6 @@
-import {auth, profileAPI} from "../../api/api";
 import axios, {AxiosError} from "axios";
 import {Dispatch} from "redux";
+import {profileAPI} from "../../api/cards-api";
 
 export type SetUserProfileAT = ReturnType<typeof setUserProfileAC>
 export type SetUserNameAC = ReturnType<typeof setUserNameAC>
@@ -9,18 +9,18 @@ export type SetUserPhotoAT = ReturnType<typeof setUserPhotoAC>
 export type ProfileActionsType = SetUserProfileAT | SetUserNameAC | SetUserStatusAT | SetUserPhotoAT
 
 type InitialStateType = {
-    _id: string ;
+    _id: string;
     email: string;
     name: string;
     avatar?: string | null;
     rememberMe: boolean;
 }
 const initialState: InitialStateType = {
-        _id: '',
-        email: '',
-        name: 'test name',
-        avatar: '',
-        rememberMe: false,
+    _id: '',
+    email: '',
+    name: 'test name',
+    avatar: '',
+    rememberMe: false,
 }
 
 export const profileReducer = (state: InitialStateType = initialState, action: ProfileActionsType) => {      // вместо any указать типизицию
@@ -48,21 +48,21 @@ export const setUserStatusAC = (status: string) => ({type: "PROFILE/SET-USER-STA
 export const setUserPhotoAC = (photo: string) => ({type: "PROFILE/SET-USER-PHOTO", photo} as const)
 
 // ==================THUNK CREATORS =======================//
-export const getUserProfileThunkCreator = () => async (dispatch: Dispatch<ProfileActionsType>) =>{
-    try {
-        let res = await auth.loginez()
-        dispatch(setUserProfileAC(res))
-    }
-    catch (e) {
-        const err = e as Error | AxiosError
-        if (axios.isAxiosError(err)) {
-            const error = err.response?.data
-                ? (err.response.data as ({ error: string })).error
-                : err.message
-            alert(error)
-        }
-    }
-}
+// export const getUserProfileThunkCreator = () => async (dispatch: Dispatch<ProfileActionsType>) =>{
+//     try {
+//         let res = await auth.loginez()
+//         dispatch(setUserProfileAC(res))
+//     }
+//     catch (e) {
+//         const err = e as Error | AxiosError
+//         if (axios.isAxiosError(err)) {
+//             const error = err.response?.data
+//                 ? (err.response.data as ({ error: string })).error
+//                 : err.message
+//             alert(error)
+//         }
+//     }
+// }
 
 export const changeNameThunkCreator = (newName: string) => async (dispatch: Dispatch<ProfileActionsType>) => {
     try {

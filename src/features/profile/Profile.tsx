@@ -5,7 +5,7 @@ import arrowLogo from "../../assets/img/icons/arrow.png"
 import photoAppLogo from "../../assets/img/icons/photoapparat.png"
 import logoutLogo from "../../assets/img/icons/logout.png"
 import SuperButton from "../../common/components/superButton/SuperButton";
-import {changeNameThunkCreator, getUserProfileThunkCreator} from "./profile-reducer";
+import {changeNameThunkCreator} from "./profile-reducer";
 import {useAppDispatch, useAppSelector} from "../../app/hook";
 import {NavLink} from "react-router-dom";
 
@@ -21,9 +21,9 @@ export const Profile = () => {
     const [name, setName] = useState<string>(userName)
     const [error, setError] = useState<string | null>(null)
 
-    useEffect(() => {
-        dispatch(getUserProfileThunkCreator())
-    }, [dispatch])
+    // useEffect(() => {
+    //     dispatch(getUserProfileThunkCreator())
+    // }, [dispatch])
 
     const activateEditMode = () => {
         setEditMode(true);
