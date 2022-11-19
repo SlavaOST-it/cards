@@ -16,7 +16,7 @@ const App = () => {
     }, [])
 
 
-if (!isInitialized) {
+if (isInitialized) {
     return <Navigate to={PATH.registration}/>}
 
     return (
