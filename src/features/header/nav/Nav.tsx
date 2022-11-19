@@ -17,7 +17,7 @@ export const Nav = () => {
         <div className={""}>
             <nav>
                 {item.map(el =>
-                    <NavLink to={el.link} key={el.link}
+                    <NavLink key={el.link} to={el.link}
                              className={({isActive}) => isActive ? style.buttonActive : style.button}>
                         {el.title}
                     </NavLink>

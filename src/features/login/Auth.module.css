@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    color:#091430;
 }
 .singIn{
     font-size: 30px;
@@ -15,4 +15,21 @@
 }
 .error{
     color:red
+}
+.checkbox{
+    display: flex;
+    justify-content: left;
+    padding-left: 10px;
+}
+.forgot{
+    text-decoration: none;
+    color:#091430;
+    text-align: right;
+    padding: 0 10px 10px 0;
+
+}
+.text{
+    color:#8e8f91;
+    padding: 10px 0;
+
 }

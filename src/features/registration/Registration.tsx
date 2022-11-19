@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {useFormik} from 'formik'
 import {useDispatch, useSelector} from 'react-redux'
 import {Navigate} from 'react-router-dom'
@@ -7,8 +7,9 @@ import {SuperInput} from '../../common/components/input/SuperInput'
 import {RegisterTC} from './registration-reducer'
 import {AppStateType} from '../../app/store'
 import {PATH} from '../../utils/routes/routes'
-import {Button, TextField} from '@mui/material'
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import {initializeAppTC} from "../../app/app-reducer";
+import {Button, TextField} from '@mui/material'
 
 type FormikErrorType = {
     email?: string
@@ -17,9 +18,11 @@ type FormikErrorType = {
 }
 const Registration = () => {
 
+    const loggedIn = useAppSelector(state => state.login.loggedIn)
+    const isInitialized = useAppSelector((state) => {
+        return state.app.isInitialized})
     const dispatch = useAppDispatch()
     const isRegisterIn = useAppSelector(state => state.auth.isRegisterIn)
-    const loggedIn = useAppSelector(state => state.login.loggedIn)
 
     const formik = useFormik({
         initialValues: {
@@ -36,7 +39,7 @@ const Registration = () => {
             }
             if (!values.password) {
                 errors.password = 'Password must not be a null'
-            } else if (values.password.length < 4) {
+            } else if (values.password.length < 8) {
                 errors.email = 'To small password'
             }
             return errors

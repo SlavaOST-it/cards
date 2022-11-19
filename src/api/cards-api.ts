@@ -14,12 +14,15 @@ export type RegisterResponseType = {
 
 export const authAPI = {
     me() {
-        return instance.post('auth/me').then(res=>res.data)
+        return instance.post('auth/me').then(res => res.data)
     },
 
     login: (email: string, password: string, rememberMe: boolean) => {
-        return instance.post('auth/login', {email: email, password: password, rememberMe: rememberMe})
+        return instance.post<LoginResponseType>('auth/login', {email: email, password: password, rememberMe: rememberMe})
             .then(res => res.data)
+    },
+    logout: () => {
+        return instance.delete('/auth/me')
     },
     register(data: RegisterType) {
         return instance.post<RegisterResponseType>('auth/register', data)
@@ -50,4 +53,16 @@ export const forgotPassAPI = {
             resetPasswordToken: token
         }).then(res => res.data)
     }
+}
+
+
+//types response
+type LoginResponseType = {
+    _id: string,
+    email: string,
+    name: string,
+    rememberMe: boolean,
+    publicCardPacksCount:number
+
+
 }
