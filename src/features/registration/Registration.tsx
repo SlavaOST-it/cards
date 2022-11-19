@@ -7,7 +7,8 @@ import {SuperInput} from '../../common/components/input/SuperInput'
 import {RegisterTC} from './registration-reducer'
 import {AppStateType} from '../../app/store'
 import {PATH} from '../../utils/routes/routes'
-import {useAppDispatch} from "../../app/hooks";
+import {useAppDispatch} from '../../app/hooks'
+import {Button, TextField} from '@mui/material'
 
 type FormikErrorType = {
     email?: string
@@ -49,35 +50,28 @@ const Registration = () => {
     return <form onSubmit={formik.handleSubmit}>
         <h2>Registration</h2>
         <div>
-            <SuperInput
-                placeholder={'email'}
-                {...formik.getFieldProps('email')}
-            />
+            <TextField id="outlined-basic" label="Email" variant="outlined" size="small"
+                       {...formik.getFieldProps('email')}/>
         </div>
         <div>
             {formik.touched.email &&
                 formik.errors.email &&
                 <div style={{color: 'red'}}>{formik.errors.email}</div>}
 
-            <SuperInput placeholder={'password'}
-                        {...formik.getFieldProps('password')}
-            />
+            <TextField id="outlined-basic" label="Password" variant="outlined" size="small"
+                       {...formik.getFieldProps('password')}/>
         </div>
         {formik.touched.password &&
             formik.errors.password &&
             <div style={{color: 'red'}}>{formik.errors.password}</div>
         }
-        <SuperInput
-            placeholder={'confirmPassword'}
-            {...formik.getFieldProps(' confirmPassword')}
-        />
+        <TextField id="outlined-basic" label="Confirm password" variant="outlined" size="small"
+                   {...formik.getFieldProps('confirmPassword')}/>
         {formik.touched.password &&
             formik.errors.password &&
             <div style={{color: 'red'}}>{formik.errors.password}</div>}
         <div>
-            <button type="submit">
-                Register
-            </button>
+            <Button variant="outlined" type="submit" sx={{width: 234}}>Register</Button>
         </div>
     </form>
 }
