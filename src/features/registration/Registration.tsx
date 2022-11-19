@@ -1,14 +1,9 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import {useFormik} from 'formik'
-import {useDispatch, useSelector} from 'react-redux'
 import {Navigate} from 'react-router-dom'
-import {SuperButton} from '../../common/components/button/SuperButton'
-import {SuperInput} from '../../common/components/input/SuperInput'
 import {RegisterTC} from './registration-reducer'
-import {AppStateType} from '../../app/store'
 import {PATH} from '../../utils/routes/routes'
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
-import {initializeAppTC} from "../../app/app-reducer";
 import {Button, TextField} from '@mui/material'
 
 type FormikErrorType = {
@@ -52,10 +47,9 @@ const Registration = () => {
         return <Navigate to={PATH.login}/>
     }
 
-    if (loggedIn) {
-        return <Navigate to={PATH.profile} />
+    if (loggedIn){
+        return <Navigate to={PATH.profile}/>
     }
-
     return <form onSubmit={formik.handleSubmit}>
         <h2>Registration</h2>
         <div>

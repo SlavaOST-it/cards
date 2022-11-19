@@ -2,8 +2,10 @@ import React from 'react';
 import {Navigate, NavLink, useParams} from "react-router-dom";
 import {PATH} from "../../utils/routes/routes";
 import {useFormik} from "formik";
-import {useAppDispatch, useAppSelector} from "../../app/hook";
+import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {setNewPassTC} from "./newPass-reducer";
+import style from "../passwordRecovery/PasswordRecovery.module.css";
+import {Button, FormGroup, TextField} from "@mui/material";
 
 type FormikErrorType = {
     password?: string
@@ -40,29 +42,39 @@ export const NewPass = () => {
             <div>
                 <button><NavLink to={PATH.login}>Sign in</NavLink></button>
             </div>
-            <div>
+
+            <div className={style.passRec}>
                 <h2>Create new password</h2>
+
+
+                <form onSubmit={formik.handleSubmit}>
+                    <FormGroup>
+                        <TextField
+                            id={"password"}
+                            type="password"
+                            label="Password"
+                            placeholder={"new password"}
+                            typeof={"password"}
+
+
+                            {...formik.getFieldProps("password")}
+                        />
+                        {formik.touched.password && formik.errors.password &&
+                            <div style={{color: 'red'}}>{formik.errors.password}</div>}
+
+                        <div className={style.textInfo}>Enter your email address and we will send you further
+                            instructions
+                        </div>
+                        <Button
+                            type={'submit'}
+                            variant={'outlined'}
+                            disabled={formik.isSubmitting}
+                        >
+                            Create new password
+                        </Button>
+                    </FormGroup>
+                </form>
             </div>
-
-            <form onSubmit={formik.handleSubmit}>
-                <input
-                    id={"password"}
-                    placeholder={"new password"}
-                    typeof={"password"}
-
-                    {...formik.getFieldProps("password")}
-                />
-                {formik.touched.password && formik.errors.password &&
-                    <div style={{color: 'red'}}>{formik.errors.password}</div>}
-
-                <div>Enter your email address and we will send you further instructions</div>
-                <button
-                    type={'submit'}
-                    className={""}
-                    disabled={formik.isSubmitting}
-                >Create new password
-                </button>
-            </form>
         </div>
     );
 };

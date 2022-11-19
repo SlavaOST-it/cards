@@ -35,7 +35,6 @@ export const setAppStatusAC = (status: AppStatusType) => ({
     status,
 })
 
-
 // ===== ThunkCreators ===== //
 export const initializeAppTC = () => async (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))

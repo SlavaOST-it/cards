@@ -1,6 +1,6 @@
-import {Dispatch} from "redux";
 import axios, {AxiosError} from "axios";
 import {forgotPassAPI} from "../../api/cards-api";
+import {AppThunkType} from "../../app/store";
 import {setAppStatusAC, setAppStatusAT} from "../../app/app-reducer";
 
 export type SetNewPassAT = ReturnType<typeof setNewPassAC>
@@ -12,9 +12,9 @@ const initialState = {
 }
 type InitialStateType = typeof initialState
 
-export const setNewPassReducer = (state: InitialStateType = initialState, action: NewPassReducerActionType) => {      // вместо any указать типизицию
+export const setNewPassReducer = (state: InitialStateType = initialState, action: NewPassReducerActionType):InitialStateType => {
     switch (action.type) {
-        case "NEW-PASS/SET-NEW-PASS":
+        case "NEW_PASS/SET_NEW_PASS":
             return {
                 ...state,
                 infoMessage: action.infoMessage,
@@ -26,10 +26,10 @@ export const setNewPassReducer = (state: InitialStateType = initialState, action
 }
 
 // ===== Action Creators ===== //
-export const setNewPassAC = (infoMessage: string) => ({type: "NEW-PASS/SET-NEW-PASS", infoMessage} as const)
+export const setNewPassAC = (infoMessage: string) => ({type: "NEW_PASS/SET_NEW_PASS", infoMessage} as const)
 
 // ===== Thunk Creators ===== //
-export const setNewPassTC = (newPassword: string, token: string | undefined) => async (dispatch: Dispatch<NewPassReducerActionType>) => {
+export const setNewPassTC = (newPassword: string, token: string | undefined): AppThunkType => async (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     try {
         let res = await forgotPassAPI.setNewPas(newPassword, token)

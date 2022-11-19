@@ -1,6 +1,8 @@
 import axios, {AxiosError} from "axios";
 import {Dispatch} from "redux";
 import {profileAPI} from "../../api/cards-api";
+import {AppThunkType} from "../../app/store";
+
 import {setAppStatusAC, setAppStatusAT} from "../../app/app-reducer";
 
 export type SetUserProfileAT = ReturnType<typeof setUserProfileAC>
@@ -49,24 +51,7 @@ export const setUserStatusAC = (status: string) => ({type: "PROFILE/SET-USER-STA
 export const setUserPhotoAC = (photo: string) => ({type: "PROFILE/SET-USER-PHOTO", photo} as const)
 
 // ==================THUNK CREATORS =======================//
-// export const getUserProfileThunkCreator = () => async (dispatch: Dispatch<ProfileActionsType>) =>{
-//     try {
-//         let res = await auth.loginez()
-//         dispatch(setUserProfileAC(res))
-//     }
-//     catch (e) {
-//         const err = e as Error | AxiosError
-//         if (axios.isAxiosError(err)) {
-//             const error = err.response?.data
-//                 ? (err.response.data as ({ error: string })).error
-//                 : err.message
-//             alert(error)
-//         }
-//     }
-// }
-
-export const changeNameThunkCreator = (newName: string) => async (dispatch: Dispatch<ProfileActionsType>) => {
-    dispatch(setAppStatusAC('loading'))
+export const changeNameThunkCreator = (newName: string):AppThunkType => async (dispatch) => {
     try {
         let res = await profileAPI.changeName(newName)
         dispatch(setUserNameAC(res.updatedUser.name))
