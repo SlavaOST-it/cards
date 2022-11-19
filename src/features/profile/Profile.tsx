@@ -11,8 +11,8 @@ import {NavLink} from "react-router-dom";
 
 
 export const Profile = () => {
-    // const userAvatar = useAppSelector<string>(state => state.profile.data.avatar)
- /*   const userAvatar = 'https://avatars.mds.yandex.net/i?id=30b2b93e33bf8f3b217220bde92aea6f-5333993-images-thumbs&n=13&exp=1'
+    //const userAvatar = useAppSelector<string>(state => state.profile.data.avatar)
+    const userAvatar = 'https://avatars.mds.yandex.net/i?id=30b2b93e33bf8f3b217220bde92aea6f-5333993-images-thumbs&n=13&exp=1'
     const userName = useAppSelector<string>(state => state.profile.name)
     const userEmail = useAppSelector<string>(state => state.profile.email)
     const dispatch = useAppDispatch()
@@ -21,9 +21,6 @@ export const Profile = () => {
     const [name, setName] = useState<string>(userName)
     const [error, setError] = useState<string | null>(null)
 
-    // useEffect(() => {
-    //     dispatch(getUserProfileThunkCreator())
-    // }, [dispatch])
 
     const activateEditMode = () => {
         setEditMode(true);
@@ -32,7 +29,7 @@ export const Profile = () => {
     const activateViewMode = () => {
         setEditMode(false);
         setError(null)
-        if(name.length === 0){
+        if (name.length === 0) {
             setName(userName)
         } else {
             dispatch(changeNameThunkCreator(name));
@@ -54,10 +51,10 @@ export const Profile = () => {
     }
     const logOutBtn = () => {
         // dispatch()
-    }*/
+    }
     return (
         <div className={style.profilePage}>
-           {/* <div className={style.headerPage}>
+            <div className={style.headerPage}>
                 <div>Logo</div>
                 <div className={style.headerPage_infoUser}>
                     <div className={style.headerPage_infoUser_name}>{userName}</div>
@@ -115,7 +112,7 @@ export const Profile = () => {
                     <img src={logoutLogo} alt={'logout'}/>
                     Log out
                 </SuperButton>
-            </div>*/}
+            </div>
         </div>
     );
 };

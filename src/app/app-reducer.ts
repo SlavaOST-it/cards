@@ -32,7 +32,7 @@ export const initializeAppTC = () => async (dispatch: Dispatch) => {
     try {
         const res = await authAPI.me()
         dispatch(setUserProfileAC(res));
-        // dispatch(setInitializedAC(true))
+        dispatch(setInitializedAC(true))
     } catch (e) {
         const err = e as Error | AxiosError
         if (axios.isAxiosError(err)) {

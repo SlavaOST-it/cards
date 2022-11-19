@@ -1,12 +1,13 @@
 import React from 'react'
 import {useFormik} from 'formik'
 import {useDispatch, useSelector} from 'react-redux'
-import {Navigate, NavLink} from 'react-router-dom'
+import {Navigate} from 'react-router-dom'
 import {SuperButton} from '../../common/components/button/SuperButton'
 import {SuperInput} from '../../common/components/input/SuperInput'
 import {RegisterTC} from './registration-reducer'
 import {AppStateType} from '../../app/store'
 import {PATH} from '../../utils/routes/routes'
+import {useAppDispatch} from "../../app/hooks";
 
 type FormikErrorType = {
     email?: string
@@ -15,7 +16,7 @@ type FormikErrorType = {
 }
 const Registration = () => {
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const isRegisterIn = useSelector<AppStateType, boolean>(state => state.auth.isRegisterIn)
 
     const formik = useFormik({
@@ -39,12 +40,11 @@ const Registration = () => {
             return errors
         },
         onSubmit: values => {
-            // @ts-ignore
             dispatch(RegisterTC(values))
         },
     })
     if (isRegisterIn) {
-        return <Navigate to={'/login'}/>
+        return <Navigate to={PATH.login}/>
     }
     return <form onSubmit={formik.handleSubmit}>
         <h2>Registration</h2>
