@@ -1,10 +1,11 @@
 import {Dispatch} from "redux";
 import axios, {AxiosError} from "axios";
 import {forgotPassAPI} from "../../api/cards-api";
+import {setAppStatusAC, setAppStatusAT} from "../../app/app-reducer";
 
 export type InfoMessageAT = ReturnType<typeof infoMessageAC>
 export type StatusSendMessageAT = ReturnType<typeof statusSendMessageAC>
-export type PassRecoveryActionType = InfoMessageAT | StatusSendMessageAT
+export type PassRecoveryActionType = InfoMessageAT | StatusSendMessageAT | setAppStatusAT
 
 const initialState = {
     infoMessage: '',
@@ -37,16 +38,19 @@ export const statusSendMessageAC = (status: boolean) => ({
 
 // ======ThunkCreators ===== //
 export const sendEmailTC = (email: string) => async (dispatch: Dispatch<PassRecoveryActionType>) => {
+    dispatch(setAppStatusAC('loading'))
     try {
         let res = await forgotPassAPI.sendEmail(email)
         dispatch(infoMessageAC(res.info))
         dispatch(statusSendMessageAC(true))
+        dispatch(setAppStatusAC('succeed'))
     } catch (e) {
         const err = e as Error | AxiosError
         if (axios.isAxiosError(err)) {
             const error = err.response?.data
                 ? (err.response.data as ({ error: string })).error
                 : err.message
+            dispatch(setAppStatusAC('failed'))
             alert(error)
         }
     }

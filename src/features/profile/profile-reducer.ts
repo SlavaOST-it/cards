@@ -1,12 +1,13 @@
 import axios, {AxiosError} from "axios";
 import {Dispatch} from "redux";
 import {profileAPI} from "../../api/cards-api";
+import {setAppStatusAC, setAppStatusAT} from "../../app/app-reducer";
 
 export type SetUserProfileAT = ReturnType<typeof setUserProfileAC>
 export type SetUserNameAC = ReturnType<typeof setUserNameAC>
 export type SetUserStatusAT = ReturnType<typeof setUserStatusAC>
 export type SetUserPhotoAT = ReturnType<typeof setUserPhotoAC>
-export type ProfileActionsType = SetUserProfileAT | SetUserNameAC | SetUserStatusAT | SetUserPhotoAT
+export type ProfileActionsType = SetUserProfileAT | SetUserNameAC | SetUserStatusAT | SetUserPhotoAT | setAppStatusAT
 
 type InitialStateType = {
     _id: string;
@@ -65,29 +66,35 @@ export const setUserPhotoAC = (photo: string) => ({type: "PROFILE/SET-USER-PHOTO
 // }
 
 export const changeNameThunkCreator = (newName: string) => async (dispatch: Dispatch<ProfileActionsType>) => {
+    dispatch(setAppStatusAC('loading'))
     try {
         let res = await profileAPI.changeName(newName)
         dispatch(setUserNameAC(res.updatedUser.name))
+        dispatch(setAppStatusAC('succeed'))
     } catch (e) {
         const err = e as Error | AxiosError
         if (axios.isAxiosError(err)) {
             const error = err.response?.data
                 ? (err.response.data as ({ error: string })).error
                 : err.message
+            dispatch(setAppStatusAC('failed'))
             alert(error)
         }
     }
 }
 export const changeAvatarThunkCreator = (avatar: string) => async (dispatch: Dispatch<ProfileActionsType>) => {
+    dispatch(setAppStatusAC('loading'))
     try {
         let res = await profileAPI.updatePhoto(avatar)
         dispatch(setUserPhotoAC(res.updatedUser.avatar))
+        dispatch(setAppStatusAC('succeed'))
     } catch (e) {
         const err = e as Error | AxiosError
         if (axios.isAxiosError(err)) {
             const error = err.response?.data
                 ? (err.response.data as ({ error: string })).error
                 : err.message
+            dispatch(setAppStatusAC('failed'))
             alert(error)
         }
     }

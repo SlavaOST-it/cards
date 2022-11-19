@@ -10,6 +10,7 @@ import Registration from '../registration/Registration';
 import {NewPass} from "../newPassword/NewPass";
 
 export const Main = () => {
+
     return (
         <div className={""}>
             <Routes>
