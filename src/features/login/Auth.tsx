@@ -52,7 +52,7 @@ export const Auth = () => {
             }
             if (!values.password) {
                 errors.password = 'Required'
-            } else if (values.password.length <8) {
+            } else if (values.password.length < 8) {
                 errors.password = 'password length less than 8 characters'
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
                 errors.password = 'Invalid password'
@@ -88,18 +88,6 @@ export const Auth = () => {
                                     helperText={formik.errors.email}
                                     error={!!(formik.touched.email && formik.errors.email)}
                                 />
-                                {/*<TextField id="email"
-                               name="email"
-                               type="email"
-                               onBlur={formik.handleBlur}
-                               onChange={formik.handleChange}
-                               value={formik.values.email}
-                               required
-                               label="Email"
-                               defaultValue="Hello World"
-                        error={formik.touched.email && formik.errors.email ? formik.errors.email : ''}
-                    />*/}
-
                                 {/*       <TextField type="password" label="Password"
                                    margin="normal" {...formik.getFieldProps('password')}
 
@@ -133,29 +121,24 @@ export const Auth = () => {
                                         label="Password"
                                     />
                                 </FormControl>
-                                {passwordError && <div className={style.error}>{passwordError}</div>}
                                 <div className={style.checkbox}>
-                                    <FormControlLabel control={<Checkbox name={'rememberMe'} onChange={formik.handleChange}
-                                                                         value={formik.values.rememberMe}/>}
-                                                      label="Remember me"/>
+                                    <FormControlLabel
+                                        control={<Checkbox name={'rememberMe'}
+                                                           onChange={formik.handleChange}
+                                                           value={formik.values.rememberMe}/>}
+                                        label="Remember me"/>
                                 </div>
                                 <NavLink className={style.forgot} to={PATH.passwordRecovery}>Forgot Password?</NavLink>
-                                <Button  variant="contained" type='submit'>Sign in</Button>
+                                <Button variant="contained" type='submit'>Sign in</Button>
                                 <div className={style.text}>Already have an account?</div>
                                 <NavLink className={style.signUp} to={PATH.registration}>Sign up</NavLink>
-                                {/*<Alert sx={{}} variant="filled" severity="error">
-                                This is an error alert — check it out!
-                            </Alert>*/}
                             </FormGroup>
                         </FormControl>
                     </div>
                 </form>
             </Grid>
         </Grid>
-   /* <div className={style.container}>
 
-
-    </div>*/
-)
-    ;
+    )
+        ;
 };
