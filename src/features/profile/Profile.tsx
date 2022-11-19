@@ -7,14 +7,17 @@ import logoutLogo from "../../assets/img/icons/logout.png"
 import SuperButton from "../../common/components/superButton/SuperButton";
 import {changeNameThunkCreator} from "./profile-reducer";
 import {useAppDispatch, useAppSelector} from "../../app/hook";
-import {NavLink} from "react-router-dom";
+import {Navigate, NavLink} from "react-router-dom";
+import {logoutThunkCreator} from "../login/auth-reducer";
+import {PATH} from "../../utils/routes/routes";
 
 
 export const Profile = () => {
     //const userAvatar = useAppSelector<string>(state => state.profile.data.avatar)
     const userAvatar = 'https://avatars.mds.yandex.net/i?id=30b2b93e33bf8f3b217220bde92aea6f-5333993-images-thumbs&n=13&exp=1'
-    const userName = useAppSelector<string>(state => state.profile.name)
-    const userEmail = useAppSelector<string>(state => state.profile.email)
+    const userName = useAppSelector(state => state.profile.name)
+    const userEmail = useAppSelector(state => state.profile.email)
+    const loggedIn =useAppSelector(state=>state.login.loggedIn)
     const dispatch = useAppDispatch()
 
     const [editMode, setEditMode] = useState<boolean>(false)
@@ -50,7 +53,10 @@ export const Profile = () => {
         alert('change photo')
     }
     const logOutBtn = () => {
-        // dispatch()
+         dispatch(logoutThunkCreator())
+    }
+    if (!loggedIn) {
+        return <Navigate to={PATH.login}/>
     }
     return (
         <div className={style.profilePage}>

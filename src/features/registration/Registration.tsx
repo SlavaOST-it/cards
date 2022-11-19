@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {useFormik} from 'formik'
 import {useDispatch, useSelector} from 'react-redux'
 import {Navigate} from 'react-router-dom'
@@ -7,7 +7,8 @@ import {SuperInput} from '../../common/components/input/SuperInput'
 import {RegisterTC} from './registration-reducer'
 import {AppStateType} from '../../app/store'
 import {PATH} from '../../utils/routes/routes'
-import {useAppDispatch} from "../../app/hooks";
+import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import {initializeAppTC} from "../../app/app-reducer";
 
 type FormikErrorType = {
     email?: string
@@ -16,8 +17,11 @@ type FormikErrorType = {
 }
 const Registration = () => {
 
+    const isInitialized = useAppSelector((state) => {
+        return state.app.isInitialized})
     const dispatch = useAppDispatch()
-    const isRegisterIn = useSelector<AppStateType, boolean>(state => state.auth.isRegisterIn)
+
+
 
     const formik = useFormik({
         initialValues: {
@@ -43,7 +47,10 @@ const Registration = () => {
             dispatch(RegisterTC(values))
         },
     })
-    if (isRegisterIn) {
+
+
+
+    if (isInitialized) {
         return <Navigate to={PATH.login}/>
     }
     return <form onSubmit={formik.handleSubmit}>

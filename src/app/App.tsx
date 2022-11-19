@@ -8,7 +8,8 @@ import {Navigate} from "react-router-dom";
 import {PATH} from "../utils/routes/routes";
 
 const App = () => {
-    const isInitialized = useAppSelector((state) => state.app.isInitialized)
+/*    const isInitialized = useAppSelector((state) => {
+        return state.app.isInitialized})
     const dispatch = useAppDispatch()
 
     useEffect(() => {
@@ -17,7 +18,7 @@ const App = () => {
 
 
 if (!isInitialized) {
-    return <Navigate to={PATH.registration}/>}
+    return <Navigate to={PATH.registration}/>}*/
 
     return (
         <div className="App">
