@@ -6,6 +6,7 @@ import {useAppDispatch, useAppSelector} from "./hooks";
 import {initializeAppTC} from "./app-reducer";
 import {Navigate} from "react-router-dom";
 import {PATH} from "../utils/routes/routes";
+import {ErrorSnackbar} from "../common/components/ErrorSnackbar/ErrorSnackbar";
 
 const App = () => {
 /*    const isInitialized = useAppSelector((state) => {
@@ -22,6 +23,7 @@ if (!isInitialized) {
 
     return (
         <div className="App">
+            <ErrorSnackbar/>
             <Header/>
             <Main/>
         </div>

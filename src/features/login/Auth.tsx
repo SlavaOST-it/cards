@@ -140,7 +140,7 @@ export const Auth = () => {
                                                       label="Remember me"/>
                                 </div>
                                 <NavLink className={style.forgot} to={PATH.passwordRecovery}>Forgot Password?</NavLink>
-                                <Button variant="contained" type='submit'>Sing in</Button>
+                                <Button  variant="contained" type='submit'>Sign in</Button>
                                 <div className={style.text}>Already have an account?</div>
                                 <NavLink className={style.signUp} to={PATH.registration}>Sign up</NavLink>
                                 {/*<Alert sx={{}} variant="filled" severity="error">
