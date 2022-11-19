@@ -5,12 +5,12 @@ import {loginThunkCreator} from "./auth-reducer";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {Navigate, NavLink} from "react-router-dom";
 import {
-    Alert,
     Button,
     Checkbox,
     FormControl,
     FormControlLabel,
-    FormGroup, Grid,
+    FormGroup,
+    Grid,
     IconButton,
     InputAdornment,
     InputLabel,
@@ -31,7 +31,6 @@ type InputPasswordType = 'text' | 'password'
 export const Auth = () => {
     const dispatch = useAppDispatch()
     const loggedIn = useAppSelector(state => state.login.loggedIn)
-    const passwordError = useAppSelector(state => state.login.passwordError)
     const [inputPassword, setInputPassword] = React.useState<InputPasswordType>('text');
 
     const formik = useFormik({
@@ -52,8 +51,8 @@ export const Auth = () => {
             }
             if (!values.password) {
                 errors.password = 'Required'
-            } else if (values.password.length < 8) {
-                errors.password = 'password length less than 8 characters'
+            } else if (values.password.length < 4) {
+                errors.password = 'password length less than 4 characters'
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
                 errors.password = 'Invalid password'
             }
@@ -85,22 +84,9 @@ export const Auth = () => {
                                     label="Email"
                                     margin="normal"
                                     {...formik.getFieldProps('email')}
-                                    helperText={formik.errors.email}
-                                    error={!!(formik.touched.email && formik.errors.email)}
                                 />
-                                {/*       <TextField type="password" label="Password"
-                                   margin="normal" {...formik.getFieldProps('password')}
-
-                            id="outlined-password-input"
-                                            name="password"
-                                            type="password"
-                                            onChange={formik.handleChange}
-                                            onBlur={formik.handleBlur}
-                                            value={formik.values.password}
-                            error={formik.touched.password && formik.errors.password ? formik.errors.password : ''}
-                             label="Password"
-                             autoComplete="current-password"
-                        />*/}
+                                {formik.touched.email && formik.errors.email &&
+                                    <div style={{color: 'red'}}>{formik.errors.email}</div>}
                                 <FormControl sx={{m: 1, width: '25ch'}} variant="outlined">
                                     <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                     <OutlinedInput
@@ -121,6 +107,9 @@ export const Auth = () => {
                                         label="Password"
                                     />
                                 </FormControl>
+                                {formik.touched.password && formik.errors.password &&
+                                    <div style={{color: 'red'}}>{formik.errors.password}</div>}
+
                                 <div className={style.checkbox}>
                                     <FormControlLabel
                                         control={<Checkbox name={'rememberMe'}
@@ -129,7 +118,7 @@ export const Auth = () => {
                                         label="Remember me"/>
                                 </div>
                                 <NavLink className={style.forgot} to={PATH.passwordRecovery}>Forgot Password?</NavLink>
-                                <Button variant="contained" type='submit'>Sign in</Button>
+                                <Button variant="outlined" type='submit'>Sign in</Button>
                                 <div className={style.text}>Already have an account?</div>
                                 <NavLink className={style.signUp} to={PATH.registration}>Sign up</NavLink>
                             </FormGroup>
