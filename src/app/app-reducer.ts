@@ -54,7 +54,6 @@ export const initializeAppTC = () => async (dispatch: Dispatch) => {
                 : err.message
             dispatch(setInitializedAC(true))
             dispatch(setAppStatusAC('failed'))
-            alert(error)
         }
     }
 }
