@@ -1,18 +1,18 @@
-import {Dispatch} from "redux";
 import axios, {AxiosError} from "axios";
 import {forgotPassAPI} from "../../api/cards-api";
+import {AppThunkType} from "../../app/store";
 
 export type InfoMessageAT = ReturnType<typeof infoMessageAC>
 export type StatusSendMessageAT = ReturnType<typeof statusSendMessageAC>
 export type PassRecoveryActionType = InfoMessageAT | StatusSendMessageAT
 
 const initialState = {
-    infoMessage: '',
+    textMessage: '',
     statusSendMessage: false
 }
 type InitialStateType = typeof initialState
 
-export const passRecoveryReducer = (state: InitialStateType = initialState, action: PassRecoveryActionType) => {      // вместо any указать типизицию
+export const passRecoveryReducer = (state: InitialStateType = initialState, action: PassRecoveryActionType) => {
     switch (action.type) {
         case "PassRECOVERY/passRecovery":
             return {
@@ -36,7 +36,7 @@ export const statusSendMessageAC = (status: boolean) => ({
 } as const)
 
 // ======ThunkCreators ===== //
-export const sendEmailTC = (email: string) => async (dispatch: Dispatch<PassRecoveryActionType>) => {
+export const sendEmailTC = (email: string):AppThunkType => async (dispatch) => {
     try {
         let res = await forgotPassAPI.sendEmail(email)
         dispatch(infoMessageAC(res.info))
@@ -47,7 +47,7 @@ export const sendEmailTC = (email: string) => async (dispatch: Dispatch<PassReco
             const error = err.response?.data
                 ? (err.response.data as ({ error: string })).error
                 : err.message
-            alert(error)
+            dispatch(infoMessageAC(error))
         }
     }
 }

@@ -1,26 +1,27 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import style from './Profile.module.css'
 import pencilLogo from '../../assets/img/icons/pencil.png'
 import arrowLogo from "../../assets/img/icons/arrow.png"
 import photoAppLogo from "../../assets/img/icons/photoapparat.png"
-import logoutLogo from "../../assets/img/icons/logout.png"
-import SuperButton from "../../common/components/superButton/SuperButton";
+import avatar_user from "../../assets/img/icons/avatar_user.png"
 import {changeNameThunkCreator} from "./profile-reducer";
-import {useAppDispatch, useAppSelector} from "../../app/hook";
-import {NavLink} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import {Navigate, NavLink} from "react-router-dom";
+import {PATH} from "../../utils/routes/routes";
+import TextField from '@material-ui/core/TextField';
+import Button from "@material-ui/core/Button";
 
 
 export const Profile = () => {
-    //const userAvatar = useAppSelector<string>(state => state.profile.data.avatar)
-    const userAvatar = 'https://avatars.mds.yandex.net/i?id=30b2b93e33bf8f3b217220bde92aea6f-5333993-images-thumbs&n=13&exp=1'
-    const userName = useAppSelector<string>(state => state.profile.name)
-    const userEmail = useAppSelector<string>(state => state.profile.email)
+    // const userAvatar = useAppSelector(state => state.profile.data.avatar)
+    const userName = useAppSelector(state => state.profile.name)
+    const userEmail = useAppSelector(state => state.profile.email)
+    const loggedIn = useAppSelector(state => state.login.loggedIn)
     const dispatch = useAppDispatch()
 
     const [editMode, setEditMode] = useState<boolean>(false)
     const [name, setName] = useState<string>(userName)
     const [error, setError] = useState<string | null>(null)
-
 
     const activateEditMode = () => {
         setEditMode(true);
@@ -34,13 +35,15 @@ export const Profile = () => {
         } else {
             dispatch(changeNameThunkCreator(name));
         }
-
     }
 
     const changeStatus = (e: ChangeEvent<HTMLInputElement>) => {
         setName(e.currentTarget.value)
         if (e.currentTarget.value.length < 1) {
             setError('Min length 1 symbol')
+        }
+        if (e.currentTarget.value.length > 20) {
+            setError('Max length 20 symbol')
         } else {
             setError(null)
         }
@@ -50,7 +53,11 @@ export const Profile = () => {
         alert('change photo')
     }
     const logOutBtn = () => {
-        // dispatch()
+        //dispatch()
+    }
+
+    if (!loggedIn) {
+        return <Navigate to={PATH.login}/>
     }
     return (
         <div className={style.profilePage}>
@@ -58,7 +65,7 @@ export const Profile = () => {
                 <div>Logo</div>
                 <div className={style.headerPage_infoUser}>
                     <div className={style.headerPage_infoUser_name}>{userName}</div>
-                    <img src={userAvatar} alt={'user avatar'} className={style.headerPage_infoUser_avatar}/>
+                    <img src={avatar_user} alt={'user avatar'} className={style.headerPage_infoUser_avatar}/>
                 </div>
             </div>
             <div className={style.back}>
@@ -70,15 +77,12 @@ export const Profile = () => {
             <div className={style.profile}>
                 <h2>Personal Information</h2>
                 <div className={style.profile_userAvatar}>
-                    <img className={style.profile_userAvatar_photo} src={userAvatar} alt={'user avatar'}/>
-
+                    <img className={style.profile_userAvatar_photo} src={avatar_user} alt={'user avatar'}/>
                     <button className={style.viewBtn}>
                         <img className={style.profile_changeAvatar} src={photoAppLogo} alt={'change'}
                              onClick={changeAvatar}/>
                     </button>
-
                 </div>
-
                 <div className={style.name}>
                     {!editMode
                         ? (<div>
@@ -89,10 +93,9 @@ export const Profile = () => {
                             {userName}
                             <img src={pencilLogo} alt={'change name'}/>
                         </span>
-
                         </div>)
                         : (<div>
-                            <input
+                            <TextField
                                 className={style.input_name}
                                 autoFocus={true}
                                 onBlur={activateViewMode}
@@ -106,12 +109,13 @@ export const Profile = () => {
                 <div className={style.email}>
                     {userEmail}
                 </div>
-                <SuperButton
+                <Button
+                    variant={'contained'}
+                    color={'primary'}
                     onClick={logOutBtn}
                 >
-                    <img src={logoutLogo} alt={'logout'}/>
                     Log out
-                </SuperButton>
+                </Button>
             </div>
         </div>
     );

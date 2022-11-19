@@ -4,7 +4,11 @@ import {NavLink} from "react-router-dom";
 import {PATH} from "../../utils/routes/routes";
 import style from "./PasswordRecovery.module.css"
 import {sendEmailTC} from "./passRecovery-reducer";
-import {useAppDispatch, useAppSelector} from "../../app/hook";
+import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import FormGroup from '@material-ui/core/FormGroup';
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import mailLogo from "../../assets/img/icons/mail.png"
 
 
 type FormikErrorType = {
@@ -12,7 +16,7 @@ type FormikErrorType = {
 }
 export const PasswordRecovery = () => {
     const dispatch = useAppDispatch()
-    const statusSendMessage = useAppSelector<boolean>(state => state.passRecovery.statusSendMessage)
+    const statusSendMessage = useAppSelector(state => state.passRecovery.statusSendMessage)
 
     const [email, setEmail] = useState('')
 
@@ -41,31 +45,38 @@ export const PasswordRecovery = () => {
             <div>
                 <button><NavLink to={PATH.login}>Sign in</NavLink></button>
             </div>
+            <div className={style.passRec}>
+                {!statusSendMessage
+                    ? (<div>
+                        <h2>Forgot your password?</h2>
+                        <form onSubmit={formik.handleSubmit}>
+                            <FormGroup>
+                                <TextField
+                                    label="Email"
+                                    margin="normal"
+                                    placeholder={"Email"}
+                                    {...formik.getFieldProps('email')}
+                                />
+                                {formik.touched.email && formik.errors.email &&
+                                    <div style={{color: 'red'}}>{formik.errors.email}</div>}
+                                <div className={style.textInfo}>Enter your email address and we will send you further
+                                    instructions
+                                </div>
+                                <Button
+                                    type={'submit'}
+                                    variant={'outlined'}
+                                    disabled={formik.isSubmitting}
+                                >
+                                    Send Instructions
+                                </Button>
+                            </FormGroup>
+                        </form>
+                        <div className={style.textQuestion}>Did you remember your password?</div>
 
-            {!statusSendMessage
-                ? (<div className={style.passRec}>
-                    <h3>Forgot your password?</h3>
-                    <form onSubmit={formik.handleSubmit}>
-                        <input
-                            id={"email"}
-                            placeholder={"E-mail"}
-                            {...formik.getFieldProps('email')}
-                        />
-                        {formik.touched.email && formik.errors.email &&
-                            <div style={{color: 'red'}}>{formik.errors.email}</div>}
-
-                        <div>Enter your email address and we will send you further instructions</div>
-                        <button
-                            type={'submit'}
-                            className={""}
-                            disabled={formik.isSubmitting}
-                        >Send Instructions
-                        </button>
-                    </form>
-                    <span>Did you remember your password?</span>
-                    <NavLink to={PATH.login}>Try logging in</NavLink>
-                </div>)
-                : (<CheckEmail email={email}/>)}
+                        <div className={style.link}><NavLink to={PATH.login}>Try logging in</NavLink></div>
+                    </div>)
+                    : (<CheckEmail email={email}/>)}
+            </div>
         </div>)
 };
 
@@ -78,13 +89,18 @@ const CheckEmail = (props: CheckEmailType) => {
         <>
             <h2>Check Email</h2>
             <div>
-                <img src={""} alt={"check Email"}/>
+                <img src={mailLogo} alt={"mail"}/>
+            </div>
+            <div className={style.textInfo}>
+                We’ve sent an Email with instructions to {props.email}
             </div>
             <div>
-                <span>We’ve sent an Email with instructions to {props.email}</span>
-            </div>
-            <div>
-                <button><NavLink to={PATH.login}>Back to login</NavLink></button>
+                <Button
+                    variant={'contained'}
+                    color={'primary'}
+                >
+                    <a href={PATH.login}>Back to login</a>
+                </Button>
             </div>
         </>
     )

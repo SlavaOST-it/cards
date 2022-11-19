@@ -7,7 +7,7 @@ import {SuperInput} from '../../common/components/input/SuperInput'
 import {RegisterTC} from './registration-reducer'
 import {AppStateType} from '../../app/store'
 import {PATH} from '../../utils/routes/routes'
-import {useAppDispatch} from "../../app/hooks";
+import {useAppDispatch, useAppSelector} from "../../app/hooks";
 
 type FormikErrorType = {
     email?: string
@@ -17,7 +17,8 @@ type FormikErrorType = {
 const Registration = () => {
 
     const dispatch = useAppDispatch()
-    const isRegisterIn = useSelector<AppStateType, boolean>(state => state.auth.isRegisterIn)
+    const isRegisterIn = useAppSelector(state => state.auth.isRegisterIn)
+    const loggedIn = useAppSelector(state => state.login.loggedIn)
 
     const formik = useFormik({
         initialValues: {
@@ -45,6 +46,10 @@ const Registration = () => {
     })
     if (isRegisterIn) {
         return <Navigate to={PATH.login}/>
+    }
+
+    if (loggedIn){
+        return <Navigate to={PATH.profile}/>
     }
     return <form onSubmit={formik.handleSubmit}>
         <h2>Registration</h2>

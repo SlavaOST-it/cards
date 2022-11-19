@@ -26,7 +26,6 @@ export const appReducer = (state: InitialStateType = initialState, action: AppAc
 // ===== ActionCreators ===== //
 export const setInitializedAC = (value: boolean) => ({type: "APP/SET-INITIALIZED", value} as const)
 
-
 // ===== ThunkCreators ===== //
 export const initializeAppTC = () => async (dispatch: Dispatch) => {
     try {
