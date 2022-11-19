@@ -80,14 +80,14 @@ export const Auth = () => {
                         <FormControl>
                             <FormGroup>
                                 <TextField
-                                    sx={{m: 1, width: '25ch'}}
+                                    sx={{m: 1, width: '35ch'}}
                                     label="Email"
                                     margin="normal"
                                     {...formik.getFieldProps('email')}
                                 />
                                 {formik.touched.email && formik.errors.email &&
                                     <div style={{color: 'red'}}>{formik.errors.email}</div>}
-                                <FormControl sx={{m: 1, width: '25ch'}} variant="outlined">
+                                <FormControl sx={{m: 1, width: '35ch'}} variant="outlined">
                                     <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                                     <OutlinedInput
                                         type={inputPassword}
@@ -118,7 +118,7 @@ export const Auth = () => {
                                         label="Remember me"/>
                                 </div>
                                 <NavLink className={style.forgot} to={PATH.passwordRecovery}>Forgot Password?</NavLink>
-                                <Button variant="outlined" type='submit'>Sign in</Button>
+                                <Button sx={{width: 234}}variant="outlined" type='submit'>Sign in</Button>
                                 <div className={style.text}>Already have an account?</div>
                                 <NavLink className={style.signUp} to={PATH.registration}>Sign up</NavLink>
                             </FormGroup>
