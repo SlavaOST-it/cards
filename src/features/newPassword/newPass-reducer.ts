@@ -1,10 +1,10 @@
 import axios, {AxiosError} from "axios";
-import {forgotPassAPI} from "../../api/cards-api";
+import {forgotPassAPI} from "../../api/authAPI";
 import {AppThunkType} from "../../app/store";
-import {setAppStatusAC, setAppStatusAT} from "../../app/app-reducer";
+import {setAppErrorAC, setAppStatusAC, SetAppStatusAT} from "../../app/app-reducer";
 
 export type SetNewPassAT = ReturnType<typeof setNewPassAC>
-export type NewPassReducerActionType = SetNewPassAT | setAppStatusAT
+export type NewPassReducerActionType = SetNewPassAT | SetAppStatusAT
 
 const initialState = {
     infoMessage: '',
@@ -42,7 +42,7 @@ export const setNewPassTC = (newPassword: string, token: string | undefined): Ap
                 ? (err.response.data as ({ error: string })).error
                 : err.message
             dispatch(setAppStatusAC('failed'))
-            alert(error)
+            dispatch(setAppErrorAC(error))
         }
     }
 }

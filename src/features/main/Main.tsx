@@ -14,7 +14,7 @@ export const Main = () => {
     return (
         <div className={""}>
             <Routes>
-                <Route path={'/'} element={<Navigate to={PATH.registration}/>}/>
+                <Route path={'/'} element={<Navigate to={PATH.login}/>}/>
                 <Route path={PATH.login} element={<Auth/>}/>
                 <Route path={PATH.registration} element={<Registration/>}/>
                 <Route path={PATH.profile} element={<Profile/>}/>

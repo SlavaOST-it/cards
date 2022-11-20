@@ -1,11 +1,11 @@
 import axios, {AxiosError} from "axios";
-import {forgotPassAPI} from "../../api/cards-api";
+import {forgotPassAPI} from "../../api/authAPI";
 import {AppThunkType} from "../../app/store";
-import {setAppStatusAC, setAppStatusAT} from "../../app/app-reducer";
+import {setAppErrorAC, setAppStatusAC, SetAppStatusAT} from "../../app/app-reducer";
 
 export type InfoMessageAT = ReturnType<typeof infoMessageAC>
 export type StatusSendMessageAT = ReturnType<typeof statusSendMessageAC>
-export type PassRecoveryActionType = InfoMessageAT | StatusSendMessageAT | setAppStatusAT
+export type PassRecoveryActionType = InfoMessageAT | StatusSendMessageAT | SetAppStatusAT
 
 const initialState = {
     textMessage: '',
@@ -51,7 +51,7 @@ export const sendEmailTC = (email: string):AppThunkType => async (dispatch) => {
                 ? (err.response.data as ({ error: string })).error
                 : err.message
             dispatch(setAppStatusAC('failed'))
-            alert(error)
+            dispatch(setAppErrorAC(error))
         }
     }
 }
