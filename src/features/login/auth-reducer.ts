@@ -1,8 +1,8 @@
-import {authAPI} from "../../api/cards-api";
-import {setAppStatusAC} from "../../app/app-reducer";
-import {AppDispatchType, AppThunkType} from "../../app/store";
+import {authAPI} from "../../api/authAPI";
+import {setAppErrorAC, setAppStatusAC} from "../../app/app-reducer";
+import {AppThunkType} from "../../app/store";
 import {setInitializedAC} from "../../app/app-reducer";
-import {setUserProfileAC} from "../profile/profile-reducer";
+import {setUserPhotoAC, setUserProfileAC} from "../profile/profile-reducer";
 import axios, {AxiosError} from "axios";
 
 const initialState = {
@@ -60,6 +60,7 @@ export const loginThunkCreator = (email: string, password: string, rememberMe: b
             dispatch(setAppStatusAC('failed'))
             dispatch(passwordErrorAC(error))
             dispatch(passwordErrorAC(''))
+            dispatch(setAppErrorAC(error))
         }
     }
 }
@@ -77,6 +78,7 @@ export const logoutThunkCreator = (): AppThunkType => async (dispatch) => {
                 ? (err.response.data as ({ error: string })).error
                 : err.message
             dispatch(setAppStatusAC('failed'))
+            dispatch(setAppErrorAC(error))
         }
     }
 }

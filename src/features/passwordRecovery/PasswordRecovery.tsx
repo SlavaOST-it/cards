@@ -40,9 +40,6 @@ export const PasswordRecovery = () => {
 
     return (
         <div className={style.passRecoveryPage}>
-            <div>
-                <button><NavLink to={PATH.login}>Sign in</NavLink></button>
-            </div>
             <div className={style.passRec}>
                 {!statusSendMessage
                     ? (<div>

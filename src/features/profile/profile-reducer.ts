@@ -1,15 +1,12 @@
 import axios, {AxiosError} from "axios";
-import {Dispatch} from "redux";
-import {profileAPI} from "../../api/cards-api";
+import {profileAPI} from "../../api/authAPI";
 import {AppThunkType} from "../../app/store";
-
-import {setAppStatusAC, setAppStatusAT} from "../../app/app-reducer";
+import {setAppErrorAC, setAppStatusAC, SetAppStatusAT} from "../../app/app-reducer";
 
 export type SetUserProfileAT = ReturnType<typeof setUserProfileAC>
 export type SetUserNameAC = ReturnType<typeof setUserNameAC>
-export type SetUserStatusAT = ReturnType<typeof setUserStatusAC>
 export type SetUserPhotoAT = ReturnType<typeof setUserPhotoAC>
-export type ProfileActionsType = SetUserProfileAT | SetUserNameAC | SetUserStatusAT | SetUserPhotoAT | setAppStatusAT
+export type ProfileActionsType = SetUserProfileAT | SetUserNameAC | SetUserPhotoAT | SetAppStatusAT
 
 type InitialStateType = {
     _id: string;
@@ -22,20 +19,20 @@ const initialState: InitialStateType = {
     _id: '',
     email: '',
     name: 'test name',
-    avatar: '',
+    avatar: null,
     rememberMe: false,
 }
 
-export const profileReducer = (state: InitialStateType = initialState, action: ProfileActionsType) => {      // вместо any указать типизицию
+export const profileReducer = (state: InitialStateType = initialState, action: ProfileActionsType): InitialStateType => {
     switch (action.type) {
-        case "PROFILE/SET-USER-PROFILE":
+        case "PROFILE/SET_USER_PROFILE":
             return action.profile
-        case "PROFILE/SET-USER-NAME":
+        case "PROFILE/SET_USER_NAME":
             return {
                 ...state,
                 name: action.userName
             }
-        case "PROFILE/SET-USER-PHOTO":
+        case "PROFILE/SET_USER_PHOTO":
             return {
                 ...state,
                 avatar: action.photo
@@ -45,13 +42,12 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
     }
 }
 // ==================ACTION CREATORS =======================//
-export const setUserProfileAC = (profile: any) => ({type: "PROFILE/SET-USER-PROFILE", profile} as const)
-export const setUserNameAC = (userName: string) => ({type: "PROFILE/SET-USER-NAME", userName} as const)
-export const setUserStatusAC = (status: string) => ({type: "PROFILE/SET-USER-STATUS", status} as const)
-export const setUserPhotoAC = (photo: string) => ({type: "PROFILE/SET-USER-PHOTO", photo} as const)
+export const setUserProfileAC = (profile: any) => ({type: "PROFILE/SET_USER_PROFILE", profile} as const)
+export const setUserNameAC = (userName: string) => ({type: "PROFILE/SET_USER_NAME", userName} as const)
+export const setUserPhotoAC = (photo: string) => ({type: "PROFILE/SET_USER_PHOTO", photo} as const)
 
 // ==================THUNK CREATORS =======================//
-export const changeNameThunkCreator = (newName: string):AppThunkType => async (dispatch) => {
+export const changeNameThunkCreator = (newName: string): AppThunkType => async (dispatch) => {
     try {
         let res = await profileAPI.changeName(newName)
         dispatch(setUserNameAC(res.updatedUser.name))
@@ -63,11 +59,12 @@ export const changeNameThunkCreator = (newName: string):AppThunkType => async (d
                 ? (err.response.data as ({ error: string })).error
                 : err.message
             dispatch(setAppStatusAC('failed'))
-            alert(error)
+            dispatch(setAppErrorAC(error))
         }
     }
 }
-export const changeAvatarThunkCreator = (avatar: string) => async (dispatch: Dispatch<ProfileActionsType>) => {
+
+export const changeAvatarThunkCreator = (avatar: string): AppThunkType => async (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     try {
         let res = await profileAPI.updatePhoto(avatar)
@@ -80,7 +77,7 @@ export const changeAvatarThunkCreator = (avatar: string) => async (dispatch: Dis
                 ? (err.response.data as ({ error: string })).error
                 : err.message
             dispatch(setAppStatusAC('failed'))
-            alert(error)
+            dispatch(setAppErrorAC(error))
         }
     }
 }

@@ -7,18 +7,17 @@ export const instance = axios.create({
     withCredentials: true,
 })
 
-export type RegisterResponseType = {
-    addedUser: {}
-    error?: string;
-}
 
 export const authAPI = {
     me() {
         return instance.post('auth/me').then(res => res.data)
     },
-
     login: (email: string, password: string, rememberMe: boolean) => {
-        return instance.post<LoginResponseType>('auth/login', {email: email, password: password, rememberMe: rememberMe})
+        return instance.post<LoginResponseType>('auth/login', {
+            email: email,
+            password: password,
+            rememberMe: rememberMe
+        })
             .then(res => res.data)
     },
     logout: () => {
@@ -28,6 +27,7 @@ export const authAPI = {
         return instance.post<RegisterResponseType>('auth/register', data)
     }
 }
+
 export const profileAPI = {
     changeName(newName: string) {
         return instance.put(`/auth/me`, {name: newName})
@@ -38,6 +38,7 @@ export const profileAPI = {
             .then(res => res.data)
     }
 }
+
 export const forgotPassAPI = {
     sendEmail(email: string) {
         return axios.post(`https://neko-back.herokuapp.com/2.0/auth/forgot`,
@@ -48,7 +49,7 @@ export const forgotPassAPI = {
             .then(res => res.data)
     },
     setNewPas(newPass: string, token: string | undefined) {
-        return instance.post(`https://neko-back.herokuapp.com/2.0/auth/set-new-password`, {
+        return axios.post(`https://neko-back.herokuapp.com/2.0/auth/set-new-password`, {
             password: newPass,
             resetPasswordToken: token
         }).then(res => res.data)
@@ -57,12 +58,15 @@ export const forgotPassAPI = {
 
 
 //types response
+export type RegisterResponseType = {
+    addedUser: {}
+    error?: string;
+}
+
 type LoginResponseType = {
     _id: string,
     email: string,
     name: string,
     rememberMe: boolean,
-    publicCardPacksCount:number
-
-
+    publicCardPacksCount: number
 }

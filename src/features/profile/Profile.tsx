@@ -3,22 +3,19 @@ import style from './Profile.module.css'
 import pencilLogo from '../../assets/img/icons/pencil.png'
 import arrowLogo from "../../assets/img/icons/arrow.png"
 import photoAppLogo from "../../assets/img/icons/photoapparat.png"
-import logoutLogo from "../../assets/img/icons/logout.png"
-import SuperButton from "../../common/components/superButton/SuperButton";
 import {changeNameThunkCreator} from "./profile-reducer";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {Navigate, NavLink} from "react-router-dom";
 import {PATH} from "../../utils/routes/routes";
 import {logoutThunkCreator} from "../login/auth-reducer";
 import {Button, TextField} from "@mui/material";
-import avatar_user from "./../../assets/img/icons/avatar_user.png";
-
+import customAvatar from "./../../assets/img/icons/avatar_user.png";
 
 
 export const Profile = () => {
-    // const userAvatar = useAppSelector(state => state.profile.data.avatar)
     const userName = useAppSelector(state => state.profile.name)
     const userEmail = useAppSelector(state => state.profile.email)
+    const userAvatar = useAppSelector(state => state.profile.avatar)
     const loggedIn = useAppSelector(state => state.login.loggedIn)
     const dispatch = useAppDispatch()
 
@@ -58,21 +55,14 @@ export const Profile = () => {
         alert('change photo')
     }
     const logOutBtn = () => {
-         dispatch(logoutThunkCreator())
+        dispatch(logoutThunkCreator())
     }
     if (!loggedIn) {
         return <Navigate to={PATH.login}/>
     }
-    
+
     return (
         <div className={style.profilePage}>
-            <div className={style.headerPage}>
-                <div>Logo</div>
-                <div className={style.headerPage_infoUser}>
-                    <div className={style.headerPage_infoUser_name}>{userName}</div>
-                    <img src={avatar_user} alt={'user avatar'} className={style.headerPage_infoUser_avatar}/>
-                </div>
-            </div>
             <div className={style.back}>
                 <NavLink to={'#'} className={style.backLink}>
                     <img src={arrowLogo} alt={'back'}/>
@@ -82,9 +72,15 @@ export const Profile = () => {
             <div className={style.profile}>
                 <h2>Personal Information</h2>
                 <div className={style.profile_userAvatar}>
-                    <img className={style.profile_userAvatar_photo} src={avatar_user} alt={'user avatar'}/>
+                    <img
+                        className={style.profile_userAvatar_photo}
+                        src={userAvatar === null ? customAvatar : userAvatar}
+                        alt={'user avatar'}/>
                     <button className={style.viewBtn}>
-                        <img className={style.profile_changeAvatar} src={photoAppLogo} alt={'change'}
+                        <img
+                            className={style.profile_changeAvatar}
+                            src={photoAppLogo}
+                            alt={'change'}
                              onClick={changeAvatar}/>
                     </button>
 
