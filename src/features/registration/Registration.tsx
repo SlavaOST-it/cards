@@ -3,8 +3,9 @@ import {useFormik} from 'formik'
 import {Navigate} from 'react-router-dom'
 import {RegisterTC} from './registration-reducer'
 import {PATH} from '../../utils/routes/routes'
-import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import {useAppDispatch, useAppSelector} from '../../app/hooks'
 import {Button, TextField} from '@mui/material'
+import s from './Registration.module.css'
 
 type FormikErrorType = {
     email?: string
@@ -15,7 +16,8 @@ const Registration = () => {
 
     const loggedIn = useAppSelector(state => state.login.loggedIn)
     const isInitialized = useAppSelector((state) => {
-        return state.app.isInitialized})
+        return state.app.isInitialized
+    })
     const dispatch = useAppDispatch()
     const isRegisterIn = useAppSelector(state => state.auth.isRegisterIn)
 
@@ -47,16 +49,16 @@ const Registration = () => {
         return <Navigate to={PATH.login}/>
     }
 
-    if (loggedIn){
+    if (loggedIn) {
         return <Navigate to={PATH.profile}/>
     }
     return <form onSubmit={formik.handleSubmit}>
         <h2>Registration</h2>
-        <div>
+        <div className={s.input}>
             <TextField id="outlined-basic" label="Email" variant="outlined" size="small"
                        {...formik.getFieldProps('email')}/>
         </div>
-        <div>
+        <div className={s.input}>
             {formik.touched.email &&
                 formik.errors.email &&
                 <div style={{color: 'red'}}>{formik.errors.email}</div>}
@@ -69,12 +71,12 @@ const Registration = () => {
             <div style={{color: 'red'}}>{formik.errors.password}</div>
         }
         <TextField id="outlined-basic" label="Confirm password" variant="outlined" size="small"
-                   {...formik.getFieldProps('confirmPassword')}/>
+                   {...formik.getFieldProps('confirmPassword')} className={s.input}/>
         {formik.touched.password &&
             formik.errors.password &&
             <div style={{color: 'red'}}>{formik.errors.password}</div>}
         <div>
-            <Button variant="outlined" type="submit" sx={{width: 234}}>Register</Button>
+            <Button variant="outlined" type="submit" sx={{width: 234, marginTop: 2}}>Register</Button>
         </div>
     </form>
 }
