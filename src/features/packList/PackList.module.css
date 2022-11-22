@@ -1,0 +1,27 @@
+
+.container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.header {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 34px;
+}
+
+.filtering {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+.search{
+    display: flex;
+    flex-direction: column;
+}
+.showPacksCards{
+    display: flex;
+    flex-direction: column;
+}
