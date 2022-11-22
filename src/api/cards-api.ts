@@ -55,7 +55,6 @@ export const forgotPassAPI = {
     }
 }
 
-
 //types response
 type LoginResponseType = {
     _id: string,
@@ -63,6 +62,4 @@ type LoginResponseType = {
     name: string,
     rememberMe: boolean,
     publicCardPacksCount:number
-
-
 }

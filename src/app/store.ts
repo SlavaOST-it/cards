@@ -6,8 +6,7 @@ import {registerReducer} from '../features/registration/registration-reducer'
 import {ProfileActionsType, profileReducer} from "../features/profile/profile-reducer";
 import {PassRecoveryActionType, passRecoveryReducer} from "../features/passwordRecovery/passRecovery-reducer";
 import {NewPassReducerActionType, setNewPassReducer} from "../features/newPassword/newPass-reducer";
-
-
+import {cardsReducer} from '../features/cards/cards-reducer'
 
 const rootReducer = combineReducers({
     app: appReducer,
@@ -16,7 +15,7 @@ const rootReducer = combineReducers({
     profile: profileReducer,
     passRecovery: passRecoveryReducer,
     newPassword: setNewPassReducer,
-
+    cards: cardsReducer,
 })
 
 // ===== Принимаем типизацию всех редьюсеров ===== //

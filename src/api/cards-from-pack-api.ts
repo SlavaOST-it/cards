@@ -9,6 +9,7 @@ export type CardsType = {
     sortCards?: string
     page?: number
     pageCount?: number
+    id: string
 }
 
 export type CardRequestType = {
@@ -24,7 +25,7 @@ export type CardRequestType = {
 }
 
 export type UpdateCardType = {
-    _id: string
+    id: string
     question?: string
     answer?: string
     shots?: number
@@ -50,11 +51,14 @@ export type CardResponseType = {
 export type CardsResponseType = {
     cards: CardResponseType[]
     cardsTotalCount: number
+    cardAnswer: string
+    cardQuestion: string
     maxGrade: number
     minGrade: number
     page: number
     pageCount: number
     packUserId: string
+    cardsPack_id: string
 }
 
 export const cardsApi = {
