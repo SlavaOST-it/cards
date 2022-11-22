@@ -1,6 +1,7 @@
-import {Dispatch} from "redux"
+import {Dispatch} from 'redux'
 import {cardsApi, CardsResponseType, CardsType} from '../../api/cards-from-pack-api'
-import {AppRootStateType} from '../../app/store'
+import {AppRootStateType, AppThunkType} from '../../app/store'
+import {setInitializedAC} from '../../app/app-reducer'
 
 export type CardsActionsType =
     ReturnType<typeof setCards> |
@@ -43,7 +44,7 @@ const initialState: InitialStateType = {
     sortCards: '0grade',
     packUserId: '',
     tokenDeathTime: 0,
-    answer: "",
+    answer: '',
     question: '',
     grade: 0,
     packId: ''
@@ -63,7 +64,7 @@ export type GetCardsParamsType = {
 
 export const cardsReducer = (state = initialState, action: CardsActionsType): InitialStateType => {
     switch (action.type) {
-        case "CARDS/SET-CARDS":
+        case 'CARDS/SET-CARDS':
             return {
                 ...state,
                 packUserId: action.payload.data.packUserId,
@@ -71,13 +72,13 @@ export const cardsReducer = (state = initialState, action: CardsActionsType): In
                 cardsTotalCount: action.payload.data.cardsTotalCount
 
             }
-        case "CARDS/ADD-CARDS":
+        case 'CARDS/ADD-CARDS':
             return {
                 ...state, cards: state.cards.map(c => c.id === action.payload.cardsPack_id
                     ? {...c, question: action.payload.question, cardAnswer: action.payload.answer}
                     : c)
             }
-        case "CARDS/EDIT-CARD":
+        case 'CARDS/EDIT-CARD':
             return {
                 ...state,
                 cards: state.cards.map(c => c.id === action.payload._id ? {
@@ -85,21 +86,21 @@ export const cardsReducer = (state = initialState, action: CardsActionsType): In
                     question: action.payload.newQuestion
                 } : c)
             }
-        case "CARDS/SET-FILTER":
+        case 'CARDS/SET-FILTER':
             return {...state, sortCards: `${action.payload.value}${action.payload.name}`}
-        case "CARDS/SET-PACK-ID":
+        case 'CARDS/SET-PACK-ID':
             return {...state, packId: action.payload.packId}
-        case "CARDS/SET-QUESTION-NAME":
+        case 'CARDS/SET-QUESTION-NAME':
             return {...state, question: action.payload.question}
-        case "CARDS/SET-ANSWER-NAME":
+        case 'CARDS/SET-ANSWER-NAME':
             return {...state, answer: action.payload.question}
-        case "CARDS/CLEAR-QUESTION-ANSWER-NAME":
+        case 'CARDS/CLEAR-QUESTION-ANSWER-NAME':
             return {...state, answer: '', question: ''}
-        case "SET-CURRENT-CARDS-PAGE":
+        case 'SET-CURRENT-CARDS-PAGE':
             return {...state, page: action.payload.page}
-        case "CARDS/CLEAR-CARDS":
+        case 'CARDS/CLEAR-CARDS':
             return initialState
-        case "CARDS/SET-PAGE-COUNT":
+        case 'CARDS/SET-PAGE-COUNT':
             return {...state, pageCount: action.payload.value}
         default:
             return state
@@ -145,7 +146,7 @@ export const clearQuestionAnswerName = () => ({
 export const setCurrentCardsPage = (page: number) => ({
     type: 'SET-CURRENT-CARDS-PAGE',
     payload: {page}
-}as const)
+} as const)
 
 export const clearCards = () => ({
     type: 'CARDS/CLEAR-CARDS'
@@ -154,12 +155,12 @@ export const clearCards = () => ({
 export const setPageCount = (value: number) => ({
     type: 'CARDS/SET-PAGE-COUNT',
     payload: {value}
-}as const)
+} as const)
 
-export const setCardsThunk = (packId: string) =>
-    (dispatch: Dispatch<CardsActionsType>, getState: () => AppRootStateType) => {
-        dispatch(isInitialized(true))
-        const {answer, question, page, pageCount, } = getState().cards
+export const setCardsThunk = (packId: string): AppThunkType =>
+    (dispatch, getState) => {
+        dispatch(setInitializedAC(true))
+        const {answer, question, page, pageCount,} = getState().cards
         const payload: CardsResponseType = {
             cardAnswer: answer,
             cardQuestion: question,
@@ -167,49 +168,54 @@ export const setCardsThunk = (packId: string) =>
             page: page,
             pageCount: pageCount,
         }
-        cardsApi.getCards(payload: CardsResponseType)
-            .then((res) => {
-                dispatch(setCards(res.data))
-            })
+        cardsApi.getCards(payload:CardsResponseType)
+        .then((res) => {
+            dispatch(setCards(res.data))
+        })
     }
-export const addCardThunk = (cardsPack_id: string, question: string, answer: string) => (dispatch: Dispatch<any>) => {
-    dispatch(isInitialized(true))
+export const addCardThunk = (cardsPack_id: string, question: string, answer: string): AppThunkType => (dispatch) => {
+    dispatch(setInitializedAC(true))
     cardsApi.getCards({cardsPack_id, question, answer})
         .then(() => {
             dispatch(setCardsThunk(cardsPack_id))
         })
 }
-export const deleteCardThunk = (cardsPack_id: string, cardsId: string) => (dispatch: Dispatch<any>) => {
-    dispatch(isInitialized(true))
+export const deleteCardThunk = (cardsPack_id: string, cardsId: string): AppThunkType => (dispatch) => {
+    dispatch(setInitializedAC(true))
     cardsApi.deleteCard(cardsId)
         .then(() => {
             dispatch(setCardsThunk(cardsPack_id))
         })
 }
-export const editCardThunk = (cardsPack_id: string, _id: string, newQuestion: string, newAnswer: string, comment?: string) => (dispatch: Dispatch<any>) => {
-    dispatch(isInitialized(true))
+export const editCardThunk = (
+    cardsPack_id: string,
+    _id: string,
+    newQuestion: string,
+    newAnswer: string,
+    comment?: string
+): AppThunkType => (dispatch) => {
+    dispatch(setInitializedAC(true))
     cardsApi.updateCard({_id, question: newQuestion, answer: newAnswer, comments: comment})
         .then(() => {
             dispatch(setCardsThunk(cardsPack_id))
         })
 }
-export const learnCardsThunk = (packUserId: string) =>
-    (dispatch: Dispatch) => {
-        dispatch(isInitialized(true))
+export const learnCardsThunk = (packUserId: string): AppThunkType => (dispatch) => {
+        dispatch(setInitializedAC(true))
         const data: GetCardsParamsType = {
-            cardAnswer: "",
-            cardQuestion: "",
+            cardAnswer: '',
+            cardQuestion: '',
             cardsPack_id: packUserId,
             min: 0,
             max: 0,
-            sortCards: "0question",
+            sortCards: '0question',
             page: 1,
             pageCount: 1000,
             id: ''
         }
         cardsApi.getCards(data)
             .then((res) => {
-                dispatch(setCards(res.data));
+                dispatch(setCards(res.data))
             })
     }
 
