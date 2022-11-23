@@ -20,6 +20,9 @@ export const authAPI = {
     },
     register(data: RegisterType) {
         return instance.post<RegisterResponseType>('auth/register', data)
+    },
+    setCardPacks(packName:string){
+        return instance.get(`cards/pack?packName=${packName}`)
     }
 }
 
