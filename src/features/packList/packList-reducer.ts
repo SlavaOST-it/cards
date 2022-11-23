@@ -23,6 +23,7 @@ let initialState = {
     cardPacksTotalCount: 0,
     minCardsCount: 0,
     maxCardsCount: 0,
+    isMyPacks: false,
 }
 
 export type CardsPackType = {
@@ -38,7 +39,6 @@ export type CardsPackType = {
     rating: number,
     created: string,
     updated: string,
-
 }
 
 type InitialStateType = typeof initialState

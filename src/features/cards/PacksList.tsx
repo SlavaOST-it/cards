@@ -16,37 +16,37 @@ import {ActionsPack} from "./actionsPack/ActionsPack";
 
 
 export const PacksList = () => {
-    const loggedIn = useAppSelector(state => state.login.loggedIn)
-    const packs = useAppSelector(state => state.packs.cardPacks)
+    // const loggedIn = useAppSelector(state => state.login.loggedIn)
+    // const packs = useAppSelector(state => state.packs.cardPacks)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
         dispatch(getCardsPacksTC())
     }, [])
 
-    const StyledTableCell = styled(TableCell)(({theme}) => ({
-        [`&.${tableCellClasses.head}`]: {
-            backgroundColor: theme.palette.common.black,
-            color: theme.palette.common.white,
-        },
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-        },
-    }));
+    // const StyledTableCell = styled(TableCell)(({theme}) => ({
+    //     [`&.${tableCellClasses.head}`]: {
+    //         backgroundColor: theme.palette.common.black,
+    //         color: theme.palette.common.white,
+    //     },
+    //     [`&.${tableCellClasses.body}`]: {
+    //         fontSize: 14,
+    //     },
+    // }));
+    //
+    // const StyledTableRow = styled(TableRow)(({theme}) => ({
+    //     '&:nth-of-type(odd)': {
+    //         backgroundColor: theme.palette.action.hover,
+    //     },
+    //     // hide last border
+    //     '&:last-child td, &:last-child th': {
+    //         border: 0.5,
+    //     },
+    // }));
 
-    const StyledTableRow = styled(TableRow)(({theme}) => ({
-        '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.action.hover,
-        },
-        // hide last border
-        '&:last-child td, &:last-child th': {
-            border: 0.5,
-        },
-    }));
-
-    if (!loggedIn) {
-        return <Navigate to={PATH.login}/>
-    }
+    // if (!loggedIn) {
+    //     return <Navigate to={PATH.login}/>
+    // }
 
     return (
         <div className={s.packsWrapper}>
@@ -59,32 +59,32 @@ export const PacksList = () => {
                 </div>
             </div>
             <div>
-                <TableContainer component={Paper}>
-                    <Table sx={{minWidth: 700}} aria-label="customized table">
-                        <TableHead>
-                            <TableRow>
-                                <StyledTableCell>Name</StyledTableCell>
-                                <StyledTableCell align="right">Cards</StyledTableCell>
-                                <StyledTableCell align="right">Last Updated</StyledTableCell>
-                                <StyledTableCell align="right">Created by</StyledTableCell>
-                                <StyledTableCell align="right">Actions</StyledTableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {packs.map((el) => (
-                                <StyledTableRow key={el.name}>
-                                    <StyledTableCell component="th" scope="row">
-                                        {el.name}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="right">{el.cardsCount}</StyledTableCell>
-                                    <StyledTableCell align="right">{el.updated}</StyledTableCell>
-                                    <StyledTableCell align="right">{el.user_name}</StyledTableCell>
-                                    <StyledTableCell align="right">{<ActionsPack/>}</StyledTableCell>
-                                </StyledTableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                {/*<TableContainer component={Paper}>*/}
+                {/*    <Table sx={{minWidth: 700}} aria-label="customized table">*/}
+                {/*        <TableHead>*/}
+                {/*            <TableRow>*/}
+                {/*                <StyledTableCell>Name</StyledTableCell>*/}
+                {/*                <StyledTableCell align="right">Cards</StyledTableCell>*/}
+                {/*                <StyledTableCell align="right">Last Updated</StyledTableCell>*/}
+                {/*                <StyledTableCell align="right">Created by</StyledTableCell>*/}
+                {/*                <StyledTableCell align="right">Actions</StyledTableCell>*/}
+                {/*            </TableRow>*/}
+                {/*        </TableHead>*/}
+                {/*        <TableBody>*/}
+                {/*            {packs.map((el) => (*/}
+                {/*                <StyledTableRow key={el.name}>*/}
+                {/*                    <StyledTableCell component="th" scope="row">*/}
+                {/*                        {el.name}*/}
+                {/*                    </StyledTableCell>*/}
+                {/*                    <StyledTableCell align="right">{el.cardsCount}</StyledTableCell>*/}
+                {/*                    <StyledTableCell align="right">{el.updated}</StyledTableCell>*/}
+                {/*                    <StyledTableCell align="right">{el.user_name}</StyledTableCell>*/}
+                {/*                    <StyledTableCell align="right">{<ActionsPack/>}</StyledTableCell>*/}
+                {/*                </StyledTableRow>*/}
+                {/*            ))}*/}
+                {/*        </TableBody>*/}
+                {/*    </Table>*/}
+                {/*</TableContainer>*/}
             </div>
         </div>
     );

@@ -6,7 +6,7 @@ import {useAppSelector} from "../../../app/hooks";
 import s from "./ActionsPack.module.css"
 
 export const ActionsPack = () => {
-    const isMyPacks = useAppSelector(state => state.packs.isMyPacks)
+    const isMyPacks = useAppSelector(state => state.packList.isMyPacks)
 
     const learnPackHandler = () => {
         alert('111')

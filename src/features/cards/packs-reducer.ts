@@ -1,7 +1,6 @@
 import {AppThunkType} from "../../app/store";
 import axios, {AxiosError} from "axios";
 import {setAppErrorAC, setAppStatusAC} from "../../app/app-reducer";
-import {packsAPI} from "../../api/packsAPI";
 
 export type SetCardsPacksAT = ReturnType<typeof setCardsPacksAC>
 export type PacksActionType = SetCardsPacksAT
@@ -67,11 +66,11 @@ export const setCardsPacksAC = (data: InitialStateType) => ({type: "PACKS/SET_CA
 
 // ======ThunkCreators ===== //
 export const getCardsPacksTC = (): AppThunkType => async (dispatch, getState) => {
-    const {page, pageCount, sort, search, isMyPacks} = getState().packs
+    // const {page, pageCount, sort, search, isMyPacks} = getState().packs
     dispatch(setAppStatusAC('loading'))
     try {
-        let res = await packsAPI.getPacks({page, pageCount, sort, search, isMyPacks})
-        dispatch(setCardsPacksAC(res))
+        // let res = await packsAPI.getPacks({page, pageCount, sort, search, isMyPacks})
+        // dispatch(setCardsPacksAC(res))
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {
         const err = e as Error | AxiosError

@@ -64,7 +64,7 @@ export const Profile = () => {
     return (
         <div className={style.profilePage}>
             <div className={style.back}>
-                <NavLink to={PATH.packsList} className={style.backLink}>
+                <NavLink to={PATH.packList} className={style.backLink}>
                     <img src={arrowLogo} alt={'back'}/>
                     Back to Packs List
                 </NavLink>
