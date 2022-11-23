@@ -26,11 +26,13 @@ export const authAPI = {
     register(data: RegisterType) {
         return instance.post<RegisterResponseType>('auth/register', data)
     },
-    getCardPacks(page:number,pageCount:number, sort:string, search:string, my_id:string){
-        return instance.get('cards/pack',{params:{pageCount:pageCount, sortPacks:sort, packName:search, user_id:my_id}})
+
+}
+export const packsAPI={
+    getCardPacks(page:number,pageCount:number, sort:string, search:string, my_id:string,minCardsCount:number,maxCardsCount:number){
+        return instance.get('cards/pack',{params:{pageCount:pageCount, sortPacks:sort, packName:search, user_id:my_id,min:minCardsCount,max:maxCardsCount}})
     }
 }
-
 export const profileAPI = {
     changeName(newName: string) {
         return instance.put(`/auth/me`, {name: newName})

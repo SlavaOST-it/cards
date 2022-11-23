@@ -24,7 +24,12 @@
 .showPacksCards{
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 .table{
     width: 80%;
+}
+.button{
+    height: 20px;
+    width: 100px;
 }

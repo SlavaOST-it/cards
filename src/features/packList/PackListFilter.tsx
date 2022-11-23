@@ -1,12 +1,11 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import style from "./PackList.module.css"
 import {Button, InputAdornment, TextField, ToggleButton, ToggleButtonGroup} from "@mui/material";
-import { Search} from "@mui/icons-material";
-import {RangeSlider} from "../../common/components/rangeSlider/RangeSlider";
-import FilterAltOffOutlinedIcon from '@mui/icons-material/FilterAltOffOutlined';
-import { packListTC, setIsMyPacksAC, setSearchAC} from "./packList-reducer";
+import {Search} from "@mui/icons-material";
+import {packListTC, setCardsCountAC, setIsMyPacksAC, setSearchAC} from "./packList-reducer";
 import {useAppDispatch, useAppSelector, useDebounce} from "../../app/hooks";
 import {TablePacks} from "../table/TablePacks";
+import {RangeSlider} from "../../common/components/rangeSlider/RangeSlider";
 
 export const PackListFilter = () => {
     const dispatch=useAppDispatch()
@@ -16,6 +15,9 @@ export const PackListFilter = () => {
     const sort = useAppSelector(state=>state.packList.sort)
     const search = useAppSelector(state=>state.packList.search)
     const isMyPacks=useAppSelector(state=>state.packList.isMyPacks)
+    const minCardsCount=useAppSelector(state=>state.packList.minCardsCount)
+    const maxCardsCount=useAppSelector(state=>state.packList.maxCardsCount)
+
     const [alignment, setAlignment] =useState('All')
     const [value,setValue]=useState<string>('')
     const debouncedValue= useDebounce<string>(value,700)
@@ -32,9 +34,14 @@ export const PackListFilter = () => {
     const onClickAllHandler=()=>{
         dispatch(setIsMyPacksAC(false))
     }
-    console.log(alignment)
+
     const onChangeHandler=(e:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
         setValue(e.currentTarget.value)
+    }
+    const onclickResetFilterHandler=()=>{
+        setValue('')
+        dispatch(setIsMyPacksAC(false))
+        dispatch(setCardsCountAC([0,50]))
     }
 
 
@@ -44,7 +51,7 @@ export const PackListFilter = () => {
 
     useEffect(()=>{
        dispatch(packListTC())
-    },[page,pageCount, sort, search,isMyPacks])
+    },[page,pageCount, sort, search,isMyPacks,minCardsCount,maxCardsCount])
 
     return (
         <div className={style.container}>
@@ -60,6 +67,7 @@ export const PackListFilter = () => {
                     Search
                     <TextField
                         onChange={onChangeHandler}
+                        value={value}
                         size="small"
                         id="input-with-icon-textfield"
                         InputProps={{
@@ -90,7 +98,9 @@ export const PackListFilter = () => {
                 <div className={style.numberOfCards}>
                     Number of cards
                     <RangeSlider/>
-                    <FilterAltOffOutlinedIcon/>
+                </div>
+                <div className={style.button}>
+                    <Button sx={{borderRadius:5,fontSize:10}}  size="small" variant="contained" onClick={onclickResetFilterHandler}>Reset</Button>
                 </div>
             </div>
 
