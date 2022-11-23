@@ -6,6 +6,7 @@ import {packListTC, setCardsCountAC, setIsMyPacksAC, setSearchAC} from "./packLi
 import {useAppDispatch, useAppSelector, useDebounce} from "../../app/hooks";
 import {TablePacks} from "../table/TablePacks";
 import {RangeSlider} from "../../common/components/rangeSlider/RangeSlider";
+import {BasicPagination} from "../../common/components/pagination/BasicPagination";
 
 export const PackListFilter = () => {
     const dispatch=useAppDispatch()
@@ -107,6 +108,8 @@ export const PackListFilter = () => {
             <div className={style.table}>
                 <TablePacks CardsPack={dataCards} />
             </div>
+
+            <BasicPagination/>
         </div>
     );
 };

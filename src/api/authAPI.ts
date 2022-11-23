@@ -1,5 +1,6 @@
 import axios from "axios"
 import {RegisterType} from '../features/registration/registration-reducer'
+import {CardsPackType} from "../features/packList/packList-reducer";
 
 export const instance = axios.create({
     // baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/' ,
@@ -30,7 +31,7 @@ export const authAPI = {
 }
 export const packsAPI={
     getCardPacks(page:number,pageCount:number, sort:string, search:string, my_id:string,minCardsCount:number,maxCardsCount:number){
-        return instance.get('cards/pack',{params:{pageCount:pageCount, sortPacks:sort, packName:search, user_id:my_id,min:minCardsCount,max:maxCardsCount}})
+        return instance.get<CardPacksResponseType>('cards/pack',{params:{pageCount:pageCount, sortPacks:sort, packName:search, user_id:my_id,min:minCardsCount,max:maxCardsCount,page:page}})
     }
 }
 export const profileAPI = {
@@ -74,4 +75,15 @@ type LoginResponseType = {
     name: string,
     rememberMe: boolean,
     publicCardPacksCount: number
+}
+type CardPacksResponseType={
+    cardPacks: CardsPackType[],
+    page: number,
+    pageCount: number,
+    sort:string,
+    search:string,
+    isMyPacks:boolean,
+    minCardsCount:number,
+    maxCardsCount:number,
+    cardPacksTotalCount:number
 }
