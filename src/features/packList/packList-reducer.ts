@@ -1,7 +1,7 @@
 import {AppThunkType} from "../../app/store";
-import { packsAPI} from "../../api/authAPI";
 import axios, {AxiosError} from "axios";
 import {setAppErrorAC, setAppStatusAC} from "../../app/app-reducer";
+import {packsAPI} from "../../api/cardsAPI";
 
 let initialState = {
     cardPacks: [{
