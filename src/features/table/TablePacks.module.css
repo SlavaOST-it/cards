@@ -2,7 +2,13 @@
     width: 100%;
 }
 
-
+.header{
+    display: flex;
+    justify-content: space-between;
+}
+.nameColumn{
+    background-color: #61dafb;
+}
 .block{
     display: flex;
     justify-content: space-between;
@@ -13,5 +19,6 @@
     width: 25%;
     flex-direction: column;
     background-color: #61dafb;
-    font-size: 15px;
+    font-size: 10px;
+    align-items: center;
 }

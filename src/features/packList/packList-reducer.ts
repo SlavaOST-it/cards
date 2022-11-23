@@ -20,7 +20,7 @@ let initialState = {
     }],
     page: 0,
     pageCount: 4,
-    sort:"1updated",
+    sort:"1cardsCount",
     search:'',
     isMyPacks:false,
     minCardsCount:0,
@@ -52,7 +52,8 @@ type setIsMyPacksType=ReturnType<typeof setIsMyPacksAC>
 type setCardsCountType=ReturnType<typeof setCardsCountAC>
 type setPageType=ReturnType<typeof setPageAC>
 type setPageCountType=ReturnType<typeof setPageCountAC>
-export type ActionPackListType = SetDataCardsPackType|setSearchType|setIsMyPacksType|setCardsCountType|setPageType|setPageCountType
+type setSortType=ReturnType<typeof setSortAC>
+export type ActionPackListType = SetDataCardsPackType|setSearchType|setIsMyPacksType|setCardsCountType|setPageType|setPageCountType|setSortType
 
 export const packListReducer = (state: InitialStatePacksType = initialState, action: ActionPackListType): InitialStatePacksType => {
     switch (action.type) {
@@ -68,6 +69,8 @@ export const packListReducer = (state: InitialStatePacksType = initialState, act
             return {...state,page:action.page}
         case "PACK_LIST/SET_PAGE_COUNT":
             return {...state,pageCount: action.PageCount}
+        case "PACK_LIST/SET_SORT":
+            return {...state,sort: action.sort}
         default:
             return state
     }
@@ -80,7 +83,7 @@ export const setIsMyPacksAC=(isMyPacks:boolean)=>{return{type:"PACK_LIST/SET_IS_
 export const setCardsCountAC=(value:number[])=>{return{type:"PACK_LIST/SET_CARDS_COUNT",value}as const}
 export const setPageAC=(page:number)=>{return{type:"PACK_LIST/SET_PAGE",page}as const}
 export const setPageCountAC=(PageCount:number)=>{return{type:"PACK_LIST/SET_PAGE_COUNT",PageCount}as const}
-
+export const setSortAC=(sort:string)=>{return {type:"PACK_LIST/SET_SORT",sort} as const}
 
 
 export const packListTC = (): AppThunkType => async (dispatch, getState) => {
