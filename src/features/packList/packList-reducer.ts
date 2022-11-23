@@ -20,9 +20,9 @@ let initialState = {
     }],
     page: 0,
     pageCount: 0,
-    cardPacksTotalCount: 0,
-    minCardsCount: 0,
-    maxCardsCount: 0,
+    sort:"1updated",
+    search:'',
+    isMyPacks:false
 }
 
 export type CardsPackType = {
@@ -44,25 +44,36 @@ export type CardsPackType = {
 type InitialStateType = typeof initialState
 
 type SetDataCardsPackType = ReturnType<typeof setDataCardsPackAC>
-export type ActionPackListType = SetDataCardsPackType
+type setSearchType=ReturnType<typeof setSearchAC>
+type setIsMyPacksType=ReturnType<typeof setIsMyPacksAC>
+export type ActionPackListType = SetDataCardsPackType|setSearchType|setIsMyPacksType
 
 export const packListReducer = (state: InitialStateType = initialState, action: ActionPackListType): InitialStateType => {
     switch (action.type) {
         case "PACK_LIST/SET_DATA_CARDS_PACK":
             return {...state, cardPacks: action.data}
+        case "PACK_LIST/SET_SEARCH":
+            return {...state,search: action.search}
+        case "PACK_LIST/SET_IS_MY_PACKS":
+            return {...state,isMyPacks: action.isMyPacks}
         default:
             return state
     }
 }
 
 
-export const setDataCardsPackAC = (data: CardsPackType[]) => {
-    return {type: "PACK_LIST/SET_DATA_CARDS_PACK", data} as const
-}
+export const setDataCardsPackAC = (data: CardsPackType[]) => {return {type: "PACK_LIST/SET_DATA_CARDS_PACK", data} as const}
+export const setSearchAC=(search:string)=>{return {type:"PACK_LIST/SET_SEARCH",search} as const }
+export const setIsMyPacksAC=(isMyPacks:boolean)=>{return{type:"PACK_LIST/SET_IS_MY_PACKS",isMyPacks}as const}
 
-export const packListTC = (packName: string): AppThunkType => async (dispatch) => {
+
+
+export const packListTC = (): AppThunkType => async (dispatch, getState) => {
     try {
-        const res = await authAPI.setCardPacks(packName)
+        const { page,pageCount, sort, search, isMyPacks} =getState().packList
+        let my_id=''
+        if(isMyPacks){my_id='637243ec3d150607fc4a78f4'}
+        const res = await authAPI.getCardPacks(page,pageCount, sort, search, my_id)
         dispatch(setDataCardsPackAC(res.data.cardPacks
         ))
     } catch (e) {

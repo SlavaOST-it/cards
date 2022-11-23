@@ -26,8 +26,8 @@ export const authAPI = {
     register(data: RegisterType) {
         return instance.post<RegisterResponseType>('auth/register', data)
     },
-    setCardPacks(packName:string){
-        return instance.get(`cards/pack?packName=${packName}`)
+    getCardPacks(page:number,pageCount:number, sort:string, search:string, my_id:string){
+        return instance.get('cards/pack',{params:{pageCount:pageCount, sortPacks:sort, packName:search, user_id:my_id}})
     }
 }
 

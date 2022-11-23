@@ -1,25 +1,50 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import style from "./PackList.module.css"
 import {Button, InputAdornment, TextField, ToggleButton, ToggleButtonGroup} from "@mui/material";
 import { Search} from "@mui/icons-material";
 import {RangeSlider} from "../../common/components/rangeSlider/RangeSlider";
 import FilterAltOffOutlinedIcon from '@mui/icons-material/FilterAltOffOutlined';
-import {packListTC} from "./packList-reducer";
-import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import { packListTC, setIsMyPacksAC, setSearchAC} from "./packList-reducer";
+import {useAppDispatch, useAppSelector, useDebounce} from "../../app/hooks";
+import {TablePacks} from "../table/TablePacks";
 
-export const PackList = () => {
+export const PackListFilter = () => {
     const dispatch=useAppDispatch()
     const dataCards=useAppSelector(state=>state.packList.cardPacks)
-    const [alignment, setAlignment] =useState('My')
+    const page = useAppSelector(state=>state.packList.page)
+    const pageCount = useAppSelector(state=>state.packList.pageCount)
+    const sort = useAppSelector(state=>state.packList.sort)
+    const search = useAppSelector(state=>state.packList.search)
+    const isMyPacks=useAppSelector(state=>state.packList.isMyPacks)
+    const [alignment, setAlignment] =useState('All')
+    const [value,setValue]=useState<string>('')
+    const debouncedValue= useDebounce<string>(value,700)
+
     const handleChange = (
         event: React.MouseEvent<HTMLElement>,
         newAlignment: string,
     ) => {
         setAlignment(newAlignment);
     };
-    const onChangeHandler=(e:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
-        dispatch(packListTC(e.currentTarget.value))
+    const onClickMyHandler=()=>{
+        dispatch(setIsMyPacksAC(true))
     }
+    const onClickAllHandler=()=>{
+        dispatch(setIsMyPacksAC(false))
+    }
+    console.log(alignment)
+    const onChangeHandler=(e:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
+        setValue(e.currentTarget.value)
+    }
+
+
+    useEffect(()=>{
+        dispatch(setSearchAC(debouncedValue))
+    },[debouncedValue])
+
+    useEffect(()=>{
+       dispatch(packListTC())
+    },[page,pageCount, sort, search,isMyPacks])
 
     return (
         <div className={style.container}>
@@ -27,6 +52,9 @@ export const PackList = () => {
                 Packs list
                 <Button sx={{borderRadius:5}}  size="small" variant="contained"> Add new pack</Button>
             </div>
+
+
+                {!dataCards.length && <div>В данной колоде нету карточек удовлетворяющих поиску</div>}
             <div className={style.filtering}>
                 <div className={style.search}>
                     Search
@@ -54,8 +82,9 @@ export const PackList = () => {
                         onChange={handleChange}
                         aria-label="Platform"
                     >
-                        <ToggleButton value="web">My</ToggleButton>
-                        <ToggleButton value="android">All</ToggleButton>
+                        <ToggleButton  onClick={onClickMyHandler} value="My">My</ToggleButton>
+                        <ToggleButton onClick={onClickAllHandler} value="All">All</ToggleButton>
+
                     </ToggleButtonGroup>
                 </div>
                 <div className={style.numberOfCards}>
@@ -64,8 +93,9 @@ export const PackList = () => {
                     <FilterAltOffOutlinedIcon/>
                 </div>
             </div>
+
             <div className={style.table}>
-                {dataCards.map(el=>{return <div key={el._id}>{el.name}</div>})}
+                <TablePacks CardsPack={dataCards} />
             </div>
         </div>
     );
