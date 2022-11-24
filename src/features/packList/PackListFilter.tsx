@@ -7,10 +7,12 @@ import {useAppDispatch, useAppSelector, useDebounce} from "../../app/hooks";
 import {TablePacks} from "../table/TablePacks";
 import {RangeSlider} from "../../common/components/rangeSlider/RangeSlider";
 import {BasicPagination} from "../../common/components/pagination/BasicPagination";
+import {PATH} from "../../utils/routes/routes";
+import {Navigate} from "react-router-dom";
 
 export const PackListFilter = () => {
     const dispatch=useAppDispatch()
-    const dataCards=useAppSelector(state=>state.packList.cardPacks)
+    const dataPacks = useAppSelector(state => state.packList.cardPacks)
     const page = useAppSelector(state=>state.packList.page)
     const pageCount = useAppSelector(state=>state.packList.pageCount)
     const sort = useAppSelector(state=>state.packList.sort)
@@ -18,6 +20,7 @@ export const PackListFilter = () => {
     const isMyPacks=useAppSelector(state=>state.packList.isMyPacks)
     const minCardsCount=useAppSelector(state=>state.packList.minCardsCount)
     const maxCardsCount=useAppSelector(state=>state.packList.maxCardsCount)
+    const isLoggedIn = useAppSelector(state => state.login.loggedIn)
 
     const [alignment, setAlignment] =useState('All')
     const [value,setValue]=useState<string>('')
@@ -54,6 +57,30 @@ export const PackListFilter = () => {
        dispatch(packListTC())
     },[page,pageCount, sort, search,isMyPacks,minCardsCount,maxCardsCount])
 
+    const StyledTableCell = styled(TableCell)(({theme}) => ({
+        [`&.${tableCellClasses.head}`]: {
+            backgroundColor: theme.palette.common.black,
+            color: theme.palette.common.white,
+        },
+        [`&.${tableCellClasses.body}`]: {
+            fontSize: 14,
+        },
+    }));
+
+    const StyledTableRow = styled(TableRow)(({theme}) => ({
+        '&:nth-of-type(odd)': {
+            backgroundColor: theme.palette.action.hover,
+        },
+        // hide last border
+        '&:last-child td, &:last-child th': {
+            border: 0.5,
+        },
+    }));
+
+    if (!isLoggedIn) {
+        return <Navigate to={PATH.login}/>
+    }
+
     return (
         <div className={style.container}>
             <div className={style.header}>
@@ -62,7 +89,7 @@ export const PackListFilter = () => {
             </div>
 
 
-                {!dataCards.length && <div>В данной колоде нету карточек удовлетворяющих поиску</div>}
+                {!dataPacks.length && <div>В данной колоде нету карточек удовлетворяющих поиску</div>}
             <div className={style.filtering}>
                 <div className={style.search}>
                     Search
@@ -106,7 +133,32 @@ export const PackListFilter = () => {
             </div>
 
             <div className={style.table}>
-                <TablePacks CardsPack={dataCards} />
+                <TableContainer component={Paper}>
+                    <Table sx={{minWidth: 700}} aria-label="customized table">
+                        <TableHead>
+                            <TableRow>
+                                <StyledTableCell>Name</StyledTableCell>
+                                <StyledTableCell align="right">Cards</StyledTableCell>
+                                <StyledTableCell align="right">Last Updated</StyledTableCell>
+                                <StyledTableCell align="right">Created by</StyledTableCell>
+                                <StyledTableCell align="right">Actions</StyledTableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {dataPacks.map((el) => (
+                                <StyledTableRow key={el.name}>
+                                    <StyledTableCell component="th" scope="row">
+                                        {el.name}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="right">{el.cardsCount}</StyledTableCell>
+                                    <StyledTableCell align="right">{el.updated}</StyledTableCell>
+                                    <StyledTableCell align="right">{el.user_name}</StyledTableCell>
+                                    <StyledTableCell align="right">{<ActionsPack/>}</StyledTableCell>
+                                </StyledTableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </div>
 
             <BasicPagination/>

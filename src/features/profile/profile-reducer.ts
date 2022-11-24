@@ -48,7 +48,6 @@ export const setUserPhotoAC = (photo: string) => ({type: "PROFILE/SET_USER_PHOTO
 
 // ==================THUNK CREATORS =======================//
 export const changeNameThunkCreator = (newName: string): AppThunkType => async (dispatch) => {
-    dispatch(setAppStatusAC('loading'))
     try {
         let res = await profileAPI.changeName(newName)
         dispatch(setUserNameAC(res.updatedUser.name))
