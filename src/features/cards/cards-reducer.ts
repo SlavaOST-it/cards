@@ -1,5 +1,5 @@
 import {Dispatch} from 'redux'
-import {cardsApi, CardsResponseType, CardsType} from '../../api/cards-from-pack-api'
+import {CardResponseType, cardsApi, CardsResponseType, CardsType} from '../../api/cards-from-pack-api'
 import {AppRootStateType, AppThunkType} from '../../app/store'
 import {setInitializedAC} from '../../app/app-reducer'
 
@@ -107,7 +107,7 @@ export const cardsReducer = (state = initialState, action: CardsActionsType): In
     }
 }
 
-export const setCards = (data: any) => ({type: 'CARDS/SET-CARDS', payload: {data}} as const)
+export const setCards = (data: any) => ({type: 'CARDS/SET-CARDS', payload: data} as const)
 
 export const addCard = (cardsPack_id: string, question: string, answer: string) => ({
     type: 'CARDS/ADD-CARDS',
@@ -160,22 +160,29 @@ export const setPageCount = (value: number) => ({
 export const setCardsThunk = (packId: string): AppThunkType =>
     (dispatch, getState) => {
         dispatch(setInitializedAC(true))
-        const {answer, question, page, pageCount,} = getState().cards
+        const {answer, question, page, pageCount, } = getState().cards
         const payload: CardsResponseType = {
             cardAnswer: answer,
             cardQuestion: question,
             cardsPack_id: packId,
             page: page,
             pageCount: pageCount,
+            cards: [],
+
+            cardsTotalCount: 0,
+            maxGrade: 0,
+            minGrade: 0,
+            packUserId: '',
+            id: ''
         }
-        cardsApi.getCards(payload:CardsResponseType)
+        cardsApi.getCards(payload)
         .then((res) => {
             dispatch(setCards(res.data))
         })
     }
-export const addCardThunk = (cardsPack_id: string, question: string, answer: string): AppThunkType => (dispatch) => {
+export const addCardThunk = (cardsPack_id: string, cardQuestion: string, cardAnswer: string): AppThunkType => (dispatch) => {
     dispatch(setInitializedAC(true))
-    cardsApi.getCards({cardsPack_id, question, answer})
+    cardsApi.getCards({cardsPack_id, cardQuestion, cardAnswer})
         .then(() => {
             dispatch(setCardsThunk(cardsPack_id))
         })
@@ -195,7 +202,7 @@ export const editCardThunk = (
     comment?: string
 ): AppThunkType => (dispatch) => {
     dispatch(setInitializedAC(true))
-    cardsApi.updateCard({_id, question: newQuestion, answer: newAnswer, comments: comment})
+    cardsApi.updateCard({_id: _id, question: newQuestion, answer: newAnswer, comments: comment})
         .then(() => {
             dispatch(setCardsThunk(cardsPack_id))
         })
