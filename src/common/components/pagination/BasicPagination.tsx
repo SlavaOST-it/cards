@@ -1,6 +1,6 @@
 import React, {ChangeEvent} from 'react';
 import {Pagination, Stack} from "@mui/material";
-import {setPageAC} from "../../../features/packList/packList-reducer";
+import {setPageAC} from "../../../features/cards/packList-reducer";
 import {useAppDispatch, useAppSelector} from "../../../app/hooks";
 
  export const BasicPagination = () => {

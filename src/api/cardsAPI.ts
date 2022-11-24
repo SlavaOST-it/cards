@@ -1,5 +1,5 @@
-import {instance} from "./authAPI";
-import {CardsPackType} from "../features/packList/packList-reducer";
+import { instance } from "./instance"
+import {CardsPackType} from "../features/cards/packList-reducer";
 
 export const packsAPI={
     getCardPacks(data:PacksRequest){

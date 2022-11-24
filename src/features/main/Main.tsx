@@ -8,7 +8,7 @@ import {Error404} from "../../common/components/errorPage/Error404";
 import {PasswordRecovery} from "../passwordRecovery/PasswordRecovery";
 import Registration from '../registration/Registration';
 import {NewPass} from "../newPassword/NewPass";
-import {PackListFilter} from "../packList/PackListFilter";
+import {PackListFilter} from "../cards/PackListFilter";
 
 export const Main = () => {
 

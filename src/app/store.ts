@@ -6,7 +6,7 @@ import {registerReducer, SetRegisterInType} from '../features/registration/regis
 import {ProfileActionsType, profileReducer} from "../features/profile/profile-reducer";
 import {PassRecoveryActionType, passRecoveryReducer} from "../features/passwordRecovery/passRecovery-reducer";
 import {NewPassReducerActionType, setNewPassReducer} from "../features/newPassword/newPass-reducer";
-import {ActionPackListType, packListReducer} from "../features/packList/packList-reducer";
+import {ActionPackListType, packListReducer} from "../features/cards/packList-reducer";
 
 
 const rootReducer = combineReducers({

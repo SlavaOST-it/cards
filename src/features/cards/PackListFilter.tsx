@@ -1,30 +1,37 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import style from "./PackList.module.css"
-import {Button, InputAdornment, TextField, ToggleButton, ToggleButtonGroup} from "@mui/material";
+import {Button, InputAdornment, styled, TextField, ToggleButton, ToggleButtonGroup} from "@mui/material";
 import {Search} from "@mui/icons-material";
 import {packListTC, setCardsCountAC, setIsMyPacksAC, setSearchAC} from "./packList-reducer";
 import {useAppDispatch, useAppSelector, useDebounce} from "../../app/hooks";
-import {TablePacks} from "../table/TablePacks";
 import {RangeSlider} from "../../common/components/rangeSlider/RangeSlider";
 import {BasicPagination} from "../../common/components/pagination/BasicPagination";
 import {PATH} from "../../utils/routes/routes";
 import {Navigate} from "react-router-dom";
+import TableCell, {tableCellClasses} from "@mui/material/TableCell";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableHead from "@mui/material/TableHead";
+import TableBody from "@mui/material/TableBody";
+import TableContainer from "@mui/material/TableContainer";
+import {ActionsPack} from "./actionsPack/ActionsPack";
 
 export const PackListFilter = () => {
-    const dispatch=useAppDispatch()
+    const dispatch = useAppDispatch()
     const dataPacks = useAppSelector(state => state.packList.cardPacks)
-    const page = useAppSelector(state=>state.packList.page)
-    const pageCount = useAppSelector(state=>state.packList.pageCount)
-    const sort = useAppSelector(state=>state.packList.sort)
-    const search = useAppSelector(state=>state.packList.search)
-    const isMyPacks=useAppSelector(state=>state.packList.isMyPacks)
-    const minCardsCount=useAppSelector(state=>state.packList.minCardsCount)
-    const maxCardsCount=useAppSelector(state=>state.packList.maxCardsCount)
+    const page = useAppSelector(state => state.packList.page)
+    const pageCount = useAppSelector(state => state.packList.pageCount)
+    const sort = useAppSelector(state => state.packList.sort)
+    const search = useAppSelector(state => state.packList.search)
+    const isMyPacks = useAppSelector(state => state.packList.isMyPacks)
+    const minCardsCount = useAppSelector(state => state.packList.minCardsCount)
+    const maxCardsCount = useAppSelector(state => state.packList.maxCardsCount)
     const isLoggedIn = useAppSelector(state => state.login.loggedIn)
 
-    const [alignment, setAlignment] =useState('All')
-    const [value,setValue]=useState<string>('')
-    const debouncedValue= useDebounce<string>(value,700)
+    const [alignment, setAlignment] = useState('All')
+    const [value, setValue] = useState<string>('')
+    const debouncedValue = useDebounce<string>(value, 700)
 
     const handleChange = (
         event: React.MouseEvent<HTMLElement>,
@@ -32,30 +39,30 @@ export const PackListFilter = () => {
     ) => {
         setAlignment(newAlignment);
     };
-    const onClickMyHandler=()=>{
+    const onClickMyHandler = () => {
         dispatch(setIsMyPacksAC(true))
     }
-    const onClickAllHandler=()=>{
+    const onClickAllHandler = () => {
         dispatch(setIsMyPacksAC(false))
     }
 
-    const onChangeHandler=(e:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setValue(e.currentTarget.value)
     }
-    const onclickResetFilterHandler=()=>{
+    const onclickResetFilterHandler = () => {
         setValue('')
         dispatch(setIsMyPacksAC(false))
-        dispatch(setCardsCountAC([0,50]))
+        dispatch(setCardsCountAC([0, 50]))
     }
 
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(setSearchAC(debouncedValue))
-    },[debouncedValue])
+    }, [debouncedValue])
 
-    useEffect(()=>{
-       dispatch(packListTC())
-    },[page,pageCount, sort, search,isMyPacks,minCardsCount,maxCardsCount])
+    useEffect(() => {
+        dispatch(packListTC())
+    }, [page, pageCount, sort, search, isMyPacks, minCardsCount, maxCardsCount])
 
     const StyledTableCell = styled(TableCell)(({theme}) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -85,11 +92,11 @@ export const PackListFilter = () => {
         <div className={style.container}>
             <div className={style.header}>
                 Packs list
-                <Button sx={{borderRadius:5}}  size="small" variant="contained"> Add new pack</Button>
+                <Button sx={{borderRadius: 5}} size="small" variant="contained"> Add new pack</Button>
             </div>
 
 
-                {!dataPacks.length && <div>В данной колоде нету карточек удовлетворяющих поиску</div>}
+            {!dataPacks.length && <div>В данной колоде нету карточек удовлетворяющих поиску</div>}
             <div className={style.filtering}>
                 <div className={style.search}>
                     Search
@@ -101,7 +108,7 @@ export const PackListFilter = () => {
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
-                                    <Search />
+                                    <Search/>
                                 </InputAdornment>
                             ),
                         }}
@@ -118,7 +125,7 @@ export const PackListFilter = () => {
                         onChange={handleChange}
                         aria-label="Platform"
                     >
-                        <ToggleButton  onClick={onClickMyHandler} value="My">My</ToggleButton>
+                        <ToggleButton onClick={onClickMyHandler} value="My">My</ToggleButton>
                         <ToggleButton onClick={onClickAllHandler} value="All">All</ToggleButton>
 
                     </ToggleButtonGroup>
@@ -128,7 +135,8 @@ export const PackListFilter = () => {
                     <RangeSlider/>
                 </div>
                 <div className={style.button}>
-                    <Button sx={{borderRadius:5,fontSize:10}}  size="small" variant="contained" onClick={onclickResetFilterHandler}>Reset</Button>
+                    <Button sx={{borderRadius: 5, fontSize: 10}} size="small" variant="contained"
+                            onClick={onclickResetFilterHandler}>Reset</Button>
                 </div>
             </div>
 
@@ -160,7 +168,6 @@ export const PackListFilter = () => {
                     </Table>
                 </TableContainer>
             </div>
-
             <BasicPagination/>
         </div>
     );

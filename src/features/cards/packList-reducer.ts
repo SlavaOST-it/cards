@@ -92,7 +92,7 @@ export const packListTC = (): AppThunkType => async (dispatch, getState) => {
         const { page,pageCount, sort, search, isMyPacks,minCardsCount,maxCardsCount} =getState().packList
         let my_id=''
         if(isMyPacks){my_id='637243ec3d150607fc4a78f4'}
-        const res = await packsAPI.getCardPacks(page,pageCount, sort, search, my_id,minCardsCount,maxCardsCount)
+        const res = await packsAPI.getCardPacks({page,pageCount, sort, search, my_id,minCardsCount,maxCardsCount})
         dispatch(setDataCardsPackAC(res.data.cardPacks,res.data.cardPacksTotalCount
         ))
         dispatch(setPageCountAC(res.data.pageCount))

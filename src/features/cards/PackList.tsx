@@ -30,7 +30,7 @@ export const PackList = () => {
         setAlignment(newAlignment);
     };
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        dispatch(packListTC(e.currentTarget.value))
+        dispatch(packListTC())
     }
 
     const StyledTableCell = styled(TableCell)(({theme}) => ({
