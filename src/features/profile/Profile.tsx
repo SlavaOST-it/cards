@@ -64,7 +64,7 @@ export const Profile = () => {
     return (
         <div className={style.profilePage}>
             <div className={style.back}>
-                <NavLink to={'#'} className={style.backLink}>
+                <NavLink to={PATH.packList} className={style.backLink}>
                     <img src={arrowLogo} alt={'back'}/>
                     Back to Packs List
                 </NavLink>
@@ -116,6 +116,7 @@ export const Profile = () => {
                 <Button
                     variant={'contained'}
                     color={'primary'}
+                    style={{ borderRadius: '20px' }}
                     onClick={logOutBtn}
                 >
                     Log out

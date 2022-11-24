@@ -53,7 +53,7 @@ const Registration = () => {
     return <form onSubmit={formik.handleSubmit}>
         <h2>Registration</h2>
         <div>
-            <TextField id="outlined-basic" label="Email" variant="outlined" size="small"
+            <TextField sx={{m:1}} id="outlined-basic" label="Email" variant="outlined" size="small"
                        {...formik.getFieldProps('email')}/>
         </div>
         <div>
@@ -61,14 +61,14 @@ const Registration = () => {
                 formik.errors.email &&
                 <div style={{color: 'red'}}>{formik.errors.email}</div>}
 
-            <TextField id="outlined-basic" label="Password" variant="outlined" size="small"
+            <TextField sx={{m:1}} id="outlined-basic" label="Password" variant="outlined" size="small"
                        {...formik.getFieldProps('password')}/>
         </div>
         {formik.touched.password &&
             formik.errors.password &&
             <div style={{color: 'red'}}>{formik.errors.password}</div>
         }
-        <TextField id="outlined-basic" label="Confirm password" variant="outlined" size="small"
+        <TextField sx={{m:1}} id="outlined-basic" label="Confirm password" variant="outlined" size="small"
                    {...formik.getFieldProps('confirmPassword')}/>
         {formik.touched.password &&
             formik.errors.password &&
