@@ -6,5 +6,5 @@ export const PATH = {
     test: '/test',
     passwordRecovery: '/passwordRecovery',
     setNewPassword: '/setNewPass/:token',
-    packList:"/packsList"
+    packList:"/packList"
 }
