@@ -2,8 +2,20 @@ import { instance } from "./instance"
 import {CardsPackType} from "../features/cards/packList-reducer";
 
 export const packsAPI={
-    getCardPacks(data:PacksRequest){
-        return instance.get<CardPacksResponseType>('cards/pack',{params:{data}})
+    getCardPacks(page:number,
+                 pageCount:number,
+                 sort:string,
+                 search:string,
+                 my_id:string,
+                 minCardsCount:number,
+                 maxCardsCount:number){
+        return instance.get<CardPacksResponseType>('cards/pack',{params:{page:page,
+                pageCount:page,
+                sortPacks:sort,
+                packName:search,
+                user_id:my_id,
+                min:minCardsCount,
+                max:maxCardsCount}})
     }
 }
 

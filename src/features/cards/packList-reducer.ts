@@ -25,7 +25,8 @@ let initialState = {
     isMyPacks:false,
     minCardsCount:0,
     maxCardsCount:50,
-    cardPacksTotalCount:0
+    cardPacksTotalCount:0,
+    selected:true
 }
 
 export type CardsPackType = {
@@ -70,7 +71,7 @@ export const packListReducer = (state: InitialStatePacksType = initialState, act
         case "PACK_LIST/SET_PAGE_COUNT":
             return {...state,pageCount: action.PageCount}
         case "PACK_LIST/SET_SORT":
-            return {...state,sort: action.sort}
+            return {...state,sort: action.sort,selected: action.selected}
         default:
             return state
     }
@@ -83,7 +84,7 @@ export const setIsMyPacksAC=(isMyPacks:boolean)=>{return{type:"PACK_LIST/SET_IS_
 export const setCardsCountAC=(value:number[])=>{return{type:"PACK_LIST/SET_CARDS_COUNT",value}as const}
 export const setPageAC=(page:number)=>{return{type:"PACK_LIST/SET_PAGE",page}as const}
 export const setPageCountAC=(PageCount:number)=>{return{type:"PACK_LIST/SET_PAGE_COUNT",PageCount}as const}
-export const setSortAC=(sort:string)=>{return {type:"PACK_LIST/SET_SORT",sort} as const}
+export const setSortAC=(sort:string,selected:boolean)=>{return {type:"PACK_LIST/SET_SORT",sort,selected} as const}
 
 
 export const packListTC = (): AppThunkType => async (dispatch, getState) => {
@@ -92,7 +93,7 @@ export const packListTC = (): AppThunkType => async (dispatch, getState) => {
         const { page,pageCount, sort, search, isMyPacks,minCardsCount,maxCardsCount} =getState().packList
         let my_id=''
         if(isMyPacks){my_id='637243ec3d150607fc4a78f4'}
-        const res = await packsAPI.getCardPacks({page,pageCount, sort, search, my_id,minCardsCount,maxCardsCount})
+        const res = await packsAPI.getCardPacks(page,pageCount, sort, search, my_id,minCardsCount,maxCardsCount)
         dispatch(setDataCardsPackAC(res.data.cardPacks,res.data.cardPacksTotalCount
         ))
         dispatch(setPageCountAC(res.data.pageCount))

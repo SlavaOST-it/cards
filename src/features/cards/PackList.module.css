@@ -34,3 +34,6 @@
 .button{
     height: 20px;
 }
+.cards{
+    display: flex;
+}

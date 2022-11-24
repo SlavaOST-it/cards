@@ -16,6 +16,8 @@ import TableHead from "@mui/material/TableHead";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import {ActionsPack} from "./actionsPack/ActionsPack";
+import {TablePacks} from "../table/TablePacks";
+import {SelectSort} from "../../common/components/select/SelectSort";
 
 export const PackListFilter = () => {
     const dispatch = useAppDispatch()
@@ -63,6 +65,7 @@ export const PackListFilter = () => {
     useEffect(() => {
         dispatch(packListTC())
     }, [page, pageCount, sort, search, isMyPacks, minCardsCount, maxCardsCount])
+
 
     const StyledTableCell = styled(TableCell)(({theme}) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -146,7 +149,7 @@ export const PackListFilter = () => {
                         <TableHead>
                             <TableRow>
                                 <StyledTableCell>Name</StyledTableCell>
-                                <StyledTableCell align="right">Cards</StyledTableCell>
+                                <StyledTableCell align="right"><div className={style.cards}>Cards <SelectSort/></div></StyledTableCell>
                                 <StyledTableCell align="right">Last Updated</StyledTableCell>
                                 <StyledTableCell align="right">Created by</StyledTableCell>
                                 <StyledTableCell align="right">Actions</StyledTableCell>
