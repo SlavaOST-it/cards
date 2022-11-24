@@ -10,7 +10,7 @@ export const packsAPI={
                  minCardsCount:number,
                  maxCardsCount:number){
         return instance.get<CardPacksResponseType>('cards/pack',{params:{page:page,
-                pageCount:page,
+                pageCount:pageCount,
                 sortPacks:sort,
                 packName:search,
                 user_id:my_id,
