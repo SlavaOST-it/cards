@@ -105,12 +105,8 @@ export const PackListFilter = () => {
                 </div>
             </div>
 
-         {/*   <div className={style.table}>
+            <div className={style.table}>
                 <TablePacks CardsPack={dataCards} />
-            </div>*/}
-            <div>
-               {/* Здесь должна быть таблица Славы*/}
-                PackList
             </div>
 
             <BasicPagination/>

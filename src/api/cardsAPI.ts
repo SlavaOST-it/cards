@@ -1,4 +1,4 @@
-import {instance} from "./authAPI";
+import {instance} from "./instance";
 import {CardsPackType} from "../features/packList/packList-reducer";
 
 export const packsAPI={
