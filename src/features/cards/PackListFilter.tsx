@@ -16,7 +16,6 @@ import TableHead from "@mui/material/TableHead";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import {ActionsPack} from "./actionsPack/ActionsPack";
-import {TablePacks} from "../table/TablePacks";
 import {SelectSort} from "../../common/components/select/SelectSort";
 
 export const PackListFilter = () => {

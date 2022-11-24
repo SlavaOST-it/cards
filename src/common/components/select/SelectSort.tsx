@@ -1,7 +1,6 @@
 import * as React from 'react';
 import ArrowDownwardOutlinedIcon from '@mui/icons-material/ArrowDownwardOutlined';
 import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined';
-import {useState} from "react";
 import {setSortAC} from "../../../features/cards/packList-reducer";
 import {useAppDispatch, useAppSelector} from "../../../app/hooks";
 
