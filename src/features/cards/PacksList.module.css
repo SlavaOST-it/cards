@@ -1,0 +1,10 @@
+.packsWrapper {
+    width: 1010px;
+    margin: 0 auto;
+}
+
+.packsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

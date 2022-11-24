@@ -116,6 +116,7 @@ export const Profile = () => {
                 <Button
                     variant={'contained'}
                     color={'primary'}
+                    style={{ borderRadius: '20px' }}
                     onClick={logOutBtn}
                 >
                     Log out
