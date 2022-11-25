@@ -19,7 +19,7 @@ let initialState = {
         updated: '',
     }],
     page: 0,
-    pageCount: 4,
+    pageCount: 5,
     sort:"1cardsCount",
     search:'',
     isMyPacks:false,
@@ -60,18 +60,25 @@ export const packListReducer = (state: InitialStatePacksType = initialState, act
     switch (action.type) {
         case "PACK_LIST/SET_DATA_CARDS_PACK":
             return {...state, cardPacks: action.data,cardPacksTotalCount:action.cardPacksTotalCount}
+
         case "PACK_LIST/SET_SEARCH":
             return {...state,search: action.search}
+
         case "PACK_LIST/SET_IS_MY_PACKS":
             return {...state,isMyPacks: action.isMyPacks}
+
         case "PACK_LIST/SET_CARDS_COUNT":
             return {...state,minCardsCount: action.value[0],maxCardsCount: action.value[1]}
+
         case "PACK_LIST/SET_PAGE":
             return {...state,page:action.page}
+
         case "PACK_LIST/SET_PAGE_COUNT":
             return {...state,pageCount: action.PageCount}
+
         case "PACK_LIST/SET_SORT":
             return {...state,sort: action.sort,selected: action.selected}
+
         default:
             return state
     }

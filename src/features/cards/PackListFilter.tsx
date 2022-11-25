@@ -93,10 +93,11 @@ export const PackListFilter = () => {
     return (
         <div className={style.container}>
             <div className={style.header}>
-                Packs list
-                <Button sx={{borderRadius: 5}} size="small" variant="contained"> Add new pack</Button>
+                <h2>Packs list</h2>
+                <div>
+                    <Button sx={{borderRadius: 5}} size="small" variant="contained"> Add new pack</Button>
+                </div>
             </div>
-
 
             {!dataPacks.length && <div>В данной колоде нету карточек удовлетворяющих поиску</div>}
             <div className={style.filtering}>
@@ -148,7 +149,9 @@ export const PackListFilter = () => {
                         <TableHead>
                             <TableRow>
                                 <StyledTableCell>Name</StyledTableCell>
-                                <StyledTableCell align="right"><div className={style.cards}>Cards <SelectSort/></div></StyledTableCell>
+                                <StyledTableCell align="right">
+                                    <div className={style.cards}>Cards <SelectSort/></div>
+                                </StyledTableCell>
                                 <StyledTableCell align="right">Last Updated</StyledTableCell>
                                 <StyledTableCell align="right">Created by</StyledTableCell>
                                 <StyledTableCell align="right">Actions</StyledTableCell>

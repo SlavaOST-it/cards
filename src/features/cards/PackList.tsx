@@ -100,9 +100,6 @@ export const PackList = () => {
                 </div>
             </div>
             <div className={style.table}>
-                {/*{dataPacks.map(el => {*/}
-                {/*    return <div key={el._id}>{el.name}</div>*/}
-                {/*})}*/}
                 <TableContainer component={Paper}>
                     <Table sx={{minWidth: 700}} aria-label="customized table">
                         <TableHead>
@@ -133,4 +130,3 @@ export const PackList = () => {
         </div>
     );
 };
-

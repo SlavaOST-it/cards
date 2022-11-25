@@ -24,7 +24,7 @@ export const ActionsPack = () => {
             <div className={s.button} onClick={learnPackHandler}>
                 <img src={teacherLogo} alt={'learn pack'}/>
             </div>
-            {!isMyPacks && (
+            {isMyPacks && (
                 <>
                     <div className={s.button} onClick={editPackHandler}>
                         <img src={editLogo} alt={'edit pack'}/>
