@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import style from "./PacksList.module.css"
 import {Button, styled, ToggleButton, ToggleButtonGroup} from "@mui/material";
-import {packListTC, setCardsCountAC, setIsMyPacksAC, setSearchAC} from "./packsList-reducer";
+import {packListTC, setCardsCountAC, setIsMyPacksAC, setSearchPacksAC} from "./packsList-reducer";
 import {useAppDispatch, useAppSelector, useDebounce} from "../../app/hooks";
 import {RangeSlider} from "../../common/components/rangeSlider/RangeSlider";
 import {BasicPagination} from "../../common/components/pagination/BasicPagination";
 import {PATH} from "../../utils/routes/routes";
-import {Navigate} from "react-router-dom";
+import {Navigate, NavLink} from "react-router-dom";
 import TableCell, {tableCellClasses} from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
@@ -16,7 +16,8 @@ import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import {ActionsPack} from "./actionsPack/ActionsPack";
 import {SelectSort} from "../../common/components/select/SelectSort";
-import {SearchEngine} from "../../common/components/search/Search";
+import {SearchEngine} from "../../common/components/search/SearchEngine";
+import {setPackUserIdAC} from "./packs/card-reduser";
 
 export const PacksListFilter = () => {
     const dispatch = useAppDispatch()
@@ -31,8 +32,7 @@ export const PacksListFilter = () => {
     const isLoggedIn = useAppSelector(state => state.login.loggedIn)
 
     const [alignment, setAlignment] = useState('All')
-    const [value, setValue] = useState<string>('')
-    const debouncedValue = useDebounce<string>(value, 700)
+
 
     const handleChange = (
         event: React.MouseEvent<HTMLElement>,
@@ -47,19 +47,11 @@ export const PacksListFilter = () => {
         dispatch(setIsMyPacksAC(false))
     }
 
-    /*const onChangeHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setValue(e.currentTarget.value)
-    }*/
     const onclickResetFilterHandler = () => {
-        setValue('')
         dispatch(setIsMyPacksAC(false))
         dispatch(setCardsCountAC([0, 50]))
     }
 
-
-    useEffect(() => {
-        dispatch(setSearchAC(debouncedValue))
-    }, [debouncedValue])
 
     useEffect(() => {
         dispatch(packListTC())
@@ -100,24 +92,7 @@ export const PacksListFilter = () => {
 
             {!dataPacks.length && <div>В данной колоде нету карточек удовлетворяющих поиску</div>}
             <div className={style.filtering}>
-                <SearchEngine/>
-               {/* <div className={style.search}>
-                    Search
-                    <TextField
-                        onChange={onChangeHandler}
-                        value={value}
-                        size="small"
-                        id="input-with-icon-textfield"
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <Search/>
-                                </InputAdornment>
-                            ),
-                        }}
-                        variant="outlined"
-                    />
-                </div>*/}
+                <SearchEngine  SearchType={'packs'}/>
                 <div className={style.showPacksCards}>
                     Show packs cards
                     <ToggleButtonGroup
@@ -159,7 +134,7 @@ export const PacksListFilter = () => {
                             {dataPacks.map((el) => (
                                 <StyledTableRow key={el.name}>
                                     <StyledTableCell component="th" scope="row">
-                                        {el.name}
+                                        <NavLink onClick={()=>{dispatch(setPackUserIdAC(el._id))}} to={PATH.cardList}>{el.name}</NavLink>
                                     </StyledTableCell>
                                     <StyledTableCell align="right">{el.cardsCount}</StyledTableCell>
                                     <StyledTableCell align="right">{el.updated}</StyledTableCell>

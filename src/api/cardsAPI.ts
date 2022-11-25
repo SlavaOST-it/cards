@@ -19,6 +19,14 @@ export const packsAPI={
     }
 }
 
+export const cardsAPI={
+    getCards(packUserId:string,minGrade:number,maxGrade:number,search:string,page:number,pageCount:number,sort:string){
+return instance.get<CardsResponseType>('/cards/card',{params:{cardsPack_id:packUserId,cardQuestion:search,sortCards:sort,page:page,pageCount:pageCount,min:minGrade,max:maxGrade}})
+    }
+}
+
+
+
 type CardPacksResponseType={
     cardPacks: CardsPackType[],
     page: number,
@@ -30,13 +38,23 @@ type CardPacksResponseType={
     maxCardsCount:number,
     cardPacksTotalCount:number
 }
-
-export type PacksRequest = {
-    page:number,
-    pageCount:number,
-    sort:string,
-    search:string,
-    my_id:string,
-    minCardsCount:number,
-    maxCardsCount:number
+type CardsResponseType={
+    cards: CardsType[]
+    cardsTotalCount: number
+    maxGrade: number
+    minGrade: number
+    page: number
+    pageCount: number
+    packUserI:string
+}
+export type CardsType={
+    answer: string
+    question: string
+    cardsPack_id: string
+    grade: number
+    shots: number
+    user_id: string
+    created: string
+    updated: string
+    _id: string
 }
