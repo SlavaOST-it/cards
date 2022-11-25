@@ -21,7 +21,6 @@ export const TablePacks = (props: TablePacksType) => {
                     <div className={style.column}>{el.name}</div>
                     <div className={style.column}>{el.updated}</div>
                     <div className={style.column}>{el.cardsCount}</div>
-
                     <div className={style.column}>
                         <button>delete</button>
                     </div>
