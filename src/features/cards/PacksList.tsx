@@ -18,7 +18,7 @@ import TableContainer from "@mui/material/TableContainer";
 import {ActionsPack} from "./actionsPack/ActionsPack";
 import {SelectSort} from "../../common/components/select/SelectSort";
 
-export const PackListFilter = () => {
+export const PacksList = () => {
     const dispatch = useAppDispatch()
     const dataPacks = useAppSelector(state => state.packList.cardPacks)
     const page = useAppSelector(state => state.packList.page)
