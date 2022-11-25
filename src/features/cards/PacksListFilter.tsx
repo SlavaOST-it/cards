@@ -1,8 +1,7 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
-import style from "./PackList.module.css"
-import {Button, InputAdornment, styled, TextField, ToggleButton, ToggleButtonGroup} from "@mui/material";
-import {Search} from "@mui/icons-material";
-import {packListTC, setCardsCountAC, setIsMyPacksAC, setSearchAC} from "./packList-reducer";
+import React, {useEffect, useState} from 'react';
+import style from "./PacksList.module.css"
+import {Button, styled, ToggleButton, ToggleButtonGroup} from "@mui/material";
+import {packListTC, setCardsCountAC, setIsMyPacksAC, setSearchAC} from "./packsList-reducer";
 import {useAppDispatch, useAppSelector, useDebounce} from "../../app/hooks";
 import {RangeSlider} from "../../common/components/rangeSlider/RangeSlider";
 import {BasicPagination} from "../../common/components/pagination/BasicPagination";
@@ -17,8 +16,9 @@ import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import {ActionsPack} from "./actionsPack/ActionsPack";
 import {SelectSort} from "../../common/components/select/SelectSort";
+import {SearchEngine} from "../../common/components/search/Search";
 
-export const PackListFilter = () => {
+export const PacksListFilter = () => {
     const dispatch = useAppDispatch()
     const dataPacks = useAppSelector(state => state.packList.cardPacks)
     const page = useAppSelector(state => state.packList.page)
@@ -47,9 +47,9 @@ export const PackListFilter = () => {
         dispatch(setIsMyPacksAC(false))
     }
 
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    /*const onChangeHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setValue(e.currentTarget.value)
-    }
+    }*/
     const onclickResetFilterHandler = () => {
         setValue('')
         dispatch(setIsMyPacksAC(false))
@@ -100,7 +100,8 @@ export const PackListFilter = () => {
 
             {!dataPacks.length && <div>В данной колоде нету карточек удовлетворяющих поиску</div>}
             <div className={style.filtering}>
-                <div className={style.search}>
+                <SearchEngine/>
+               {/* <div className={style.search}>
                     Search
                     <TextField
                         onChange={onChangeHandler}
@@ -116,7 +117,7 @@ export const PackListFilter = () => {
                         }}
                         variant="outlined"
                     />
-                </div>
+                </div>*/}
                 <div className={style.showPacksCards}>
                     Show packs cards
                     <ToggleButtonGroup

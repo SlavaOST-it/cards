@@ -1,10 +1,10 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
-import style from "./PackList.module.css"
+import React, {ChangeEvent, useState} from 'react';
+import style from "./PacksList.module.css"
 import {Button, InputAdornment, styled, TextField, ToggleButton, ToggleButtonGroup} from "@mui/material";
 import {Search} from "@mui/icons-material";
 import {RangeSlider} from "../../common/components/rangeSlider/RangeSlider";
 import FilterAltOffOutlinedIcon from '@mui/icons-material/FilterAltOffOutlined';
-import {packListTC} from "./packList-reducer";
+import {packListTC} from "./packsList-reducer";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {Navigate} from "react-router-dom";
 import {PATH} from "../../utils/routes/routes";

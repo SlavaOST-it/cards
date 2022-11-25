@@ -56,7 +56,7 @@ type setPageCountType=ReturnType<typeof setPageCountAC>
 type setSortType=ReturnType<typeof setSortAC>
 export type ActionPackListType = SetDataCardsPackType|setSearchType|setIsMyPacksType|setCardsCountType|setPageType|setPageCountType|setSortType
 
-export const packListReducer = (state: InitialStatePacksType = initialState, action: ActionPackListType): InitialStatePacksType => {
+export const packsListReducer = (state: InitialStatePacksType = initialState, action: ActionPackListType): InitialStatePacksType => {
     switch (action.type) {
         case "PACK_LIST/SET_DATA_CARDS_PACK":
             return {...state, cardPacks: action.data,cardPacksTotalCount:action.cardPacksTotalCount}

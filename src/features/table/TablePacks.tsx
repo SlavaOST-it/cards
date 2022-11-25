@@ -1,5 +1,5 @@
 import React from 'react';
-import {CardsPackType} from "../cards/packList-reducer";
+import {CardsPackType} from "../cards/packsList-reducer";
 import style from "./TablePacks.module.css"
 import {SelectSort} from "../../common/components/select/SelectSort";
 

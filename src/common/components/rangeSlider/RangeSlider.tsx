@@ -4,7 +4,7 @@ import Slider from '@mui/material/Slider';
 import style from "./RangeSlider.module.css"
 import {useAppDispatch, useAppSelector, useDebounce} from "../../../app/hooks";
 import {useEffect} from "react";
-import {setCardsCountAC} from "../../../features/cards/packList-reducer";
+import {setCardsCountAC} from "../../../features/cards/packsList-reducer";
 
 
 export  function RangeSlider() {

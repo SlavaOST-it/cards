@@ -1,5 +1,5 @@
 import { instance } from "./instance"
-import {CardsPackType} from "../features/cards/packList-reducer";
+import {CardsPackType} from "../features/cards/packsList-reducer";
 
 export const packsAPI={
     getCardPacks(page:number,
