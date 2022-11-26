@@ -1,7 +1,15 @@
-import {Dispatch} from 'redux'
-import {CardResponseType, cardsApi, CardsResponseType, CardsType} from '../../api/cards-from-pack-api'
-import {AppRootStateType, AppThunkType} from '../../app/store'
-import {setInitializedAC} from '../../app/app-reducer'
+import {AppThunkType} from '../../app/store'
+import {setAppErrorAC, setAppStatusAC, setInitializedAC} from '../../app/app-reducer'
+import {CardResponseType, cardsAPI, CardsResponseType, CardsType} from '../../api/cardsAPI'
+import {setCardsAC, setPackUserIdAC, setPageCardsCountAC, setSearchCardsAC, sortCardsAC} from './packs/card-reduser'
+import axios, {AxiosError} from 'axios'
+
+type setCardsType = ReturnType<typeof setCardsAC>
+type setPackUserIdType = ReturnType<typeof setPackUserIdAC>
+type setSearchCardsType = ReturnType<typeof setSearchCardsAC>
+type sortCardsType = ReturnType<typeof sortCardsAC>
+type setPageCardsAC = ReturnType<typeof setPageCardsAC>
+type setPageCardsCountType = ReturnType<typeof setPageCardsCountAC>
 
 export type CardsActionsType =
     ReturnType<typeof setCards> |
@@ -14,16 +22,17 @@ export type CardsActionsType =
     ReturnType<typeof clearQuestionAnswerName> |
     ReturnType<typeof clearCards> |
     ReturnType<typeof setCurrentCardsPage> |
-    ReturnType<typeof setPageCount>
+    ReturnType<typeof setPageCount> |
+    setCardsType | setPackUserIdType | setSearchCardsType | sortCardsType | setPageCardsAC | setPageCardsCountType
 
 type InitialStateType = {
     cards: CardsType[]
     cardsTotalCount: number
-    maxGrade: number
-    minGrade: number
+    max: number
+    min: number
     page: number
     pageCount: number
-    searchCard: string
+    cardQuestion: string
     sortCards: string
     packUserId: string
     tokenDeathTime: number
@@ -31,23 +40,27 @@ type InitialStateType = {
     question: string
     grade: number
     packId: string
+    selected: boolean
+    cardsPack_id: string
 }
 
 const initialState: InitialStateType = {
     cards: [],
     cardsTotalCount: 0,
-    maxGrade: 0,
-    minGrade: 0,
+    max: 0,
+    min: 0,
     page: 1,
     pageCount: 2,
-    searchCard: '',
+    cardQuestion: '',
     sortCards: '0grade',
     packUserId: '',
     tokenDeathTime: 0,
     answer: '',
     question: '',
     grade: 0,
-    packId: ''
+    packId: '',
+    selected: true,
+    cardsPack_id: ''
 }
 
 export type GetCardsParamsType = {
@@ -102,6 +115,18 @@ export const cardsReducer = (state = initialState, action: CardsActionsType): In
             return initialState
         case 'CARDS/SET-PAGE-COUNT':
             return {...state, pageCount: action.payload.value}
+        case "CARDS/SET_CARDS":
+            return {...state, cards: action.data,cardsTotalCount: action.cardsTotalCount}
+        case "CARDS/SET_PACK_USER_ID":
+            return {...state, packUserId: action.id}
+        case "CARDS/SET_SEARCH_CARDS":
+            return{...state,cardQuestion: action.search}
+        case "CARDS/SORT_CARDS":
+            return {...state,sortCards: action.sort,selected: action.selected}
+        case "CARDS/SET_PAGE_CARDS":
+            return {...state,page: action.page}
+        case "CARDS/SET_PAGE_CARDS_COUNT":
+            return {...state,pageCount: action.pageCount}
         default:
             return state
     }
@@ -157,39 +182,60 @@ export const setPageCount = (value: number) => ({
     payload: {value}
 } as const)
 
+export const setCardsAC = (data: CardResponseType[],cardsTotalCount:number) => {
+    return {type: "CARDS/SET_CARDS", data,cardsTotalCount} as const
+}
+export const setPackUserIdAC = (id: string) => {
+    return {type: "CARDS/SET_PACK_USER_ID", id} as const
+}
+export const setSearchCardsAC = (search: string) => {
+    return {type: "CARDS/SET_SEARCH_CARDS", search} as const
+}
+export const sortCardsAC=(sort:string,selected:boolean)=>{
+    return {type: "CARDS/SORT_CARDS", sort,selected} as const
+}
+export const setPageCardsAC=(page:number)=>{
+    return {type: "CARDS/SET_PAGE_CARDS" ,page} as const
+}
+export const setPageCardsCountAC=(pageCount:number)=>{
+    return {type: "CARDS/SET_PAGE_CARDS_COUNT" ,pageCount} as const
+}
+
 export const setCardsThunk = (packId: string): AppThunkType =>
     (dispatch, getState) => {
         dispatch(setInitializedAC(true))
-        const {answer, question, page, pageCount, } = getState().cards
+        const {answer, page, pageCount, sortCards, cardQuestion, packUserId} = getState().cards
         const payload: CardsResponseType = {
             cardAnswer: answer,
-            cardQuestion: question,
-            cardsPack_id: packId,
+            cardQuestion: cardQuestion,
+            cardsPack_id: packUserId,
             page: page,
             pageCount: pageCount,
             cards: [],
+            sortCards: sortCards,
+
 
             cardsTotalCount: 0,
-            maxGrade: 0,
-            minGrade: 0,
+            max: 0,
+            min: 0,
             packUserId: '',
             id: ''
         }
-        cardsApi.getCards(payload)
-        .then((res) => {
-            dispatch(setCards(res.data))
-        })
+        cardsAPI.getCards(payload)
+            .then((res) => {
+                dispatch(setCards(res.data))
+            })
     }
 export const addCardThunk = (cardsPack_id: string, cardQuestion: string, cardAnswer: string): AppThunkType => (dispatch) => {
     dispatch(setInitializedAC(true))
-    cardsApi.getCards({cardsPack_id, cardQuestion, cardAnswer})
+    cardsAPI.getCards({cardsPack_id, cardQuestion, cardAnswer})
         .then(() => {
             dispatch(setCardsThunk(cardsPack_id))
         })
 }
 export const deleteCardThunk = (cardsPack_id: string, cardsId: string): AppThunkType => (dispatch) => {
     dispatch(setInitializedAC(true))
-    cardsApi.deleteCard(cardsId)
+    cardsAPI.deleteCard(cardsId)
         .then(() => {
             dispatch(setCardsThunk(cardsPack_id))
         })
@@ -202,28 +248,48 @@ export const editCardThunk = (
     comment?: string
 ): AppThunkType => (dispatch) => {
     dispatch(setInitializedAC(true))
-    cardsApi.updateCard({_id: _id, question: newQuestion, answer: newAnswer, comments: comment})
+    cardsAPI.updateCard({_id: _id, question: newQuestion, answer: newAnswer, comments: comment})
         .then(() => {
             dispatch(setCardsThunk(cardsPack_id))
         })
 }
 export const learnCardsThunk = (packUserId: string): AppThunkType => (dispatch) => {
-        dispatch(setInitializedAC(true))
-        const data: GetCardsParamsType = {
-            cardAnswer: '',
-            cardQuestion: '',
-            cardsPack_id: packUserId,
-            min: 0,
-            max: 0,
-            sortCards: '0question',
-            page: 1,
-            pageCount: 1000,
-            id: ''
-        }
-        cardsApi.getCards(data)
-            .then((res) => {
-                dispatch(setCards(res.data))
-            })
+    dispatch(setInitializedAC(true))
+    const data: GetCardsParamsType = {
+        cardAnswer: '',
+        cardQuestion: '',
+        cardsPack_id: packUserId,
+        min: 0,
+        max: 0,
+        sortCards: '0question',
+        page: 1,
+        pageCount: 1000,
+        id: ''
     }
+    cardsAPI.getCards(data)
+        .then((res) => {
+            dispatch(setCards(res.data))
+        })
+}
+
+export const CardsTC = (): AppThunkType => async (dispatch, getState) => {
+    dispatch(setAppStatusAC('loading'))
+    try {
+        const {cardsPack_id, min, max, cardQuestion, page, pageCount, sortCards} = getState().cards
+        const res = await cardsAPI.getCards({cardsPack_id, min, max, cardQuestion, page, pageCount, sortCards})
+        dispatch(setCardsAC(res.data.cards,res.data.cardsTotalCount))
+        dispatch(setPageCardsCountAC(res.data.pageCount))
+        dispatch(setAppStatusAC('succeed'))
+    } catch (e) {
+        const err = e as Error | AxiosError
+        if (axios.isAxiosError(err)) {
+            const error = err.response?.data
+                ? (err.response.data as ({ error: string })).error
+                : err.message
+            dispatch(setAppStatusAC('failed'))
+            dispatch(setAppErrorAC(error))
+        }
+    }
+}
 
 
