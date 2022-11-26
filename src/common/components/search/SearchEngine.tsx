@@ -1,46 +1,39 @@
 import style from "../../../features/cards/PacksList.module.css";
 import {InputAdornment, TextField} from "@mui/material";
 import {Search} from "@mui/icons-material";
-import React, {ChangeEvent, useEffect, useState} from 'react';
-import {useAppDispatch, useAppSelector, useDebounce} from "../../../app/hooks";
-import { setSearchPacksAC} from "../../../features/cards/packsList-reducer";
+import React, {ChangeEvent, useEffect} from 'react';
+import {useAppDispatch, useDebounce} from "../../../app/hooks";
+import {setSearchPacksAC} from "../../../features/cards/packsList-reducer";
 import {setSearchCardsAC} from "../../../features/cards/packs/card-reduser";
 
 
-export type SearchType='cards'|'packs'
 export type SearchEngineType={
-    SearchType:SearchType,
+    value:string,
+    setValue:(value:string)=>void
 }
 
 export const SearchEngine = (props:SearchEngineType) => {
 
-    const [value, setValue] = useState<string>('')
-    const debouncedValue = useDebounce<string>(value, 700)
+    const debouncedValue = useDebounce<string>(props.value, 700)
     const dispatch =useAppDispatch()
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setValue(e.currentTarget.value)
+        props.setValue(e.currentTarget.value)
     }
 
     useEffect(() => {
-        if(props.SearchType==='packs'){
             dispatch(setSearchPacksAC(debouncedValue))
-        }
-        else{
             dispatch(setSearchCardsAC(debouncedValue))
-        }
     }, [debouncedValue])
 
-    const resetSearch=()=>{
 
-    }
 
     return (
         <div className={style.search}>
             Search
             <TextField
                 onChange={onChangeHandler}
-                value={value}
+                value={props.value}
                 size="small"
                 id="input-with-icon-textfield"
                 InputProps={{

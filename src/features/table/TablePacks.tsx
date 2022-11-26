@@ -12,7 +12,7 @@ export const TablePacks = (props: TablePacksType) => {
             <div className={style.header}>
                 <div className={style.nameColumn}></div>
                 <div className={style.nameColumn}></div>
-                <div className={style.nameColumn}><SelectSort/></div>
+                <div className={style.nameColumn}><SelectSort /></div>
                 <div className={style.nameColumn}></div>
             </div>
             {props.CardsPack.map(el => {

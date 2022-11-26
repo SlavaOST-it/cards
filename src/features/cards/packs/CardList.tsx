@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {styled} from "@mui/material";
 import TableCell, {tableCellClasses} from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
@@ -13,8 +13,8 @@ import TableHead from "@mui/material/TableHead";
 import {SelectSort} from "../../../common/components/select/SelectSort";
 import TableBody from "@mui/material/TableBody";
 import {CardsTC} from "./card-reduser";
-import {Search} from "@mui/icons-material";
-import {SearchEngine, SearchType} from "../../../common/components/search/SearchEngine";
+import {SearchEngine} from "../../../common/components/search/SearchEngine";
+import {BasicPagination} from "../../../common/components/pagination/BasicPagination";
 
 
 export const CardList = () => {
@@ -29,6 +29,9 @@ export const CardList = () => {
     const page = useAppSelector(state => state.cards.page)
     const pageCount = useAppSelector(state => state.cards.pageCount)
     const sortCards = useAppSelector(state => state.cards.sortCards)
+    const dataCards =useAppSelector(state=>state.cards.cards)
+
+    const[value,setValue]=useState('')
 
 
     const StyledTableCell = styled(TableCell)(({theme}) => ({
@@ -61,14 +64,15 @@ export const CardList = () => {
 
     return (
         <div className={style.table}>
-            <SearchEngine SearchType={'cards'}/>
+            {!dataCards.length && <div>В данной колоде нету карточек удовлетворяющих поиску</div>}
+            <SearchEngine setValue={setValue} value={value} />
             <TableContainer component={Paper}>
                 <Table sx={{minWidth: 700}} aria-label="customized table">
                     <TableHead>
                         <TableRow>
                             <StyledTableCell>Name</StyledTableCell>
                             <StyledTableCell align="right">
-                                <div className={style.cards}>Question <SelectSort/></div>
+                                <div className={style.cards}>Question <SelectSort /></div>
                             </StyledTableCell>
                             <StyledTableCell align="right">Answer</StyledTableCell>
                             <StyledTableCell align="right">Last Updated</StyledTableCell>
@@ -89,6 +93,7 @@ export const CardList = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <BasicPagination type={'cards'}/>
         </div>
     );
 };

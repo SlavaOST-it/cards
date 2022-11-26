@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import style from "./PacksList.module.css"
 import {Button, styled, ToggleButton, ToggleButtonGroup} from "@mui/material";
-import {packListTC, setCardsCountAC, setIsMyPacksAC, setSearchPacksAC} from "./packsList-reducer";
-import {useAppDispatch, useAppSelector, useDebounce} from "../../app/hooks";
+import {packListTC, setCardsCountAC, setIsMyPacksAC} from "./packsList-reducer";
+import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {RangeSlider} from "../../common/components/rangeSlider/RangeSlider";
 import {BasicPagination} from "../../common/components/pagination/BasicPagination";
 import {PATH} from "../../utils/routes/routes";
@@ -32,6 +32,7 @@ export const PacksListFilter = () => {
     const isLoggedIn = useAppSelector(state => state.login.loggedIn)
 
     const [alignment, setAlignment] = useState('All')
+    const [value, setValue] = useState('')
 
 
     const handleChange = (
@@ -48,6 +49,7 @@ export const PacksListFilter = () => {
     }
 
     const onclickResetFilterHandler = () => {
+        setValue('')
         dispatch(setIsMyPacksAC(false))
         dispatch(setCardsCountAC([0, 50]))
     }
@@ -89,10 +91,9 @@ export const PacksListFilter = () => {
                 <Button sx={{borderRadius: 5}} size="small" variant="contained"> Add new pack</Button>
             </div>
 
-
             {!dataPacks.length && <div>В данной колоде нету карточек удовлетворяющих поиску</div>}
             <div className={style.filtering}>
-                <SearchEngine  SearchType={'packs'}/>
+                <SearchEngine setValue={setValue} value={value} />
                 <div className={style.showPacksCards}>
                     Show packs cards
                     <ToggleButtonGroup
@@ -124,7 +125,7 @@ export const PacksListFilter = () => {
                         <TableHead>
                             <TableRow>
                                 <StyledTableCell>Name</StyledTableCell>
-                                <StyledTableCell align="right"><div className={style.cards}>Cards <SelectSort/></div></StyledTableCell>
+                                <StyledTableCell align="right"><div className={style.cards}>Cards <SelectSort /></div></StyledTableCell>
                                 <StyledTableCell align="right">Last Updated</StyledTableCell>
                                 <StyledTableCell align="right">Created by</StyledTableCell>
                                 <StyledTableCell align="right">Actions</StyledTableCell>
@@ -146,7 +147,7 @@ export const PacksListFilter = () => {
                     </Table>
                 </TableContainer>
             </div>
-            <BasicPagination/>
+            <BasicPagination type={'packs'}/>
         </div>
     );
 };
