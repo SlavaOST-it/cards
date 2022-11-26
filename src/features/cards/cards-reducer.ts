@@ -1,7 +1,6 @@
 import {AppThunkType} from '../../app/store'
 import {setAppErrorAC, setAppStatusAC, setInitializedAC} from '../../app/app-reducer'
 import {CardResponseType, cardsAPI, CardsResponseType, CardsType} from '../../api/cardsAPI'
-import {setCardsAC, setPackUserIdAC, setPageCardsCountAC, setSearchCardsAC, sortCardsAC} from './packs/card-reduser'
 import axios, {AxiosError} from 'axios'
 
 type setCardsType = ReturnType<typeof setCardsAC>
@@ -182,22 +181,22 @@ export const setPageCount = (value: number) => ({
     payload: {value}
 } as const)
 
-export const setCardsAC = (data: CardResponseType[],cardsTotalCount:number) => {
+const setCardsAC = (data: CardResponseType[],cardsTotalCount:number) => {
     return {type: "CARDS/SET_CARDS", data,cardsTotalCount} as const
 }
-export const setPackUserIdAC = (id: string) => {
+const setPackUserIdAC = (id: string) => {
     return {type: "CARDS/SET_PACK_USER_ID", id} as const
 }
-export const setSearchCardsAC = (search: string) => {
+const setSearchCardsAC = (search: string) => {
     return {type: "CARDS/SET_SEARCH_CARDS", search} as const
 }
-export const sortCardsAC=(sort:string,selected:boolean)=>{
+const sortCardsAC=(sort:string,selected:boolean)=>{
     return {type: "CARDS/SORT_CARDS", sort,selected} as const
 }
-export const setPageCardsAC=(page:number)=>{
+const setPageCardsAC=(page:number)=>{
     return {type: "CARDS/SET_PAGE_CARDS" ,page} as const
 }
-export const setPageCardsCountAC=(pageCount:number)=>{
+const setPageCardsCountAC=(pageCount:number)=>{
     return {type: "CARDS/SET_PAGE_CARDS_COUNT" ,pageCount} as const
 }
 
