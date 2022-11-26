@@ -15,7 +15,8 @@ const rootReducer = combineReducers({
     profile: profileReducer,
     passRecovery: passRecoveryReducer,
     newPassword: setNewPassReducer,
-    cards: cardsReducer,
+    packList: packsListReducer,
+    cards: cardsReducer
 })
 
 // ===== Принимаем типизацию всех редьюсеров ===== //
@@ -24,6 +25,17 @@ type ReduxActionType = AppActionType | LoginActionType | ProfileActionsType |
 
 export type AppStateType = ReturnType<typeof rootReducer>
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunkMiddleware))
+type ReduxActionType =
+    AppActionType
+    | SetRegisterInType
+    | LoginActionType
+    | ProfileActionsType
+    | PassRecoveryActionType
+    | NewPassReducerActionType
+    | ActionPackListType
+    | ActionCardsType
+
+export const store = legacy_createStore(rootReducer, applyMiddleware(thunkMiddleware));
 export type AppRootStateType = ReturnType<typeof rootReducer>
 export type RootState = ReturnType<typeof store.getState>
 

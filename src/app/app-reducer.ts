@@ -1,28 +1,31 @@
-import {authAPI} from "../api/cards-api";
-import {Dispatch} from "redux";
+import {authAPI} from "../api/authAPI";
 import {setUserProfileAC} from "../features/profile/profile-reducer";
 import axios, {AxiosError} from "axios";
 import {loggedInAC} from "../features/login/auth-reducer";
-// import {setIsLoggedInAC} from "../features/login/auth-reducer";
+import {AppThunkType} from "./store";
 
-export type SetInitializedAT = ReturnType<typeof setInitializedAC>
-export type setAppStatusAT = ReturnType<typeof setAppStatusAC>
-export type AppActionType = SetInitializedAT | setAppStatusAT
 export type AppStatusType = 'idle' | 'loading' | 'succeed' | 'failed'
+export type SetInitializedAT = ReturnType<typeof setInitializedAC>
+export type SetAppStatusAT = ReturnType<typeof setAppStatusAC>
+export type SetAppErrorAT = ReturnType<typeof setAppErrorAC>
+export type AppActionType = SetInitializedAT | SetAppStatusAT | SetAppErrorAT
+
 
 const initialState = {
     status: 'idle' as AppStatusType,
-    error: null,
+    error: null as string | null,
     isInitialized: false
 }
 type InitialStateType = typeof initialState
 
-export const appReducer = (state: InitialStateType = initialState, action: AppActionType) => {
+export const appReducer = (state: InitialStateType = initialState, action: AppActionType): InitialStateType => {
     switch (action.type) {
         case "APP/SET-INITIALIZED":
             return {...state, isInitialized: action.value}
         case "APP/SET-APP-STATUS":
             return {...state, status: action.status}
+        case 'APP/SET-ERROR':
+            return {...state, error: action.error}
         default:
             return {...state}
     }
@@ -34,14 +37,13 @@ export const setAppStatusAC = (status: AppStatusType) => ({
     type: 'APP/SET-APP-STATUS' as const,
     status,
 })
+export const setAppErrorAC = (error: string | null) => ({type: 'APP/SET-ERROR', error} as const)
 
 // ===== ThunkCreators ===== //
-export const initializeAppTC = () => async (dispatch: Dispatch) => {
+export const initializeAppTC = (): AppThunkType => async (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     try {
         const res = await authAPI.me()
-
-
         dispatch(loggedInAC(true))
         dispatch(setInitializedAC(true))
         dispatch(setUserProfileAC(res))
@@ -54,6 +56,7 @@ export const initializeAppTC = () => async (dispatch: Dispatch) => {
                 : err.message
             dispatch(setInitializedAC(true))
             dispatch(setAppStatusAC('failed'))
+            dispatch(setAppErrorAC(error))
         }
     }
 }

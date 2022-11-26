@@ -17,7 +17,7 @@ const App = () => {
     }, [])
 
     if (!isInitialized) {
-        return <div style={{marginBottom: 40,position: 'fixed', top: '60%', textAlign: 'center', width: '100%'}}>
+        return <div style={{marginBottom: 40, position: 'fixed', top: '60%', textAlign: 'center', width: '100%'}}>
             <CircularProgress/>
         </div>
     }
@@ -26,7 +26,7 @@ const App = () => {
         <div className="App">
             <ErrorSnackbar/>
             <Header/>
-                {loadingStatus === 'loading' ? <LinearProgress/> : <div></div>}
+            {loadingStatus === 'loading' ? <LinearProgress/> : <div></div>}
             <Main/>
         </div>
     );

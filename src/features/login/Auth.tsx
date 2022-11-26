@@ -118,7 +118,9 @@ export const Auth = () => {
                                         label="Remember me"/>
                                 </div>
                                 <NavLink className={style.forgot} to={PATH.passwordRecovery}>Forgot Password?</NavLink>
-                                <Button sx={{width: 234}}variant="outlined" type='submit'>Sign in</Button>
+                                <div >
+                                    <Button sx={{width: 234}}variant="outlined" type='submit'>Sign in</Button>
+                                </div>
                                 <div className={style.text}>Already have an account?</div>
                                 <NavLink className={style.signUp} to={PATH.registration}>Sign up</NavLink>
                             </FormGroup>

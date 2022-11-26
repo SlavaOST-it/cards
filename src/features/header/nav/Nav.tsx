@@ -12,6 +12,8 @@ export const Nav = () => {
         {link: PATH.test, title: 'TEST PAGE'},
         {link: PATH.passwordRecovery, title: 'PASSWORD RECOVERY'},
         {link: PATH.setNewPassword, title: 'ENTER NEW PASSWORD'},
+        {link: PATH.packList, title: 'PACK LIST'},
+        {link: PATH.cardList, title: 'CARD LIST'},
     ]
     return (
         <div className={""}>
