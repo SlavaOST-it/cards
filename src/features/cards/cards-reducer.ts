@@ -181,23 +181,28 @@ export const setPageCount = (value: number) => ({
     payload: {value}
 } as const)
 
-const setCardsAC = (data: CardResponseType[],cardsTotalCount:number) => {
-    return {type: "CARDS/SET_CARDS", data,cardsTotalCount} as const
+export const setCardsAC = (data: CardResponseType[], cardsTotalCount:number) => {
+    return {type: "CARDS/SET_CARDS", data, cardsTotalCount} as const
 }
-const setPackUserIdAC = (id: string) => {
+
+export const setPackUserIdAC = (id: string) => {
     return {type: "CARDS/SET_PACK_USER_ID", id} as const
 }
-const setSearchCardsAC = (search: string) => {
+
+export const setSearchCardsAC = (search: string) => {
     return {type: "CARDS/SET_SEARCH_CARDS", search} as const
 }
-const sortCardsAC=(sort:string,selected:boolean)=>{
-    return {type: "CARDS/SORT_CARDS", sort,selected} as const
+
+export const sortCardsAC=(sort: string, selected: boolean)=>{
+    return {type: "CARDS/SORT_CARDS", sort, selected} as const
 }
-const setPageCardsAC=(page:number)=>{
-    return {type: "CARDS/SET_PAGE_CARDS" ,page} as const
+
+export const setPageCardsAC=(page: number)=>{
+    return {type: "CARDS/SET_PAGE_CARDS", page} as const
 }
-const setPageCardsCountAC=(pageCount:number)=>{
-    return {type: "CARDS/SET_PAGE_CARDS_COUNT" ,pageCount} as const
+
+export const setPageCardsCountAC=(pageCount: number)=>{
+    return {type: "CARDS/SET_PAGE_CARDS_COUNT", pageCount} as const
 }
 
 export const setCardsThunk = (packId: string): AppThunkType =>
