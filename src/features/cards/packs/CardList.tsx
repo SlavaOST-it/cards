@@ -83,9 +83,10 @@ export const CardList = () => {
                         {cards.map((el) => (
                             <StyledTableRow key={el._id}>
                                 <StyledTableCell component="th" scope="row">
-                                    {el.question}
+                                    {el._id}
                                 </StyledTableCell>
                                 <StyledTableCell align="right">{el.answer}</StyledTableCell>
+                                <StyledTableCell align="right">{el.question}</StyledTableCell>
                                 <StyledTableCell align="right">{el.updated}</StyledTableCell>
                                 <StyledTableCell align="right">{el.grade}</StyledTableCell>
                             </StyledTableRow>
