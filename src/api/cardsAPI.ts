@@ -49,10 +49,7 @@ export const cardsAPI={
         },
     }
 
-
-
-
-type CardPacksResponseType={
+    export type CardPacksResponseType={
     cardPacks: CardsPackType[],
     page: number,
     pageCount: number,
@@ -94,6 +91,8 @@ export type CardsType = {
     page?: number
     pageCount?: number
     id?: string
+    updated?: string
+    grade?: number
 }
 
 export type CardRequestType = {

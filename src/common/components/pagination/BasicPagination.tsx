@@ -2,7 +2,7 @@ import React, {ChangeEvent} from 'react';
 import {Pagination, Stack} from "@mui/material";
 import {setPageAC} from "../../../features/cards/packsList-reducer";
 import {useAppDispatch, useAppSelector} from "../../../app/hooks";
-import {setPageCardsAC} from "../../../features/cards/packs/card-reduser";
+import {setPageCardsAC} from '../../../features/cards/cards-reducer'
 
 type BasicPaginationType = { type: PaginationType }
 type PaginationType = 'cards' | 'packs'

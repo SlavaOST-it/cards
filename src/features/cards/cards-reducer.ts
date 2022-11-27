@@ -49,7 +49,7 @@ const initialState: InitialStateType = {
     max: 0,
     min: 0,
     page: 1,
-    pageCount: 2,
+    pageCount: 4,
     cardQuestion: '',
     sortCards: '0grade',
     packUserId: '',
@@ -82,7 +82,6 @@ export const cardsReducer = (state = initialState, action: CardsActionsType): In
                 packUserId: action.payload.data.packUserId,
                 cards: action.payload.data.cards,
                 cardsTotalCount: action.payload.data.cardsTotalCount
-
             }
         case 'CARDS/ADD-CARDS':
             return {
@@ -117,7 +116,7 @@ export const cardsReducer = (state = initialState, action: CardsActionsType): In
         case "CARDS/SET_CARDS":
             return {...state, cards: action.data,cardsTotalCount: action.cardsTotalCount}
         case "CARDS/SET_PACK_USER_ID":
-            return {...state, packUserId: action.id}
+            return {...state, cardsPack_id: action.id}
         case "CARDS/SET_SEARCH_CARDS":
             return{...state,cardQuestion: action.search}
         case "CARDS/SORT_CARDS":
@@ -181,7 +180,7 @@ export const setPageCount = (value: number) => ({
     payload: {value}
 } as const)
 
-export const setCardsAC = (data: CardResponseType[], cardsTotalCount:number) => {
+export const setCardsAC = (data: CardResponseType[], cardsTotalCount: number) => {
     return {type: "CARDS/SET_CARDS", data, cardsTotalCount} as const
 }
 
@@ -217,8 +216,6 @@ export const setCardsThunk = (packId: string): AppThunkType =>
             pageCount: pageCount,
             cards: [],
             sortCards: sortCards,
-
-
             cardsTotalCount: 0,
             max: 0,
             min: 0,
@@ -228,6 +225,8 @@ export const setCardsThunk = (packId: string): AppThunkType =>
         cardsAPI.getCards(payload)
             .then((res) => {
                 dispatch(setCards(res.data))
+                dispatch(setAnswerName(res.data.cardAnswer))
+                dispatch(setQuestionName(res.data.cardQuestion))
             })
     }
 export const addCardThunk = (cardsPack_id: string, cardQuestion: string, cardAnswer: string): AppThunkType => (dispatch) => {

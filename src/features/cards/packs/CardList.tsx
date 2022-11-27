@@ -12,9 +12,9 @@ import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
 import {SelectSort} from "../../../common/components/select/SelectSort";
 import TableBody from "@mui/material/TableBody";
-import {CardsTC} from "./card-reduser";
 import {SearchEngine} from "../../../common/components/search/SearchEngine";
 import {BasicPagination} from "../../../common/components/pagination/BasicPagination";
+import {CardsTC} from '../cards-reducer'
 
 
 export const CardList = () => {
@@ -23,9 +23,9 @@ export const CardList = () => {
     const isLoggedIn = useAppSelector(state => state.login.loggedIn)
     const cards = useAppSelector(state => state.cards.cards)
     const packUserId = useAppSelector(state => state.cards.packUserId)
-    const minGrade = useAppSelector(state => state.cards.minGrade)
-    const maxGrade = useAppSelector(state => state.cards.maxGrade)
-    const search = useAppSelector(state => state.cards.search)
+    const minGrade = useAppSelector(state => state.cards.min)
+    const maxGrade = useAppSelector(state => state.cards.max)
+    const search = useAppSelector(state => state.cards.cardQuestion)
     const page = useAppSelector(state => state.cards.page)
     const pageCount = useAppSelector(state => state.cards.pageCount)
     const sortCards = useAppSelector(state => state.cards.sortCards)
@@ -81,11 +81,12 @@ export const CardList = () => {
                     </TableHead>
                     <TableBody>
                         {cards.map((el) => (
-                            <StyledTableRow key={el._id}>
+                            <StyledTableRow key={el.cardsPack_id}>
                                 <StyledTableCell component="th" scope="row">
-                                    {el.question}
+                                    {el.id}
                                 </StyledTableCell>
-                                <StyledTableCell align="right">{el.answer}</StyledTableCell>
+                                <StyledTableCell align="right">{el.cardQuestion}</StyledTableCell>
+                                <StyledTableCell align="right">{el.cardAnswer}</StyledTableCell>
                                 <StyledTableCell align="right">{el.updated}</StyledTableCell>
                                 <StyledTableCell align="right">{el.grade}</StyledTableCell>
                             </StyledTableRow>

@@ -17,7 +17,7 @@ import TableContainer from "@mui/material/TableContainer";
 import {ActionsPack} from "./actionsPack/ActionsPack";
 import {SelectSort} from "../../common/components/select/SelectSort";
 import {SearchEngine} from "../../common/components/search/SearchEngine";
-import {setPackUserIdAC} from "./packs/card-reduser";
+import {setPackUserIdAC} from './cards-reducer'
 
 export const PacksListFilter = () => {
     const dispatch = useAppDispatch()
