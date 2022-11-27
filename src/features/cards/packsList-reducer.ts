@@ -20,13 +20,17 @@ let initialState = {
     }],
     page: 0,
     pageCount: 4,
-    sort: "1cardsCount",
+    sort: "1name",
     search: '',
     isMyPacks: false,
     minCardsCount: 0,
     maxCardsCount: 50,
     cardPacksTotalCount: 0,
-    selected: true
+    selected: true,
+    userID: '',
+    isAddNewPack: false,
+    /*isEditPack:false,*/
+    packId: ''
 }
 
 export type CardsPackType = {
@@ -54,6 +58,8 @@ type setCardsCountType = ReturnType<typeof setCardsCountAC>
 type setPageType = ReturnType<typeof setPageAC>
 type setPageCountType = ReturnType<typeof setPageCountAC>
 type setSortType = ReturnType<typeof setSortAC>
+type changePackStatusType = ReturnType<typeof changePackStatusAC>
+type setPackIdType = ReturnType<typeof setPackIdAC>
 export type ActionPackListType =
     SetDataCardsPackType
     | setSearchPacksType
@@ -62,7 +68,8 @@ export type ActionPackListType =
     | setPageType
     | setPageCountType
     | setSortType
-
+    | changePackStatusType
+    | setPackIdType
 export const packsListReducer = (state: InitialStatePacksType = initialState, action: ActionPackListType): InitialStatePacksType => {
     switch (action.type) {
         case "PACK_LIST/SET_DATA_CARDS_PACK":
@@ -79,6 +86,10 @@ export const packsListReducer = (state: InitialStatePacksType = initialState, ac
             return {...state, pageCount: action.PageCount}
         case "PACK_LIST/SET_SORT":
             return {...state, sort: action.sort, selected: action.selected}
+        case "PACK_LIST/CHANGE_PACK_STATUS":
+            return {...state, isAddNewPack: action.status}
+        case "PACK_LIST/SET_PACK_ID":
+            return {...state,packId: action.id}
         default:
             return state
     }
@@ -106,15 +117,21 @@ export const setPageCountAC = (PageCount: number) => {
 export const setSortAC = (sort: string, selected: boolean) => {
     return {type: "PACK_LIST/SET_SORT", sort, selected} as const
 }
+export const changePackStatusAC = (status: boolean) => {
+    return {type: "PACK_LIST/CHANGE_PACK_STATUS", status} as const
+}
+export const setPackIdAC = (id: string) => {
+    return {type: "PACK_LIST/SET_PACK_ID", id} as const
+}
 
-
-export const packListTC = (): AppThunkType => async (dispatch, getState) => {
+export const getPackListTC = (): AppThunkType => async (dispatch, getState) => {
     dispatch(setAppStatusAC('loading'))
     try {
         const {page, pageCount, sort, search, isMyPacks, minCardsCount, maxCardsCount} = getState().packList
+        const {_id} = getState().profile
         let my_id = ''
         if (isMyPacks) {
-            my_id = '637243ec3d150607fc4a78f4'
+            my_id = _id
         }
         const res = await packsAPI.getCardPacks(page, pageCount, sort, search, my_id, minCardsCount, maxCardsCount)
         dispatch(setDataCardsPackAC(res.data.cardPacks, res.data.cardPacksTotalCount
@@ -132,3 +149,58 @@ export const packListTC = (): AppThunkType => async (dispatch, getState) => {
         }
     }
 }
+
+export const addNewPackTC = (newValue: string, privateStatus: boolean): AppThunkType => async (dispatch,) => {
+    dispatch(setAppStatusAC('loading'))
+    try {
+        await packsAPI.createPack(newValue, privateStatus)
+        dispatch(getPackListTC())
+        dispatch(setAppStatusAC('succeed'))
+    } catch (e) {
+        const err = e as Error | AxiosError
+        if (axios.isAxiosError(err)) {
+            const error = err.response?.data
+                ? (err.response.data as ({ error: string })).error
+                : err.message
+            dispatch(setAppStatusAC('failed'))
+            dispatch(setAppErrorAC(error))
+        }
+    }
+}
+
+export const deletePackTC = (id: string): AppThunkType => async (dispatch, ) => {
+    dispatch(setAppStatusAC('loading'))
+    try {
+        await packsAPI.deletePack(id)
+        dispatch(getPackListTC())
+        dispatch(setAppStatusAC('succeed'))
+    } catch (e) {
+        const err = e as Error | AxiosError
+        if (axios.isAxiosError(err)) {
+            const error = err.response?.data
+                ? (err.response.data as ({ error: string })).error
+                : err.message
+            dispatch(setAppStatusAC('failed'))
+            dispatch(setAppErrorAC(error))
+        }
+    }
+}
+
+export const ChangePackTC = (id: string, name: string,isPrivate:boolean): AppThunkType => async (dispatch, ) => {
+    dispatch(setAppStatusAC('loading'))
+    try {
+        await packsAPI.updatePack(id, name,isPrivate)
+        dispatch(getPackListTC())
+        dispatch(setAppStatusAC('succeed'))
+    } catch (e) {
+        const err = e as Error | AxiosError
+        if (axios.isAxiosError(err)) {
+            const error = err.response?.data
+                ? (err.response.data as ({ error: string })).error
+                : err.message
+            dispatch(setAppStatusAC('failed'))
+            dispatch(setAppErrorAC(error))
+        }
+    }
+}
+

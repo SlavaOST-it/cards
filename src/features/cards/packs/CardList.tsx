@@ -14,7 +14,7 @@ import {SelectSort} from "../../../common/components/select/SelectSort";
 import TableBody from "@mui/material/TableBody";
 import {SearchEngine} from "../../../common/components/search/SearchEngine";
 import {BasicPagination} from "../../../common/components/pagination/BasicPagination";
-import {CardsTC} from '../cards-reducer'
+import {getCardsTC} from '../cards-reducer'
 
 
 export const CardList = () => {
@@ -30,6 +30,7 @@ export const CardList = () => {
     const pageCount = useAppSelector(state => state.cards.pageCount)
     const sortCards = useAppSelector(state => state.cards.sortCards)
     const dataCards =useAppSelector(state=>state.cards.cards)
+
 
     const[value,setValue]=useState('')
 
@@ -55,7 +56,7 @@ export const CardList = () => {
     }));
 
     useEffect(() => {
-        dispatch(CardsTC())
+        dispatch(getCardsTC())
     }, [packUserId, minGrade, maxGrade, search, page, pageCount, sortCards])
 
     if (!isLoggedIn) {
@@ -81,12 +82,12 @@ export const CardList = () => {
                     </TableHead>
                     <TableBody>
                         {cards.map((el) => (
-                            <StyledTableRow key={el.cardsPack_id}>
+                            <StyledTableRow key={el._id}>
                                 <StyledTableCell component="th" scope="row">
-                                    {el.id}
+                                    {el._id}
                                 </StyledTableCell>
-                                <StyledTableCell align="right">{el.cardQuestion}</StyledTableCell>
-                                <StyledTableCell align="right">{el.cardAnswer}</StyledTableCell>
+                                <StyledTableCell align="right">{el.question}</StyledTableCell>
+                                <StyledTableCell align="right">{el.answer}</StyledTableCell>
                                 <StyledTableCell align="right">{el.updated}</StyledTableCell>
                                 <StyledTableCell align="right">{el.grade}</StyledTableCell>
                             </StyledTableRow>

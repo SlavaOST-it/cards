@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import style from "./PacksList.module.css"
 import {Button, styled, ToggleButton, ToggleButtonGroup} from "@mui/material";
-import {packListTC, setCardsCountAC, setIsMyPacksAC} from "./packsList-reducer";
+import {changePackStatusAC, getPackListTC, setCardsCountAC, setIsMyPacksAC} from "./packsList-reducer";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {RangeSlider} from "../../common/components/rangeSlider/RangeSlider";
 import {BasicPagination} from "../../common/components/pagination/BasicPagination";
@@ -18,6 +18,8 @@ import {ActionsPack} from "./actionsPack/ActionsPack";
 import {SelectSort} from "../../common/components/select/SelectSort";
 import {SearchEngine} from "../../common/components/search/SearchEngine";
 import {setPackUserIdAC} from './cards-reducer'
+import {AddNewPackModal} from "../modals/addNewPackModal";
+import {EditPackModal} from "../modals/editPackModal";
 
 export const PacksListFilter = () => {
     const dispatch = useAppDispatch()
@@ -30,6 +32,8 @@ export const PacksListFilter = () => {
     const minCardsCount = useAppSelector(state => state.packList.minCardsCount)
     const maxCardsCount = useAppSelector(state => state.packList.maxCardsCount)
     const isLoggedIn = useAppSelector(state => state.login.loggedIn)
+    const isAddNewPack=useAppSelector(state => state.packList.isAddNewPack)
+    const packId=useAppSelector(state => state.packList.packId)
 
     const [alignment, setAlignment] = useState('All')
     const [value, setValue] = useState('')
@@ -53,10 +57,12 @@ export const PacksListFilter = () => {
         dispatch(setIsMyPacksAC(false))
         dispatch(setCardsCountAC([0, 50]))
     }
-
+const addNewPackHandler=()=>{
+    dispatch(changePackStatusAC(true))
+}
 
     useEffect(() => {
-        dispatch(packListTC())
+        dispatch(getPackListTC())
     }, [page, pageCount, sort, search, isMyPacks, minCardsCount, maxCardsCount])
 
 
@@ -88,8 +94,10 @@ export const PacksListFilter = () => {
         <div className={style.container}>
             <div className={style.header}>
                 Packs list
-                <Button sx={{borderRadius: 5}} size="small" variant="contained"> Add new pack</Button>
+                <Button onClick={addNewPackHandler} sx={{borderRadius: 5}} size="small" variant="contained"> Add new pack</Button>
             </div>
+            {isAddNewPack&&<AddNewPackModal/>}
+            {packId&&<EditPackModal/>} {/*проверяем есть ли Id, если есть отрисовываем компоненту*/}
 
             {!dataPacks.length && <div>В данной колоде нету карточек удовлетворяющих поиску</div>}
             <div className={style.filtering}>
@@ -124,8 +132,8 @@ export const PacksListFilter = () => {
                     <Table sx={{minWidth: 700}} aria-label="customized table">
                         <TableHead>
                             <TableRow>
-                                <StyledTableCell>Name</StyledTableCell>
-                                <StyledTableCell align="right"><div className={style.cards}>Cards <SelectSort /></div></StyledTableCell>
+                                <StyledTableCell>Name<div className={style.cards}> <SelectSort /></div></StyledTableCell>
+                                <StyledTableCell align="right">Cards</StyledTableCell>
                                 <StyledTableCell align="right">Last Updated</StyledTableCell>
                                 <StyledTableCell align="right">Created by</StyledTableCell>
                                 <StyledTableCell align="right">Actions</StyledTableCell>
@@ -140,7 +148,7 @@ export const PacksListFilter = () => {
                                     <StyledTableCell align="right">{el.cardsCount}</StyledTableCell>
                                     <StyledTableCell align="right">{el.updated}</StyledTableCell>
                                     <StyledTableCell align="right">{el.user_name}</StyledTableCell>
-                                    <StyledTableCell align="right">{<ActionsPack/>}</StyledTableCell>
+                                    <StyledTableCell align="right">{<ActionsPack  id={el._id}/>}</StyledTableCell>
                                 </StyledTableRow>
                             ))}
                         </TableBody>

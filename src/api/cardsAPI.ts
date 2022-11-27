@@ -8,7 +8,8 @@ export const packsAPI={
                  search:string,
                  my_id:string,
                  minCardsCount:number,
-                 maxCardsCount:number){
+                 maxCardsCount:number,
+                 ){
         return instance.get<CardPacksResponseType>('cards/pack',{params:{page:page,
                 pageCount:pageCount,
                 sortPacks:sort,
@@ -16,13 +17,19 @@ export const packsAPI={
                 user_id:my_id,
                 min:minCardsCount,
                 max:maxCardsCount}})
+    },
+    createPack(value:string,privateStatus?:boolean){
+        return instance.post('cards/pack',{ cardsPack:{name:value,private:privateStatus}})
+    },
+    deletePack(id:string){
+        return instance.delete(`cards/pack?id=${id}`)
+    },
+    updatePack(_id:string,name:string,isPrivate:boolean){
+        return instance.put('cards/pack',{cardsPack:{_id, name,private:isPrivate}})
     }
 }
 
 export const cardsAPI={
-    // getCards(packUserId:string,minGrade:number,maxGrade:number,search:string,page:number,pageCount:number,sort:string){
-// return instance.get<CardsResponseType>('/cards/card',{params:
-//         {cardsPack_id:packUserId,cardQuestion:search,sortCards:sort,page:page,pageCount:pageCount,min:minGrade,max:maxGrade}}),
     getCards(payload = {} as CardsType) {
             return instance.get<CardsResponseType>("cards/card", {
                 params: {
@@ -60,26 +67,6 @@ export const cardsAPI={
     maxCardsCount:number,
     cardPacksTotalCount:number
 }
-// type CardsResponseType={
-//     cards: CardsType[]
-//     cardsTotalCount: number
-//     maxGrade: number
-//     minGrade: number
-//     page: number
-//     pageCount: number
-//     packUserI:string
-// }
-// export type CardsType={
-//     answer: string
-//     question: string
-//     cardsPack_id: string
-//     grade: number
-//     shots: number
-//     user_id: string
-//     created: string
-//     updated: string
-//     _id: string
-// }
 
 export type CardsType = {
     cardAnswer?: string
@@ -90,9 +77,11 @@ export type CardsType = {
     sortCards?: string
     page?: number
     pageCount?: number
-    id?: string
+    _id?: string
     updated?: string
     grade?: number
+    answer?:string
+    question?: string
 }
 
 export type CardRequestType = {

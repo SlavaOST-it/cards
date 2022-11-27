@@ -35,8 +35,8 @@ type InitialStateType = {
     sortCards: string
     packUserId: string
     tokenDeathTime: number
-    answer: string
-    question: string
+    /* answer: string
+     question: string*/
     grade: number
     packId: string
     selected: boolean
@@ -50,13 +50,13 @@ const initialState: InitialStateType = {
     min: 0,
     page: 1,
     pageCount: 4,
-    cardQuestion: '',
+    cardQuestion: '1111',
     sortCards: '0grade',
     packUserId: '',
     tokenDeathTime: 0,
-    answer: '1111111111',
-    question: '111111122222222',
-    grade: 0,
+    /* answer: '111',
+     question: '22',*/
+    grade: 7,
     packId: '',
     selected: true,
     cardsPack_id: ''
@@ -85,14 +85,14 @@ export const cardsReducer = (state = initialState, action: CardsActionsType): In
             }
         case 'CARDS/ADD-CARDS':
             return {
-                ...state, cards: state.cards.map(c => c.id === action.payload.cardsPack_id
+                ...state, cards: state.cards.map(c => c._id === action.payload.cardsPack_id
                     ? {...c, question: action.payload.question, cardAnswer: action.payload.answer}
                     : c)
             }
         case 'CARDS/EDIT-CARD':
             return {
                 ...state,
-                cards: state.cards.map(c => c.id === action.payload._id ? {
+                cards: state.cards.map(c => c._id === action.payload._id ? {
                     ...c,
                     question: action.payload.newQuestion
                 } : c)
@@ -102,29 +102,29 @@ export const cardsReducer = (state = initialState, action: CardsActionsType): In
         case 'CARDS/SET-PACK-ID':
             return {...state, packId: action.payload.packId}
         case 'CARDS/SET-QUESTION-NAME':
-            return {...state, question: action.payload.question}
-        case 'CARDS/SET-ANSWER-NAME':
-            return {...state, answer: action.payload.question}
-        case 'CARDS/CLEAR-QUESTION-ANSWER-NAME':
-            return {...state, answer: '', question: ''}
-        case 'SET-CURRENT-CARDS-PAGE':
-            return {...state, page: action.payload.page}
+        /*        return {...state, question: action.payload.question}
+            case 'CARDS/SET-ANSWER-NAME':
+                return {...state, answer: action.payload.question}
+            case 'CARDS/CLEAR-QUESTION-ANSWER-NAME':
+                return {...state, answer: '', question: ''}*/
+        /*   case 'SET-CURRENT-CARDS-PAGE':
+               return {...state, page: action.payload.page}*/
         case 'CARDS/CLEAR-CARDS':
             return initialState
         case 'CARDS/SET-PAGE-COUNT':
             return {...state, pageCount: action.payload.value}
         case "CARDS/SET_CARDS":
-            return {...state, cards: action.data,cardsTotalCount: action.cardsTotalCount}
+            return {...state, cards: action.data, cardsTotalCount: action.cardsTotalCount}
         case "CARDS/SET_PACK_USER_ID":
             return {...state, cardsPack_id: action.id}
         case "CARDS/SET_SEARCH_CARDS":
-            return{...state,cardQuestion: action.search}
+            return {...state, cardQuestion: action.search}
         case "CARDS/SORT_CARDS":
-            return {...state,sortCards: action.sort,selected: action.selected}
+            return {...state, sortCards: action.sort, selected: action.selected}
         case "CARDS/SET_PAGE_CARDS":
-            return {...state,page: action.page}
+            return {...state, page: action.page}
         case "CARDS/SET_PAGE_CARDS_COUNT":
-            return {...state,pageCount: action.pageCount}
+            return {...state, pageCount: action.pageCount}
         default:
             return state
     }
@@ -192,24 +192,24 @@ export const setSearchCardsAC = (search: string) => {
     return {type: "CARDS/SET_SEARCH_CARDS", search} as const
 }
 
-export const sortCardsAC=(sort: string, selected: boolean)=>{
+export const sortCardsAC = (sort: string, selected: boolean) => {
     return {type: "CARDS/SORT_CARDS", sort, selected} as const
 }
 
-export const setPageCardsAC=(page: number)=>{
+export const setPageCardsAC = (page: number) => {
     return {type: "CARDS/SET_PAGE_CARDS", page} as const
 }
 
-export const setPageCardsCountAC=(pageCount: number)=>{
+export const setPageCardsCountAC = (pageCount: number) => {
     return {type: "CARDS/SET_PAGE_CARDS_COUNT", pageCount} as const
 }
 
 export const setCardsThunk = (packId: string): AppThunkType =>
     (dispatch, getState) => {
         dispatch(setInitializedAC(true))
-        const {answer, page, pageCount, sortCards, cardQuestion, packUserId} = getState().cards
+        const {page, pageCount, sortCards, cardQuestion, packUserId} = getState().cards
         const payload: CardsResponseType = {
-            cardAnswer: answer,
+            cardAnswer: '',
             cardQuestion: cardQuestion,
             cardsPack_id: packUserId,
             page: page,
@@ -226,9 +226,7 @@ export const setCardsThunk = (packId: string): AppThunkType =>
             .then((res) => {
                 dispatch(setCards(res.data))
                 dispatch(setAnswerName(res.data.cardAnswer))
-                console.log(setAnswerName)
                 dispatch(setQuestionName(res.data.cardQuestion))
-                console.log(setQuestionName)
             })
     }
 export const addCardThunk = (cardsPack_id: string, cardQuestion: string, cardAnswer: string): AppThunkType => (dispatch) => {
@@ -277,12 +275,12 @@ export const learnCardsThunk = (packUserId: string): AppThunkType => (dispatch) 
         })
 }
 
-export const CardsTC = (): AppThunkType => async (dispatch, getState) => {
+export const getCardsTC = (): AppThunkType => async (dispatch, getState) => {
     dispatch(setAppStatusAC('loading'))
     try {
         const {cardsPack_id, min, max, cardQuestion, page, pageCount, sortCards} = getState().cards
         const res = await cardsAPI.getCards({cardsPack_id, min, max, cardQuestion, page, pageCount, sortCards})
-        dispatch(setCardsAC(res.data.cards,res.data.cardsTotalCount))
+        dispatch(setCardsAC(res.data.cards, res.data.cardsTotalCount))
         dispatch(setPageCardsCountAC(res.data.pageCount))
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {
@@ -296,5 +294,7 @@ export const CardsTC = (): AppThunkType => async (dispatch, getState) => {
         }
     }
 }
+
+
 
 

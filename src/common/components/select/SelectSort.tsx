@@ -10,11 +10,11 @@ export const SelectSort = () => {
     const selected =useAppSelector(state=>state.packList.selected)
 
     const onclickUpHandler = () => {
-        dispatch(setSortAC('0cardsCount',false))
+        dispatch(setSortAC('0name',false))
         dispatch(sortCardsAC('0question',false))
     }
     const onclickDownHandler = () => {
-        dispatch(setSortAC('1cardsCount',true))
+        dispatch(setSortAC('1name',true))
         dispatch(sortCardsAC('1question',true))
     }
     return <div>
