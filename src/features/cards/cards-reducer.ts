@@ -54,8 +54,8 @@ const initialState: InitialStateType = {
     sortCards: '0grade',
     packUserId: '',
     tokenDeathTime: 0,
-    answer: '',
-    question: '',
+    answer: '1111111111',
+    question: '111111122222222',
     grade: 0,
     packId: '',
     selected: true,
@@ -226,7 +226,9 @@ export const setCardsThunk = (packId: string): AppThunkType =>
             .then((res) => {
                 dispatch(setCards(res.data))
                 dispatch(setAnswerName(res.data.cardAnswer))
+                console.log(setAnswerName)
                 dispatch(setQuestionName(res.data.cardQuestion))
+                console.log(setQuestionName)
             })
     }
 export const addCardThunk = (cardsPack_id: string, cardQuestion: string, cardAnswer: string): AppThunkType => (dispatch) => {

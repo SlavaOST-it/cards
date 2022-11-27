@@ -133,7 +133,7 @@ export const PacksListFilter = () => {
                         </TableHead>
                         <TableBody>
                             {dataPacks.map((el) => (
-                                <StyledTableRow key={el.name}>
+                                <StyledTableRow key={el._id}>
                                     <StyledTableCell component="th" scope="row">
                                         <NavLink onClick={()=>{dispatch(setPackUserIdAC(el._id))}} to={PATH.cardList}>{el.name}</NavLink>
                                     </StyledTableCell>
