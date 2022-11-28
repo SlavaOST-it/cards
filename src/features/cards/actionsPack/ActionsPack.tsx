@@ -6,12 +6,12 @@ import {useAppDispatch, useAppSelector} from "../../../app/hooks";
 import s from "./ActionsPack.module.css"
 import {deletePackTC, setPackIdAC} from "../packsList-reducer";
 
-type ActionsPackType={
-    id:string
+type ActionsPackType = {
+    id: string
 }
-export const ActionsPack = (props:ActionsPackType) => {
+export const ActionsPack = (props: ActionsPackType) => {
     const isMyPacks = useAppSelector(state => state.packList.isMyPacks)
-    const dispatch=useAppDispatch()
+    const dispatch = useAppDispatch()
 
     const learnPackHandler = () => {
         alert('111')
@@ -39,7 +39,6 @@ export const ActionsPack = (props:ActionsPackType) => {
                     </div>
                 </>
             )}
-
         </div>
     );
 };
