@@ -82,7 +82,7 @@ const addNewPackHandler=()=>{
         },
         // hide last border
         '&:last-child td, &:last-child th': {
-            border: 0.5,
+            // border: 0.5,
         },
     }));
 
@@ -93,8 +93,10 @@ const addNewPackHandler=()=>{
     return (
         <div className={style.container}>
             <div className={style.header}>
-                Packs list
-                <Button onClick={addNewPackHandler} sx={{borderRadius: 5}} size="small" variant="contained"> Add new pack</Button>
+                <h2>Packs list</h2>
+                <div>
+                    <Button onClick={addNewPackHandler} sx={{borderRadius: 5}} size="small" variant="contained"> Add new pack</Button>
+                </div>
             </div>
             {isAddNewPack&&<AddNewPackModal/>}
             {packId&&<EditPackModal/>} {/*проверяем есть ли Id, если есть отрисовываем компоненту*/}
@@ -129,26 +131,26 @@ const addNewPackHandler=()=>{
 
             <div className={style.table}>
                 <TableContainer component={Paper}>
-                    <Table sx={{minWidth: 700}} aria-label="customized table">
-                        <TableHead>
-                            <TableRow>
-                                <StyledTableCell>Name<div className={style.cards}> <SelectSort /></div></StyledTableCell>
-                                <StyledTableCell align="right">Cards</StyledTableCell>
-                                <StyledTableCell align="right">Last Updated</StyledTableCell>
-                                <StyledTableCell align="right">Created by</StyledTableCell>
-                                <StyledTableCell align="right">Actions</StyledTableCell>
+                    <Table aria-label="customized table" >
+                        <TableHead className={style.tableHeader}>
+                            <TableRow className={style.tableHeader}>
+                                <StyledTableCell align="center">Name <SelectSort /></StyledTableCell>
+                                <StyledTableCell align="center">Cards</StyledTableCell>
+                                <StyledTableCell align="center">Last Updated</StyledTableCell>
+                                <StyledTableCell align="center">Created by</StyledTableCell>
+                                <StyledTableCell sx={{width: 120}} align="center">Actions</StyledTableCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody>
+                        <TableBody >
                             {dataPacks.map((el) => (
-                                <StyledTableRow key={el._id}>
-                                    <StyledTableCell component="th" scope="row">
-                                        <NavLink onClick={()=>{dispatch(setPackUserIdAC(el._id))}} to={PATH.cardList}>{el.name}</NavLink>
+                                <StyledTableRow key={el._id} className={style.tableHeader}>
+                                    <StyledTableCell  align="center">
+                                        <NavLink onClick={()=>dispatch(setPackUserIdAC(el._id))} to={PATH.cardList}>{el.name}</NavLink>
                                     </StyledTableCell>
-                                    <StyledTableCell align="right">{el.cardsCount}</StyledTableCell>
-                                    <StyledTableCell align="right">{el.updated}</StyledTableCell>
-                                    <StyledTableCell align="right">{el.user_name}</StyledTableCell>
-                                    <StyledTableCell align="right">{<ActionsPack  id={el._id}/>}</StyledTableCell>
+                                    <StyledTableCell align="center">{el.cardsCount}</StyledTableCell>
+                                    <StyledTableCell align="center">{el.updated.substr(0, 10)}</StyledTableCell>
+                                    <StyledTableCell align="center">{el.user_name}</StyledTableCell>
+                                    <StyledTableCell sx={{width: 70}} align="right">{<ActionsPack  id={el._id}/>}</StyledTableCell>
                                 </StyledTableRow>
                             ))}
                         </TableBody>
@@ -159,4 +161,3 @@ const addNewPackHandler=()=>{
         </div>
     );
 };
-

@@ -31,43 +31,11 @@
     border-radius: 50%;
 }
 
-.back {
-    display: flex;
-    margin: 10px;
-}
-.backLink img{
-    margin-right: 10px;
-}
-.backLink, .backLink:visited {
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: bold;
-    color: black;
-}
-
 .profile h2 {
     padding: 20px 0;
 }
 
-.profile_userAvatar {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    margin: 0 auto;
-}
 
-.profile_userAvatar_photo {
-    height: 150px;
-    border-radius: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    position: relative;
-}
-.viewBtn{
-    border: none;
-}
 .profile_changeAvatar {
     left: -50px;
     z-index: 1;
@@ -103,6 +71,9 @@
     line-height: 24px;
 
     margin: 15px 0;
+    padding: 5px 15px;
+    border: 1px solid #818181;
+    border-radius: 20px;
 }
 
 .errorSpan {
