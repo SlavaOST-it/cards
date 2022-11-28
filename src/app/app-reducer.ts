@@ -1,8 +1,8 @@
 import {authAPI} from "../api/authAPI";
 import {setUserProfileAC} from "../features/profile/profile-reducer";
-import axios, {AxiosError} from "axios";
 import {loggedInAC} from "../features/login/auth-reducer";
 import {AppThunkType} from "./store";
+import {baseErrorHandler} from "../utils/error-utils/error-utils";
 
 export type AppStatusType = 'idle' | 'loading' | 'succeed' | 'failed'
 export type SetInitializedAT = ReturnType<typeof setInitializedAC>
@@ -49,15 +49,8 @@ export const initializeAppTC = (): AppThunkType => async (dispatch) => {
         dispatch(setUserProfileAC(res))
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {
-        const err = e as Error | AxiosError
-        if (axios.isAxiosError(err)) {
-            const error = err.response?.data
-                ? (err.response.data as ({ error: string })).error
-                : err.message
-            dispatch(setInitializedAC(true))
-            dispatch(setAppStatusAC('failed'))
-            dispatch(setAppErrorAC(error))
-        }
+        baseErrorHandler(e, dispatch)
+    } finally {
+        dispatch(setInitializedAC(true))
     }
 }
-

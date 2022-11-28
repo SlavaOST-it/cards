@@ -1,7 +1,7 @@
 import {AppThunkType} from "../../app/store";
-import axios, {AxiosError} from "axios";
-import {setAppErrorAC, setAppStatusAC} from "../../app/app-reducer";
+import {setAppStatusAC} from "../../app/app-reducer";
 import {packsAPI} from "../../api/cardsAPI";
+import {baseErrorHandler} from "../../utils/error-utils/error-utils";
 
 let initialState = {
     cardPacks: [{
@@ -139,14 +139,7 @@ export const getPackListTC = (): AppThunkType => async (dispatch, getState) => {
         dispatch(setPageCountAC(res.data.pageCount))
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {
-        const err = e as Error | AxiosError
-        if (axios.isAxiosError(err)) {
-            const error = err.response?.data
-                ? (err.response.data as ({ error: string })).error
-                : err.message
-            dispatch(setAppStatusAC('failed'))
-            dispatch(setAppErrorAC(error))
-        }
+        baseErrorHandler(e, dispatch)
     }
 }
 
@@ -157,16 +150,10 @@ export const addNewPackTC = (newValue: string, privateStatus: boolean): AppThunk
         dispatch(getPackListTC())
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {
-        const err = e as Error | AxiosError
-        if (axios.isAxiosError(err)) {
-            const error = err.response?.data
-                ? (err.response.data as ({ error: string })).error
-                : err.message
-            dispatch(setAppStatusAC('failed'))
-            dispatch(setAppErrorAC(error))
+        baseErrorHandler(e, dispatch)
         }
     }
-}
+
 
 export const deletePackTC = (id: string): AppThunkType => async (dispatch, ) => {
     dispatch(setAppStatusAC('loading'))
@@ -175,14 +162,7 @@ export const deletePackTC = (id: string): AppThunkType => async (dispatch, ) => 
         dispatch(getPackListTC())
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {
-        const err = e as Error | AxiosError
-        if (axios.isAxiosError(err)) {
-            const error = err.response?.data
-                ? (err.response.data as ({ error: string })).error
-                : err.message
-            dispatch(setAppStatusAC('failed'))
-            dispatch(setAppErrorAC(error))
-        }
+        baseErrorHandler(e, dispatch)
     }
 }
 
@@ -193,14 +173,7 @@ export const ChangePackTC = (id: string, name: string,isPrivate:boolean): AppThu
         dispatch(getPackListTC())
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {
-        const err = e as Error | AxiosError
-        if (axios.isAxiosError(err)) {
-            const error = err.response?.data
-                ? (err.response.data as ({ error: string })).error
-                : err.message
-            dispatch(setAppStatusAC('failed'))
-            dispatch(setAppErrorAC(error))
-        }
+        baseErrorHandler(e, dispatch)
     }
 }
 
