@@ -1,5 +1,5 @@
 .header {
-    box-shadow: 0px 3px 10px rgba(109, 109, 109, 0.5), inset 0px 3px 0px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 3px 10px rgba(109, 109, 109, 0.5), inset 0 3px 0 rgba(255, 255, 255, 0.5);
 }
 
 .headerWrapper {
@@ -9,28 +9,6 @@
 
     margin: 10px 10%;
 
-}
-
-.userName {
-    cursor: pointer;
-
-    margin-right: 20px;
-    padding-bottom: 3px;
-
-    color: #000000;
-    text-decoration: none;
-
-    border-bottom: 2px dashed #32557f;
-}
-
-.userInfo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    min-width: 100px;
-
-    background-color: #ffffff;
 }
 
 @media only screen and (max-width: 400px) {
@@ -53,8 +31,4 @@
         width: 100%;
         height: auto;
     }
-}
-
-.signInButtonLink {
-    text-decoration: none;
 }
