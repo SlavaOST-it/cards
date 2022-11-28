@@ -1,7 +1,6 @@
 import React from 'react';
 import {Navigate, Route, Routes} from "react-router-dom";
 import {PATH} from "../../utils/routes/routes";
-import {TestPage} from "../testPage/TestPage";
 import {Auth} from "../login/Auth";
 import {Profile} from "../profile/Profile";
 import {Error404} from "../../common/components/errorPage/Error404";
@@ -22,7 +21,6 @@ export const Main = () => {
                 <Route path={PATH.profile} element={<Profile/>}/>
                 <Route path={PATH.passwordRecovery} element={<PasswordRecovery/>}/>
                 <Route path={PATH.setNewPassword} element={<NewPass/>}/>
-                <Route path={PATH.test} element={<TestPage/>}/>
                 <Route path={PATH.packList} element={<PacksListFilter/>}/>
                 <Route path={PATH.cardList} element={<CardList/>}/>
                 <Route path={'/*'} element={<Error404/>}/>

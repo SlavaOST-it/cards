@@ -12,7 +12,7 @@ type SuperButtonType = {
 
 export const SuperButton =(props: SuperButtonType) => {
     const finalClassName = `${style.button} ${'' ? style.button : style.default} ${props.className}`
-    // `${s.button} ${red ? s.red : s.default} ${className}`
+    // `${s.buttons} ${red ? s.red : s.default} ${className}`
     return (
         <button
             className={finalClassName}
