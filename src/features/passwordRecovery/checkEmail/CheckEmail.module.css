@@ -1,0 +1,14 @@
+.textInfo {
+    display: inline-block;
+    margin: 26px 0 65px 0;
+    color: #6e6e6e;
+}
+
+.textInfo_email{
+    line-height: 24px;
+    font-weight: 600;
+}
+
+.backToLoginBTN{
+    text-decoration: none;
+}
