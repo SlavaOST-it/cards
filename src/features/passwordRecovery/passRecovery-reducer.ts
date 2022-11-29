@@ -2,6 +2,7 @@ import {forgotPassAPI} from "../../api/authAPI";
 import {AppThunkType} from "../../app/store";
 import {setAppStatusAC, SetAppStatusAT} from "../../app/app-reducer";
 import {baseErrorHandler} from "../../utils/error-utils/error-utils";
+import {AxiosError} from "axios";
 
 export type InfoMessageAT = ReturnType<typeof infoMessageAC>
 export type StatusSendMessageAT = ReturnType<typeof statusSendMessageAC>
@@ -45,6 +46,6 @@ export const sendEmailTC = (email: string):AppThunkType => async (dispatch) => {
         dispatch(statusSendMessageAC(true))
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {
-        baseErrorHandler(e, dispatch)
+        baseErrorHandler(e as Error | AxiosError, dispatch)
     }
 }

@@ -2,6 +2,7 @@ import {authAPI} from '../../api/authAPI'
 import {setAppStatusAC} from "../../app/app-reducer";
 import {AppThunkType} from "../../app/store";
 import {baseErrorHandler} from "../../utils/error-utils/error-utils";
+import {AxiosError} from "axios";
 
 export type SetRegisterInType = ReturnType<typeof setRegisterIn>
 export type RegisterType = {
@@ -40,7 +41,7 @@ export const RegisterTC = (data: RegisterType): AppThunkType => async (dispatch)
         dispatch(setRegisterIn(true))
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {
-        baseErrorHandler(e, dispatch)
+        baseErrorHandler(e as Error | AxiosError, dispatch)
     }
 }
 

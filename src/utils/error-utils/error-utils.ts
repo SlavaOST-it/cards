@@ -3,7 +3,7 @@ import {setAppErrorAC, SetAppErrorAT, setAppStatusAC, SetAppStatusAT} from "../.
 import {Dispatch} from "redux";
 
 
-export const baseErrorHandler = (e: any, dispatch: Dispatch<SetAppErrorAT | SetAppStatusAT>) =>{
+export const baseErrorHandler = (e: Error | AxiosError, dispatch: Dispatch<SetAppErrorAT | SetAppStatusAT>) =>{
     const err = e as Error | AxiosError
     if (axios.isAxiosError(err)) {
         const error = err.response?.data

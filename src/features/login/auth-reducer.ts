@@ -4,6 +4,7 @@ import {AppThunkType} from "../../app/store";
 import {setInitializedAC} from "../../app/app-reducer";
 import {setUserProfileAC} from "../profile/profile-reducer";
 import {baseErrorHandler} from "../../utils/error-utils/error-utils";
+import {AxiosError} from "axios";
 
 const initialState = {
     data: {
@@ -52,7 +53,7 @@ export const loginThunkCreator = (email: string, password: string, rememberMe: b
         dispatch(setUserProfileAC(res))
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {
-        baseErrorHandler(e, dispatch)
+        baseErrorHandler(e as Error | AxiosError, dispatch)
     }
 }
 
@@ -63,6 +64,6 @@ export const logoutThunkCreator = (): AppThunkType => async (dispatch) => {
         dispatch(loggedInAC(false))
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {
-        baseErrorHandler(e, dispatch)
+        baseErrorHandler(e as Error | AxiosError, dispatch)
     }
 }

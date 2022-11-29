@@ -2,6 +2,7 @@ import {profileAPI} from "../../api/authAPI";
 import {AppThunkType} from "../../app/store";
 import {setAppStatusAC, SetAppStatusAT} from "../../app/app-reducer";
 import {baseErrorHandler} from "../../utils/error-utils/error-utils";
+import {AxiosError} from "axios";
 
 export type SetUserProfileAT = ReturnType<typeof setUserProfileAC>
 export type SetUserNameAC = ReturnType<typeof setUserNameAC>
@@ -56,7 +57,7 @@ export const changeNameThunkCreator = (newName: string): AppThunkType => async (
         dispatch(setUserNameAC(res.updatedUser.name))
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {
-        baseErrorHandler(e, dispatch)
+        baseErrorHandler(e as Error | AxiosError, dispatch)
     }
 }
 
@@ -67,6 +68,6 @@ export const changeAvatarThunkCreator = (avatar: string): AppThunkType => async 
         dispatch(setUserPhotoAC(res.updatedUser.avatar))
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {
-        baseErrorHandler(e, dispatch)
+        baseErrorHandler(e as Error | AxiosError, dispatch)
     }
 }

@@ -3,6 +3,7 @@ import {setUserProfileAC} from "../features/profile/profile-reducer";
 import {loggedInAC} from "../features/login/auth-reducer";
 import {AppThunkType} from "./store";
 import {baseErrorHandler} from "../utils/error-utils/error-utils";
+import {AxiosError} from "axios";
 
 export type AppStatusType = 'idle' | 'loading' | 'succeed' | 'failed'
 export type SetInitializedAT = ReturnType<typeof setInitializedAC>
@@ -49,7 +50,7 @@ export const initializeAppTC = (): AppThunkType => async (dispatch) => {
         dispatch(setUserProfileAC(res))
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {
-        baseErrorHandler(e, dispatch)
+        baseErrorHandler(e as Error | AxiosError, dispatch)
     } finally {
         dispatch(setInitializedAC(true))
     }

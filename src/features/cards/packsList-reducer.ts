@@ -2,6 +2,7 @@ import {AppThunkType} from "../../app/store";
 import {setAppStatusAC} from "../../app/app-reducer";
 import {packsAPI} from "../../api/cardsAPI";
 import {baseErrorHandler} from "../../utils/error-utils/error-utils";
+import {AxiosError} from "axios";
 
 let initialState = {
     cardPacks: [{
@@ -28,7 +29,7 @@ let initialState = {
     cardPacksTotalCount: 0,
     selected: true,
     userID: '',
-    isAddNewPack: false,
+    isOpenModal: false,
     /*isEditPack:false,*/
     packId: ''
 }
@@ -70,26 +71,36 @@ export type ActionPackListType =
     | setSortType
     | changePackStatusType
     | setPackIdType
+
 export const packsListReducer = (state: InitialStatePacksType = initialState, action: ActionPackListType): InitialStatePacksType => {
     switch (action.type) {
         case "PACK_LIST/SET_DATA_CARDS_PACK":
             return {...state, cardPacks: action.data, cardPacksTotalCount: action.cardPacksTotalCount}
+
         case "PACK_LIST/SET_SEARCH_PACKS":
             return {...state, search: action.search}
+
         case "PACK_LIST/SET_IS_MY_PACKS":
             return {...state, isMyPacks: action.isMyPacks}
+
         case "PACK_LIST/SET_CARDS_COUNT":
             return {...state, minCardsCount: action.value[0], maxCardsCount: action.value[1]}
+
         case "PACK_LIST/SET_PAGE":
             return {...state, page: action.page}
+
         case "PACK_LIST/SET_PAGE_COUNT":
             return {...state, pageCount: action.PageCount}
+
         case "PACK_LIST/SET_SORT":
             return {...state, sort: action.sort, selected: action.selected}
-        case "PACK_LIST/CHANGE_PACK_STATUS":
-            return {...state, isAddNewPack: action.status}
+
+        case "PACK_LIST/IS_OPEN_MODAL":
+            return {...state, isOpenModal: action.value}
+
         case "PACK_LIST/SET_PACK_ID":
-            return {...state,packId: action.id}
+            return {...state, packId: action.id}
+
         default:
             return state
     }
@@ -99,27 +110,35 @@ export const packsListReducer = (state: InitialStatePacksType = initialState, ac
 export const setDataCardsPackAC = (data: CardsPackType[], cardPacksTotalCount: number) => {
     return {type: "PACK_LIST/SET_DATA_CARDS_PACK", data, cardPacksTotalCount} as const
 }
+
 export const setSearchPacksAC = (search: string) => {
     return {type: "PACK_LIST/SET_SEARCH_PACKS", search} as const
 }
+
 export const setIsMyPacksAC = (isMyPacks: boolean) => {
     return {type: "PACK_LIST/SET_IS_MY_PACKS", isMyPacks} as const
 }
+
 export const setCardsCountAC = (value: number[]) => {
     return {type: "PACK_LIST/SET_CARDS_COUNT", value} as const
 }
+
 export const setPageAC = (page: number) => {
     return {type: "PACK_LIST/SET_PAGE", page} as const
 }
+
 export const setPageCountAC = (PageCount: number) => {
     return {type: "PACK_LIST/SET_PAGE_COUNT", PageCount} as const
 }
+
 export const setSortAC = (sort: string, selected: boolean) => {
     return {type: "PACK_LIST/SET_SORT", sort, selected} as const
 }
-export const changePackStatusAC = (status: boolean) => {
-    return {type: "PACK_LIST/CHANGE_PACK_STATUS", status} as const
+
+export const changePackStatusAC = (value: boolean) => {
+    return {type: "PACK_LIST/IS_OPEN_MODAL", value} as const
 }
+
 export const setPackIdAC = (id: string) => {
     return {type: "PACK_LIST/SET_PACK_ID", id} as const
 }
@@ -134,12 +153,11 @@ export const getPackListTC = (): AppThunkType => async (dispatch, getState) => {
             my_id = _id
         }
         const res = await packsAPI.getCardPacks(page, pageCount, sort, search, my_id, minCardsCount, maxCardsCount)
-        dispatch(setDataCardsPackAC(res.data.cardPacks, res.data.cardPacksTotalCount
-        ))
+        dispatch(setDataCardsPackAC(res.data.cardPacks, res.data.cardPacksTotalCount))
         dispatch(setPageCountAC(res.data.pageCount))
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {
-        baseErrorHandler(e, dispatch)
+        baseErrorHandler(e as Error | AxiosError, dispatch)
     }
 }
 
@@ -150,30 +168,29 @@ export const addNewPackTC = (newValue: string, privateStatus: boolean): AppThunk
         dispatch(getPackListTC())
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {
-        baseErrorHandler(e, dispatch)
-        }
+        baseErrorHandler(e as Error | AxiosError, dispatch)
     }
+}
 
 
-export const deletePackTC = (id: string): AppThunkType => async (dispatch, ) => {
+export const deletePackTC = (id: string): AppThunkType => async (dispatch,) => {
     dispatch(setAppStatusAC('loading'))
     try {
         await packsAPI.deletePack(id)
         dispatch(getPackListTC())
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {
-        baseErrorHandler(e, dispatch)
+        baseErrorHandler(e as Error | AxiosError , dispatch)
     }
 }
 
-export const ChangePackTC = (id: string, name: string,isPrivate:boolean): AppThunkType => async (dispatch, ) => {
+export const ChangePackTC = (id: string, name: string, isPrivate: boolean): AppThunkType => async (dispatch,) => {
     dispatch(setAppStatusAC('loading'))
     try {
-        await packsAPI.updatePack(id, name,isPrivate)
+        await packsAPI.updatePack(id, name, isPrivate)
         dispatch(getPackListTC())
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {
-        baseErrorHandler(e, dispatch)
+        baseErrorHandler(e as Error | AxiosError, dispatch)
     }
 }
-
