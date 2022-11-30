@@ -18,6 +18,7 @@ import {useAppDispatch, useAppSelector} from "../../../app/hooks";
 
 export const PacksTable = () => {
     const dispatch = useAppDispatch()
+
     const dataPacks = useAppSelector(state => state.packList.cardPacks)
 
     const StyledTableCell = styled(TableCell)(({theme}) => ({
@@ -54,12 +55,12 @@ export const PacksTable = () => {
                     {dataPacks.map((el) => (
                         <StyledTableRow key={el._id} className={style.tableHeader}>
                             <StyledTableCell  align="center">
-                                <NavLink onClick={()=>dispatch(setPackUserIdAC(el._id))} to={PATH.cardList}>{el.name}</NavLink>
+                                <NavLink onClick={()=>{dispatch(setPackUserIdAC(el._id))}} to={PATH.cardList}>{el.name}</NavLink>
                             </StyledTableCell>
                             <StyledTableCell align="center">{el.cardsCount}</StyledTableCell>
                             <StyledTableCell align="center">{el.updated.substr(0, 10)}</StyledTableCell>
                             <StyledTableCell align="center">{el.user_name}</StyledTableCell>
-                            <StyledTableCell sx={{width: 70}} align="right">{<ActionsPack  id={el._id} userId={el.user_id}/>}</StyledTableCell>
+                            <StyledTableCell sx={{width: 70}} align="right">{<ActionsPack packName={el.name}  packId={el._id} userId={el.user_id}/>}</StyledTableCell>
                         </StyledTableRow>
                     ))}
                 </TableBody>

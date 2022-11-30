@@ -1,8 +1,6 @@
 import React, {FC, ReactNode} from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import {useAppDispatch, useAppSelector} from "../../../app/hooks";
-import {changePackStatusAC} from "../../../features/cards/packsList-reducer";
 import s from "./BasicModals.module.css"
 import {Button} from "@mui/material";
 
@@ -43,8 +41,7 @@ export const BasicModal: FC<BasicModalsType> = ({
                                                     nameButton
 
                                                 }) => {
-    const dispatch = useAppDispatch()
-    // const isOpenModal = useAppSelector(state => state.packList.isOpenModal)
+
 
     const handleClose = () => setActive(false)
 

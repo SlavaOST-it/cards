@@ -1,9 +1,7 @@
 import React, {FC} from 'react';
-import {useAppDispatch, useAppSelector} from "../../../../app/hooks";
+import {useAppDispatch} from "../../../../app/hooks";
 import {BasicModal} from "../BasicModal";
-import s from "../addPackModal/AddPackModal.module.css";
-import {Button, Checkbox, TextField} from "@mui/material";
-import {changePackStatusAC} from "../../../../features/cards/packsList-reducer";
+import {deletePackTC} from "../../../../features/cards/packsList-reducer";
 
 
 const styleButtonMUI = {
@@ -15,15 +13,17 @@ const styleButtonMUI = {
 type DeletePackModalType = {
     active: boolean
     setActive: (active: boolean) => void
-    onSaveCallback: ()=>void
+    packName: string
+    packId: string
 }
-export const DeletePackModal: FC<DeletePackModalType> = ({active, setActive, onSaveCallback}) => {
-    const dispatch = useAppDispatch()
-    const packName = useAppSelector(state => state.packList.cardPacks.find(el => el.name))
+export const DeletePackModal: FC<DeletePackModalType> = ({packId, active, setActive, packName}) => {
 
-    // const onCancelHandler = () => {
-    //     dispatch(changePackStatusAC(false))
-    // }
+    const dispatch = useAppDispatch()
+
+    const onSaveCallback=()=>{
+        dispatch(deletePackTC(packId))
+        setActive(false)
+    }
 
     const onCloseHandler = () => {
         setActive(false)
@@ -32,7 +32,7 @@ export const DeletePackModal: FC<DeletePackModalType> = ({active, setActive, onS
         <BasicModal active={active} setActive={onCloseHandler} onSaveCallback={onSaveCallback} nameButton={"Delete"}
                     title={"Delete Pack"} styleButton={styleButtonMUI}>
             <div>
-                Do you really want to remove <>{packName}</>?
+                Do you really want to remove {packName}?
                 All cards will be deleted.
             </div>
         </BasicModal>

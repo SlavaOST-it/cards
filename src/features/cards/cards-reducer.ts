@@ -1,7 +1,8 @@
 import {AppThunkType} from '../../app/store'
-import {setAppErrorAC, setAppStatusAC, setInitializedAC} from '../../app/app-reducer'
+import {setAppStatusAC, setInitializedAC} from '../../app/app-reducer'
 import {CardResponseType, cardsAPI, CardsResponseType, CardsType} from '../../api/cardsAPI'
-import axios, {AxiosError} from 'axios'
+import {AxiosError} from 'axios'
+import {baseErrorHandler} from "../../utils/error-utils/error-utils";
 
 type setCardsType = ReturnType<typeof setCardsAC>
 type setPackUserIdType = ReturnType<typeof setPackUserIdAC>
@@ -204,7 +205,7 @@ export const setPageCardsCountAC = (pageCount: number) => {
     return {type: "CARDS/SET_PAGE_CARDS_COUNT", pageCount} as const
 }
 
-export const setCardsThunk = (packId: string): AppThunkType =>
+export const getCardsThunk = (packId: string): AppThunkType =>
     (dispatch, getState) => {
         dispatch(setInitializedAC(true))
         const {page, pageCount, sortCards, cardQuestion, packUserId} = getState().cards
@@ -233,14 +234,14 @@ export const addCardThunk = (cardsPack_id: string, cardQuestion: string, cardAns
     dispatch(setInitializedAC(true))
     cardsAPI.getCards({cardsPack_id, cardQuestion, cardAnswer})
         .then(() => {
-            dispatch(setCardsThunk(cardsPack_id))
+            dispatch(getCardsThunk(cardsPack_id))
         })
 }
 export const deleteCardThunk = (cardsPack_id: string, cardsId: string): AppThunkType => (dispatch) => {
     dispatch(setInitializedAC(true))
     cardsAPI.deleteCard(cardsId)
         .then(() => {
-            dispatch(setCardsThunk(cardsPack_id))
+            dispatch(getCardsThunk(cardsPack_id))
         })
 }
 export const editCardThunk = (
@@ -253,7 +254,7 @@ export const editCardThunk = (
     dispatch(setInitializedAC(true))
     cardsAPI.updateCard({_id: _id, question: newQuestion, answer: newAnswer, comments: comment})
         .then(() => {
-            dispatch(setCardsThunk(cardsPack_id))
+            dispatch(getCardsThunk(cardsPack_id))
         })
 }
 export const learnCardsThunk = (packUserId: string): AppThunkType => (dispatch) => {
@@ -284,16 +285,10 @@ export const getCardsTC = (): AppThunkType => async (dispatch, getState) => {
         dispatch(setPageCardsCountAC(res.data.pageCount))
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {
-        const err = e as Error | AxiosError
-        if (axios.isAxiosError(err)) {
-            const error = err.response?.data
-                ? (err.response.data as ({ error: string })).error
-                : err.message
-            dispatch(setAppStatusAC('failed'))
-            dispatch(setAppErrorAC(error))
-        }
+        baseErrorHandler(e as Error | AxiosError, dispatch)
     }
 }
+
 
 
 

@@ -29,9 +29,7 @@ let initialState = {
     cardPacksTotalCount: 0,
     selected: true,
     userID: '',
-    isOpenModal: false,
-    /*isEditPack:false,*/
-    packId: ''
+    packId: '',
 }
 
 export type CardsPackType = {
@@ -59,7 +57,6 @@ type setCardsCountType = ReturnType<typeof setCardsCountAC>
 type setPageType = ReturnType<typeof setPageAC>
 type setPageCountType = ReturnType<typeof setPageCountAC>
 type setSortType = ReturnType<typeof setSortAC>
-type changePackStatusType = ReturnType<typeof changePackStatusAC>
 type setPackIdType = ReturnType<typeof setPackIdAC>
 export type ActionPackListType =
     SetDataCardsPackType
@@ -69,8 +66,8 @@ export type ActionPackListType =
     | setPageType
     | setPageCountType
     | setSortType
-    | changePackStatusType
     | setPackIdType
+
 
 export const packsListReducer = (state: InitialStatePacksType = initialState, action: ActionPackListType): InitialStatePacksType => {
     switch (action.type) {
@@ -94,9 +91,6 @@ export const packsListReducer = (state: InitialStatePacksType = initialState, ac
 
         case "PACK_LIST/SET_SORT":
             return {...state, sort: action.sort, selected: action.selected}
-
-        case "PACK_LIST/IS_OPEN_MODAL":
-            return {...state, isOpenModal: action.value}
 
         case "PACK_LIST/SET_PACK_ID":
             return {...state, packId: action.id}
@@ -135,13 +129,11 @@ export const setSortAC = (sort: string, selected: boolean) => {
     return {type: "PACK_LIST/SET_SORT", sort, selected} as const
 }
 
-export const changePackStatusAC = (value: boolean) => {
-    return {type: "PACK_LIST/IS_OPEN_MODAL", value} as const
-}
 
 export const setPackIdAC = (id: string) => {
     return {type: "PACK_LIST/SET_PACK_ID", id} as const
 }
+
 
 export const getPackListTC = (): AppThunkType => async (dispatch, getState) => {
     dispatch(setAppStatusAC('loading'))
@@ -180,7 +172,7 @@ export const deletePackTC = (id: string): AppThunkType => async (dispatch,) => {
         dispatch(getPackListTC())
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {
-        baseErrorHandler(e as Error | AxiosError , dispatch)
+        baseErrorHandler(e as Error | AxiosError, dispatch)
     }
 }
 
