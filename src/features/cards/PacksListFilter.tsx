@@ -3,18 +3,16 @@ import style from "./PacksList.module.css"
 import Button from "@mui/material/Button";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import {changePackStatusAC, getPackListTC, setCardsCountAC, setIsMyPacksAC} from "./packsList-reducer";
+import {getPackListTC, setCardsCountAC, setIsMyPacksAC} from "./packsList-reducer";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
 import {RangeSlider} from "../../common/components/rangeSlider/RangeSlider";
 import {BasicPagination} from "../../common/components/pagination/BasicPagination";
 import {PATH} from "../../utils/routes/routes";
 import {Navigate} from "react-router-dom";
 import {SearchEngine} from "../../common/components/search/SearchEngine";
-import {AddNewPackModal} from "../modals/addNewPackModal";
 import {EditPackModal} from "../modals/editPackModal";
 import {PacksTable} from "./packsTable/PacksTable";
 import {AddPackModal} from "../../common/components/modals/addPackModal/AddPackModal";
-import {DeletePackModal} from "../../common/components/modals/deletePackModal/DeletePackModal";
 
 
 export const PacksListFilter = () => {
