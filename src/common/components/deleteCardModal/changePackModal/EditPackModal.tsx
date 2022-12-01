@@ -3,7 +3,7 @@ import {BasicModal} from "../BasicModal";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 import {useAppDispatch} from "../../../../app/hooks";
-import {ChangePackTC} from "../../../../features/cards/packsList-reducer";
+import {changePackTC} from "../../../../features/cards/packsList-reducer";
 
 
 const styleButtonMUI = {
@@ -26,7 +26,7 @@ export const EditPackModal:FC<EditPackModalType> = ({name,packId,active, setActi
     }
 
     const onSaveHandler = () => {
-        dispatch(ChangePackTC(packId,value, checkValue))
+        dispatch(changePackTC(packId,value, checkValue))
         setActive(false)
 
     }

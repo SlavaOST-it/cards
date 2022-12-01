@@ -1,22 +1,9 @@
-import { instance } from "./instance"
-import {CardsPackType} from "../features/cards/packsList-reducer"
+import {instance} from "./instance"
+
 
 export const packsAPI={
-    getCardPacks(page:number,
-                 pageCount:number,
-                 sort:string,
-                 search:string,
-                 my_id:string,
-                 minCardsCount:number,
-                 maxCardsCount:number,
-                 ){
-        return instance.get<CardPacksResponseType>('cards/pack',{params:{page:page,
-                pageCount:pageCount,
-                sortPacks:sort,
-                packName:search,
-                user_id:my_id,
-                min:minCardsCount,
-                max:maxCardsCount}})
+    getCardPacks(data:PackRequestType){
+        return instance.get<CardPacksResponseType>('cards/pack',{params:{...data}})
     },
     createPack(value:string,privateStatus?:boolean){
         return instance.post('cards/pack',{ cardsPack:{name:value,private:privateStatus}})
@@ -77,11 +64,6 @@ export type CardsType = {
     sortCards?: string
     page?: number
     pageCount?: number
-    _id?: string
-    updated?: string
-    grade?: number
-    answer?:string
-    question?: string
 }
 
 export type CardRequestType = {
@@ -138,4 +120,28 @@ export type CardsResponseType = {
     id: string
     infoMessage?: string
     sortCards: string
+}
+export type CardsPackType = {
+    _id: string
+    user_id: string,
+    user_name: string,
+    private: boolean,
+    name: string,
+    grade: number,
+    shots: number,
+    cardsCount: number,
+    type: string,
+    rating: number,
+    created: string,
+    updated: string,
+}
+
+export type PackRequestType={
+    page:number,
+    pageCount:number,
+    sortPacks:string,
+    packName:string,
+    user_id:string,
+    min:number,
+    max:number
 }

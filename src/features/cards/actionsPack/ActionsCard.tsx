@@ -1,11 +1,12 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import teacherLogo from "../../../assets/img/icons/packs/teacher.png"
 import editLogo from "../../../assets/img/icons/packs/Edit.png"
 import deleteLogo from "../../../assets/img/icons/packs/Delete.png"
-import {useAppSelector} from "../../../app/hooks";
+import {useAppDispatch, useAppSelector} from "../../../app/hooks";
 import s from "./ActionsPack.module.css"
 import {DeletePackModal} from "../../../common/components/modals/deletePackModal/DeletePackModal";
-import {EditPackModal} from "../../../common/components/modals/changePackModal/EditPackModal";
+import {EditAndAddCardsModal} from "../../../common/components/modals/addCardsModal/EditAndAddCardsModal";
+import {setCardIdAC} from "../cards-reducer";
 
 
 type ActionsCardType = {
@@ -23,10 +24,11 @@ export const ActionsCard: FC<ActionsCardType> = ({
     const userId=useAppSelector(state=>state.packList.userID)
     const packId =useAppSelector(state=>state.packList.packId)
     const packName =useAppSelector(state=>state.packList.packName)
+    const dispatch=useAppDispatch()
 
     const [activeDeleteModal, setActiveDeleteModal] = useState(false)
     const [activeEditModal, setActiveEditModal] = useState(false)
-    const cardName='name'
+
 
     const learnPackHandler = () => {
         alert('112')
@@ -36,6 +38,9 @@ export const ActionsCard: FC<ActionsCardType> = ({
     const onActiveModal = () => setActiveDeleteModal(!activeDeleteModal)
     const onActiveEditModal = () => setActiveEditModal(!activeEditModal)
 
+    useEffect(()=>{
+        dispatch(setCardIdAC(cardId))
+    },[])
     return (
         <div className={s.actionBtn}>
             <div className={s.button} onClick={learnPackHandler}>
@@ -52,7 +57,7 @@ export const ActionsCard: FC<ActionsCardType> = ({
                     </div>
                     <DeletePackModal cardId={cardId} type={'card'} packId={packId} name={packName} active={activeDeleteModal} setActive={onActiveModal}
                                     />
-                    <EditPackModal name={cardName} packId={cardId} active={activeEditModal} setActive={onActiveEditModal}/>
+                    <EditAndAddCardsModal questionCard={question} answerCard={answer}  cardsPackId={packId} type={'edit'}   active={activeEditModal} setActive={onActiveEditModal}/>
 
                 </>
             )}

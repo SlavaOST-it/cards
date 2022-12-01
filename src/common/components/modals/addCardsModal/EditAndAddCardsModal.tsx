@@ -1,23 +1,28 @@
 import React, {ChangeEvent, FC, useState} from 'react';
 import {BasicModal} from "../BasicModal";
 import TextField from "@mui/material/TextField";
-import {useAppDispatch} from "../../../../app/hooks";
-import {addCardThunk} from "../../../../features/cards/cards-reducer";
+import {useAppDispatch, useAppSelector} from "../../../../app/hooks";
+import {addCardThunk, changeCardThunk} from "../../../../features/cards/cards-reducer";
 
 
 const styleButtonMUI = {
     borderRadius: 10,
     width: 120
 }
-type AddPackModalType = {
+type EditAndAddCardsModalType = {
     active: boolean
     setActive: (active:boolean)=>void
     cardsPackId:string
+    type:'edit'|'add'
+    answerCard:string
+    questionCard:string
 }
-export const AddCardsModal:FC<AddPackModalType> = ({active, setActive,cardsPackId}) => {
+export const EditAndAddCardsModal:FC<EditAndAddCardsModalType> = ({answerCard,questionCard,type,active, setActive,cardsPackId}) => {
     const dispatch = useAppDispatch()
-    const [question, setQuestion] = useState('')
-    const [answer, setAnswer] = useState('')
+    const cardID=useAppSelector(state=>state.cards.cardId)
+
+    const [question, setQuestion] = useState(questionCard)
+    const [answer, setAnswer] = useState(answerCard)
 
 
     const onChangeQuestionHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -29,10 +34,16 @@ export const AddCardsModal:FC<AddPackModalType> = ({active, setActive,cardsPackI
     }
 
     const onSaveHandler = () => {
-        dispatch(addCardThunk(cardsPackId,question,answer))
-        setActive(false)
-        setQuestion('')
-        setAnswer('')
+        if(type==='add'){
+            dispatch(addCardThunk(cardsPackId,question,answer))
+            setActive(false)
+            setQuestion('')
+            setAnswer('')
+        }else{
+            dispatch(changeCardThunk(cardsPackId,cardID,question,answer))
+            setActive(false)
+        }
+
     }
 
     const onCancelHandler = () => {

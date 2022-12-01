@@ -8,7 +8,7 @@ import {BasicPagination} from "../../../common/components/pagination/BasicPagina
 import {getCardsThunk} from '../cards-reducer'
 import {HeaderTable} from "../../../common/components/headerTable/HeaderTable";
 import {CardsTable} from "../cardsTable/CardsTable";
-import {AddCardsModal} from "../../../common/components/modals/addCardsModal/AddCardsModal";
+import {EditAndAddCardsModal} from "../../../common/components/modals/addCardsModal/EditAndAddCardsModal";
 
 
 export const CardList = () => {
@@ -44,13 +44,12 @@ export const CardList = () => {
 
     return (
         <div className={style.container}>
-            <AddCardsModal cardsPackId={cardsPackId} setActive={callback} active={active}/>
+            <EditAndAddCardsModal answerCard={''} questionCard={''} type={'add'} cardsPackId={cardsPackId} setActive={callback} active={active}/>
             <HeaderTable callbackToAdd={addNewCard} title={'Cards list'}/>
             {!dataCards.length && <div>В данной колоде нету карточек удовлетворяющих поиску</div>}
             <div className={style.search}>
                 <SearchEngine setValue={setValue} value={value} />
             </div>
-
             <CardsTable/>
             <BasicPagination type={'cards'}/>
         </div>

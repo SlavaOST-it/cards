@@ -1,6 +1,6 @@
 import {AppThunkType} from "../../app/store";
 import {setAppStatusAC} from "../../app/app-reducer";
-import {packsAPI} from "../../api/cardsAPI";
+import {CardsPackType, PackRequestType, packsAPI} from "../../api/cardsAPI";
 import {baseErrorHandler} from "../../utils/error-utils/error-utils";
 import {AxiosError} from "axios";
 
@@ -33,21 +33,7 @@ let initialState = {
     packName:''
 }
 
-export type CardsPackType = {
-    _id: string
-    user_id: string,
-    user_name: string,
-    private: boolean,
-    name: string,
-    grade: number,
-    shots: number,
-    cardsCount: number,
-    type: string,
-    rating: number,
-    created: string,
-    updated: string,
 
-}
 
 export type InitialStatePacksType = typeof initialState
 
@@ -61,6 +47,7 @@ type setSortType = ReturnType<typeof setSortAC>
 type setPackIdType = ReturnType<typeof setPackIdAC>
 type setUserIdType = ReturnType<typeof setUserIdAC>
 type setPackNameType = ReturnType<typeof setPackNameAC>
+
 export type ActionPackListType =
     SetDataCardsPackType
     | setSearchPacksType
@@ -159,7 +146,16 @@ export const getPackListTC = (): AppThunkType => async (dispatch, getState) => {
         if (isMyPacks) {
             my_id = _id
         }
-        const res = await packsAPI.getCardPacks(page, pageCount, sort, search, my_id, minCardsCount, maxCardsCount)
+        const data:PackRequestType={
+            page:page,
+            pageCount:pageCount,
+            sortPacks:sort,
+            packName:search,
+            user_id:my_id,
+            min:minCardsCount,
+            max:maxCardsCount
+        }
+        const res = await packsAPI.getCardPacks(data)
         dispatch(setDataCardsPackAC(res.data.cardPacks, res.data.cardPacksTotalCount))
         dispatch(setPageCountAC(res.data.pageCount))
         dispatch(setAppStatusAC('succeed'))
@@ -191,7 +187,7 @@ export const deletePackTC = (id: string): AppThunkType => async (dispatch,) => {
     }
 }
 
-export const ChangePackTC = (id: string, name: string, isPrivate: boolean): AppThunkType => async (dispatch,) => {
+export const changePackTC = (id: string, name: string, isPrivate: boolean): AppThunkType => async (dispatch,) => {
     dispatch(setAppStatusAC('loading'))
     try {
         await packsAPI.updatePack(id, name, isPrivate)
