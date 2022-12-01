@@ -9,8 +9,8 @@ import {setPageCardsCountAC} from "../../../features/cards/cards-reducer";
 
 export const SelectPage = () => {
     const dispatch=useAppDispatch()
-    const page =useAppSelector(state=>JSON.stringify(state.packList.page))
-    const [pages,setPage]=useState(page)
+    const pageCount =useAppSelector(state=>JSON.stringify(state.packList.pageCount))
+    const [page,setPage]=useState(pageCount)
 
     const onChangeHandler=(e:SelectChangeEvent)=>{
         dispatch(setPageCountAC(JSON.parse(e.target.value)))
@@ -21,7 +21,7 @@ export const SelectPage = () => {
     return (
         <div>
             <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-            <Select onChange={onChangeHandler} value={pages} >
+            <Select onChange={onChangeHandler} value={page} >
                 <MenuItem value={1}>1</MenuItem>
                 <MenuItem value={2}>2</MenuItem>
                 <MenuItem value={3}>3</MenuItem>
