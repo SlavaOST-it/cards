@@ -5,9 +5,10 @@ import {useAppDispatch, useAppSelector} from "../../../app/hooks";
 import style from "./CardList.module.css"
 import {SearchEngine} from "../../../common/components/search/SearchEngine";
 import {BasicPagination} from "../../../common/components/pagination/BasicPagination";
-import {getCardsTC} from '../cards-reducer'
+import {getCardsThunk} from '../cards-reducer'
 import {HeaderTable} from "../../../common/components/headerTable/HeaderTable";
 import {CardsTable} from "../cardsTable/CardsTable";
+import {AddCardsModal} from "../../../common/components/modals/addCardsModal/AddCardsModal";
 
 
 export const CardList = () => {
@@ -22,16 +23,19 @@ export const CardList = () => {
     const pageCount = useAppSelector(state => state.cards.pageCount)
     const sortCards = useAppSelector(state => state.cards.sortCards)
     const dataCards =useAppSelector(state=>state.cards.cards)
+    const cardsPackId=useAppSelector(state=>state.packList.packId)
 
     const[value,setValue]=useState('')
+    const[active,setActive]=useState(false)
 
 
     const addNewCard=()=>{
-        alert('new')
+        setActive(true)
     }
+    const callback=()=>setActive(!active)
 
     useEffect(() => {
-        dispatch(getCardsTC())
+        dispatch(getCardsThunk(cardsPackId))
     }, [packUserId, minGrade, maxGrade, search, page, pageCount, sortCards])
 
     if (!isLoggedIn) {
@@ -40,6 +44,7 @@ export const CardList = () => {
 
     return (
         <div className={style.container}>
+            <AddCardsModal cardsPackId={cardsPackId} setActive={callback} active={active}/>
             <HeaderTable callbackToAdd={addNewCard} title={'Cards list'}/>
             {!dataCards.length && <div>В данной колоде нету карточек удовлетворяющих поиску</div>}
             <div className={style.search}>

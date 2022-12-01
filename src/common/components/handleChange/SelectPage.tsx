@@ -5,6 +5,7 @@ import {FormControl} from "@mui/material";
 import {setPageCountAC} from "../../../features/cards/packsList-reducer";
 import {useAppDispatch, useAppSelector} from "../../../app/hooks";
 import {useState} from "react";
+import {setPageCardsCountAC} from "../../../features/cards/cards-reducer";
 
 export const SelectPage = () => {
     const dispatch=useAppDispatch()
@@ -13,6 +14,7 @@ export const SelectPage = () => {
 
     const onChangeHandler=(e:SelectChangeEvent)=>{
         dispatch(setPageCountAC(JSON.parse(e.target.value)))
+        dispatch(setPageCardsCountAC(JSON.parse(e.target.value)))
         setPage(e.target.value)
 
     }

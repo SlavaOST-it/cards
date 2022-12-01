@@ -30,6 +30,7 @@ let initialState = {
     selected: true,
     userID: '',
     packId: '',
+    packName:''
 }
 
 export type CardsPackType = {
@@ -58,6 +59,8 @@ type setPageType = ReturnType<typeof setPageAC>
 type setPageCountType = ReturnType<typeof setPageCountAC>
 type setSortType = ReturnType<typeof setSortAC>
 type setPackIdType = ReturnType<typeof setPackIdAC>
+type setUserIdType = ReturnType<typeof setUserIdAC>
+type setPackNameType = ReturnType<typeof setPackNameAC>
 export type ActionPackListType =
     SetDataCardsPackType
     | setSearchPacksType
@@ -67,6 +70,8 @@ export type ActionPackListType =
     | setPageCountType
     | setSortType
     | setPackIdType
+    | setUserIdType
+    | setPackNameType
 
 
 export const packsListReducer = (state: InitialStatePacksType = initialState, action: ActionPackListType): InitialStatePacksType => {
@@ -93,7 +98,11 @@ export const packsListReducer = (state: InitialStatePacksType = initialState, ac
             return {...state, sort: action.sort, selected: action.selected}
 
         case "PACK_LIST/SET_PACK_ID":
-            return {...state, packId: action.id}
+            return {...state, packId: action.packId}
+        case "PACK_LIST/SET_USER_ID":
+            return {...state, userID: action.useId}
+        case "PACK_LIST/SET_PACK_NAME":
+            return{...state,packName:action.packName}
 
         default:
             return state
@@ -130,10 +139,16 @@ export const setSortAC = (sort: string, selected: boolean) => {
 }
 
 
-export const setPackIdAC = (id: string) => {
-    return {type: "PACK_LIST/SET_PACK_ID", id} as const
+export const setPackIdAC = (packId: string) => {
+    return {type: "PACK_LIST/SET_PACK_ID", packId} as const
 }
 
+export const setUserIdAC = (useId: string) => {
+    return {type: "PACK_LIST/SET_USER_ID", useId} as const
+}
+export const setPackNameAC = (packName: string) => {
+    return {type: "PACK_LIST/SET_PACK_NAME", packName} as const
+}
 
 export const getPackListTC = (): AppThunkType => async (dispatch, getState) => {
     dispatch(setAppStatusAC('loading'))

@@ -121,6 +121,7 @@ export type CardResponseType = {
     updated: string
     min: number
     max: number
+    _id:string
 }
 
 export type CardsResponseType = {

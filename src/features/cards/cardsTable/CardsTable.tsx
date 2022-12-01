@@ -10,10 +10,13 @@ import TableBody from "@mui/material/TableBody";
 import {styled} from "@mui/material";
 import TableCell, {tableCellClasses} from "@mui/material/TableCell";
 import {useAppSelector} from "../../../app/hooks";
+import {ActionsCard} from "../actionsPack/ActionsCard";
 
 export const CardsTable = () => {
 
     const cards = useAppSelector(state => state.cards.cards)
+    const packName =useAppSelector(state=>state.packList.packName)
+
 
     const StyledTableCell = styled(TableCell)(({theme}) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -48,18 +51,20 @@ export const CardsTable = () => {
                             <StyledTableCell align="right">Answer</StyledTableCell>
                             <StyledTableCell align="right">Last Updated</StyledTableCell>
                             <StyledTableCell align="right">Grade</StyledTableCell>
+                            <StyledTableCell align="right"></StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {cards.map((el) => (
                             <StyledTableRow key={el._id}>
                                 <StyledTableCell component="th" scope="row">
-                                    {el._id}
+                                    {packName}
                                 </StyledTableCell>
                                 <StyledTableCell align="right">{el.question}</StyledTableCell>
                                 <StyledTableCell align="right">{el.answer}</StyledTableCell>
                                 <StyledTableCell align="right">{el.updated}</StyledTableCell>
                                 <StyledTableCell align="right">{el.grade}</StyledTableCell>
+                                <StyledTableCell align="right"><ActionsCard   question={el.question} answer={el.answer} cardId={el._id} /></StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>

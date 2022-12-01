@@ -1,32 +1,32 @@
 import {AppThunkType} from '../../app/store'
 import {setAppStatusAC, setInitializedAC} from '../../app/app-reducer'
-import {CardResponseType, cardsAPI, CardsResponseType, CardsType} from '../../api/cardsAPI'
-import {AxiosError} from 'axios'
+import {CardResponseType, cardsAPI, CardsType} from '../../api/cardsAPI'
 import {baseErrorHandler} from "../../utils/error-utils/error-utils";
+import {AxiosError} from "axios";
 
 type setCardsType = ReturnType<typeof setCardsAC>
-type setPackUserIdType = ReturnType<typeof setPackUserIdAC>
+type setPackIdType = ReturnType<typeof setPackIdAC>
 type setSearchCardsType = ReturnType<typeof setSearchCardsAC>
 type sortCardsType = ReturnType<typeof sortCardsAC>
 type setPageCardsAC = ReturnType<typeof setPageCardsAC>
 type setPageCardsCountType = ReturnType<typeof setPageCardsCountAC>
+type setCardsTotalCountType = ReturnType<typeof setCardsTotalCountAC>
 
 export type CardsActionsType =
-    ReturnType<typeof setCards> |
-    ReturnType<typeof addCard> |
-    ReturnType<typeof editCard> |
-    ReturnType<typeof setFilterCards> |
+    ReturnType<typeof addCardAC> |
+    ReturnType<typeof editCardAC> |
+    ReturnType<typeof setFilterCardsAC> |
     ReturnType<typeof setPackId> |
-    ReturnType<typeof setQuestionName> |
-    ReturnType<typeof setAnswerName> |
+    ReturnType<typeof setQuestionNameAC> |
+    ReturnType<typeof setAnswerNameAC> |
     ReturnType<typeof clearQuestionAnswerName> |
-    ReturnType<typeof clearCards> |
+    ReturnType<typeof clearCardsAC> |
     ReturnType<typeof setCurrentCardsPage> |
-    ReturnType<typeof setPageCount> |
-    setCardsType | setPackUserIdType | setSearchCardsType | sortCardsType | setPageCardsAC | setPageCardsCountType
+    ReturnType<typeof setPageCountAC> |
+    setCardsType | setPackIdType | setSearchCardsType | sortCardsType | setPageCardsAC | setPageCardsCountType|setCardsTotalCountType
 
 type InitialStateType = {
-    cards: CardsType[]
+    cards: CardResponseType[]
     cardsTotalCount: number
     max: number
     min: number
@@ -36,8 +36,6 @@ type InitialStateType = {
     sortCards: string
     packUserId: string
     tokenDeathTime: number
-    /* answer: string
-     question: string*/
     grade: number
     packId: string
     selected: boolean
@@ -51,12 +49,10 @@ const initialState: InitialStateType = {
     min: 0,
     page: 1,
     pageCount: 4,
-    cardQuestion: '1111',
+    cardQuestion: '',
     sortCards: '0grade',
     packUserId: '',
     tokenDeathTime: 0,
-    /* answer: '111',
-     question: '22',*/
     grade: 7,
     packId: '',
     selected: true,
@@ -79,12 +75,9 @@ export const cardsReducer = (state = initialState, action: CardsActionsType): In
     switch (action.type) {
         case 'CARDS/SET-CARDS':
             return {
-                ...state,
-                packUserId: action.payload.data.packUserId,
-                cards: action.payload.data.cards,
-                cardsTotalCount: action.payload.data.cardsTotalCount
+                ...state, cards: action.payload.data
             }
-        case 'CARDS/ADD-CARDS':
+/*        case 'CARDS/ADD-CARDS':
             return {
                 ...state, cards: state.cards.map(c => c._id === action.payload.cardsPack_id
                     ? {...c, question: action.payload.question, cardAnswer: action.payload.answer}
@@ -97,25 +90,12 @@ export const cardsReducer = (state = initialState, action: CardsActionsType): In
                     ...c,
                     question: action.payload.newQuestion
                 } : c)
-            }
-        case 'CARDS/SET-FILTER':
-            return {...state, sortCards: `${action.payload.value}${action.payload.name}`}
+            }*/
         case 'CARDS/SET-PACK-ID':
             return {...state, packId: action.payload.packId}
         case 'CARDS/SET-QUESTION-NAME':
-        /*        return {...state, question: action.payload.question}
-            case 'CARDS/SET-ANSWER-NAME':
-                return {...state, answer: action.payload.question}
-            case 'CARDS/CLEAR-QUESTION-ANSWER-NAME':
-                return {...state, answer: '', question: ''}*/
-        /*   case 'SET-CURRENT-CARDS-PAGE':
-               return {...state, page: action.payload.page}*/
         case 'CARDS/CLEAR-CARDS':
             return initialState
-        case 'CARDS/SET-PAGE-COUNT':
-            return {...state, pageCount: action.payload.value}
-        case "CARDS/SET_CARDS":
-            return {...state, cards: action.data, cardsTotalCount: action.cardsTotalCount}
         case "CARDS/SET_PACK_USER_ID":
             return {...state, cardsPack_id: action.id}
         case "CARDS/SET_SEARCH_CARDS":
@@ -125,25 +105,27 @@ export const cardsReducer = (state = initialState, action: CardsActionsType): In
         case "CARDS/SET_PAGE_CARDS":
             return {...state, page: action.page}
         case "CARDS/SET_PAGE_CARDS_COUNT":
-            return {...state, pageCount: action.pageCount}
+            return {...state,pageCount:action.pageCount}
+        case "CARDS/SET_PAGE_TOTAL_COUNT":
+            return{...state,cardsTotalCount:action.totalCount}
         default:
             return state
     }
 }
 
-export const setCards = (data: any) => ({type: 'CARDS/SET-CARDS', payload: data} as const)
+export const setCardsAC = (data: CardResponseType[]) => ({type: 'CARDS/SET-CARDS', payload: {data}} as const)
 
-export const addCard = (cardsPack_id: string, question: string, answer: string) => ({
+export const addCardAC = (cardsPack_id: string, question: string, answer: string) => ({
     type: 'CARDS/ADD-CARDS',
     payload: {cardsPack_id, question, answer}
 } as const)
 
-export const editCard = (_id: string, newQuestion: string, comment?: string) => ({
+export const editCardAC = (_id: string, newQuestion: string, comment?: string) => ({
     type: 'CARDS/EDIT-CARD',
     payload: {_id, newQuestion, comment}
 } as const)
 
-export const setFilterCards = (value: number, name: string) => ({
+export const setFilterCardsAC = (value: number, name: string) => ({
     type: 'CARDS/SET-FILTER',
     payload: {value, name}
 } as const)
@@ -153,12 +135,12 @@ export const setPackId = (packId: string) => ({
     payload: {packId}
 } as const)
 
-export const setQuestionName = (question: string) => ({
+export const setQuestionNameAC = (question: string) => ({
     type: 'CARDS/SET-QUESTION-NAME',
     payload: {question}
 } as const)
 
-export const setAnswerName = (question: string) => ({
+export const setAnswerNameAC = (question: string) => ({
     type: 'CARDS/SET-ANSWER-NAME',
     payload: {question}
 } as const)
@@ -172,20 +154,17 @@ export const setCurrentCardsPage = (page: number) => ({
     payload: {page}
 } as const)
 
-export const clearCards = () => ({
+export const clearCardsAC = () => ({
     type: 'CARDS/CLEAR-CARDS'
 } as const)
 
-export const setPageCount = (value: number) => ({
+export const setPageCountAC = (value: number) => ({
     type: 'CARDS/SET-PAGE-COUNT',
     payload: {value}
 } as const)
 
-export const setCardsAC = (data: CardResponseType[], cardsTotalCount: number) => {
-    return {type: "CARDS/SET_CARDS", data, cardsTotalCount} as const
-}
 
-export const setPackUserIdAC = (id: string) => {
+export const setPackIdAC = (id: string) => {
     return {type: "CARDS/SET_PACK_USER_ID", id} as const
 }
 
@@ -204,39 +183,45 @@ export const setPageCardsAC = (page: number) => {
 export const setPageCardsCountAC = (pageCount: number) => {
     return {type: "CARDS/SET_PAGE_CARDS_COUNT", pageCount} as const
 }
+export const setCardsTotalCountAC = (totalCount: number) => {
+    return {type: "CARDS/SET_PAGE_TOTAL_COUNT", totalCount} as const
+}
 
 export const getCardsThunk = (packId: string): AppThunkType =>
-    (dispatch, getState) => {
-        dispatch(setInitializedAC(true))
-        const {page, pageCount, sortCards, cardQuestion, packUserId} = getState().cards
-        const payload: CardsResponseType = {
+    async (dispatch, getState) => {
+        /* dispatch(setInitializedAC(true))*/
+        dispatch(setAppStatusAC('loading'))
+        try {
+        const {page, pageCount, sortCards, cardQuestion} = getState().cards
+        const payload: CardsType = {
             cardAnswer: '',
             cardQuestion: cardQuestion,
-            cardsPack_id: packUserId,
+            cardsPack_id: packId,
             page: page,
             pageCount: pageCount,
-            cards: [],
             sortCards: sortCards,
-            cardsTotalCount: 0,
             max: 0,
             min: 0,
-            packUserId: '',
-            id: ''
         }
-        cardsAPI.getCards(payload)
-            .then((res) => {
-                dispatch(setCards(res.data))
-                dispatch(setAnswerName(res.data.cardAnswer))
-                dispatch(setQuestionName(res.data.cardQuestion))
-            })
+        const res = await cardsAPI.getCards(payload)
+
+            dispatch(setCardsAC(res.data.cards))
+            dispatch(setCardsTotalCountAC(res.data.cardsTotalCount))
+            dispatch(setAppStatusAC('succeed'))
+            /* dispatch(setAnswerName(res.data.cardAnswer))
+             dispatch(setQuestionName(res.data.cardQuestion))*/
+        } catch (e) {
+            return baseErrorHandler(e as Error | AxiosError, dispatch)
+        }
     }
-export const addCardThunk = (cardsPack_id: string, cardQuestion: string, cardAnswer: string): AppThunkType => (dispatch) => {
+export const addCardThunk = (cardsPack_id: string, question: string, answer: string): AppThunkType => (dispatch) => {
     dispatch(setInitializedAC(true))
-    cardsAPI.getCards({cardsPack_id, cardQuestion, cardAnswer})
+    cardsAPI.sendCard({cardsPack_id, question, answer})
         .then(() => {
             dispatch(getCardsThunk(cardsPack_id))
         })
 }
+
 export const deleteCardThunk = (cardsPack_id: string, cardsId: string): AppThunkType => (dispatch) => {
     dispatch(setInitializedAC(true))
     cardsAPI.deleteCard(cardsId)
@@ -244,6 +229,7 @@ export const deleteCardThunk = (cardsPack_id: string, cardsId: string): AppThunk
             dispatch(getCardsThunk(cardsPack_id))
         })
 }
+
 export const editCardThunk = (
     cardsPack_id: string,
     _id: string,
@@ -257,6 +243,7 @@ export const editCardThunk = (
             dispatch(getCardsThunk(cardsPack_id))
         })
 }
+
 export const learnCardsThunk = (packUserId: string): AppThunkType => (dispatch) => {
     dispatch(setInitializedAC(true))
     const data: GetCardsParamsType = {
@@ -272,22 +259,10 @@ export const learnCardsThunk = (packUserId: string): AppThunkType => (dispatch) 
     }
     cardsAPI.getCards(data)
         .then((res) => {
-            dispatch(setCards(res.data))
+            dispatch(setCardsAC(res.data.cards))
         })
 }
 
-export const getCardsTC = (): AppThunkType => async (dispatch, getState) => {
-    dispatch(setAppStatusAC('loading'))
-    try {
-        const {cardsPack_id, min, max, cardQuestion, page, pageCount, sortCards} = getState().cards
-        const res = await cardsAPI.getCards({cardsPack_id, min, max, cardQuestion, page, pageCount, sortCards})
-        dispatch(setCardsAC(res.data.cards, res.data.cardsTotalCount))
-        dispatch(setPageCardsCountAC(res.data.pageCount))
-        dispatch(setAppStatusAC('succeed'))
-    } catch (e) {
-        baseErrorHandler(e as Error | AxiosError, dispatch)
-    }
-}
 
 
 

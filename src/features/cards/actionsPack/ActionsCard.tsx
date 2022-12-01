@@ -8,23 +8,28 @@ import {DeletePackModal} from "../../../common/components/modals/deletePackModal
 import {EditPackModal} from "../../../common/components/modals/changePackModal/EditPackModal";
 
 
-type ActionsPackType = {
-    packId: string,
-    userId: string,
-    packName: string
+type ActionsCardType = {
+    cardId: string,
+    answer: string
+    question:string
+
 }
 
-export const ActionsPack: FC<ActionsPackType> = ({
-                                                     userId,
-                                                     packId,
-                                                     packName
+export const ActionsCard: FC<ActionsCardType> = ({
+                                                     cardId,
+                                                     answer,question
                                                  }) => {
     const myId = useAppSelector(state => state.profile._id)
+    const userId=useAppSelector(state=>state.packList.userID)
+    const packId =useAppSelector(state=>state.packList.packId)
+    const packName =useAppSelector(state=>state.packList.packName)
+
     const [activeDeleteModal, setActiveDeleteModal] = useState(false)
     const [activeEditModal, setActiveEditModal] = useState(false)
+    const cardName='name'
 
     const learnPackHandler = () => {
-        alert('111')
+        alert('112')
     }
 
 
@@ -33,23 +38,21 @@ export const ActionsPack: FC<ActionsPackType> = ({
 
     return (
         <div className={s.actionBtn}>
-            {packId.length && <div className={s.button} onClick={learnPackHandler}>
-                <img src={teacherLogo} alt={'learn pack'}/>
-            </div>}
+            <div className={s.button} onClick={learnPackHandler}>
+                    <img src={teacherLogo} alt={'learn card'}/>
+                </div>
 
             {myId === userId && (
                 <>
                     <div className={s.button} onClick={onActiveEditModal}>
-                        <img src={editLogo} alt={'edit pack'}/>
+                        <img src={editLogo} alt={'edit card'}/>
                     </div>
                     <div className={s.button} onClick={onActiveModal}>
-                        <img src={deleteLogo} alt={'delete pack'}/>
+                        <img src={deleteLogo} alt={'delete cars'}/>
                     </div>
-                    <DeletePackModal cardId={''} type={'pack'} packId={packId} name={packName} active={activeDeleteModal}
-                                     setActive={onActiveModal}
-                    />
-                    <EditPackModal name={packName} packId={packId} active={activeEditModal}
-                                   setActive={onActiveEditModal}/>
+                    <DeletePackModal cardId={cardId} type={'card'} packId={packId} name={packName} active={activeDeleteModal} setActive={onActiveModal}
+                                    />
+                    <EditPackModal name={cardName} packId={cardId} active={activeEditModal} setActive={onActiveEditModal}/>
 
                 </>
             )}
