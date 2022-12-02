@@ -15,7 +15,7 @@ import {AddPackModal} from "../../common/components/modals/addPackModal/AddPackM
 import {HeaderTable} from "../../common/components/headerTable/HeaderTable";
 
 
-export const PacksListFilter = () => {
+export const PacksList = () => {
     const dispatch = useAppDispatch()
     const dataPacks = useAppSelector(state => state.packList.cardPacks)
     const page = useAppSelector(state => state.packList.page)

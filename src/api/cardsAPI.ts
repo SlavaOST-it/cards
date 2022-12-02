@@ -1,58 +1,58 @@
 import {instance} from "./instance"
 
 
-export const packsAPI={
-    getCardPacks(data:PackRequestType){
-        return instance.get<CardPacksResponseType>('cards/pack',{params:{...data}})
+export const packsAPI = {
+    getCardPacks(data: PackRequestType) {
+        return instance.get<CardPacksResponseType>('cards/pack', {params: {...data}})
     },
-    createPack(value:string,privateStatus?:boolean){
-        return instance.post('cards/pack',{ cardsPack:{name:value,private:privateStatus}})
+    createPack(value: string, privateStatus?: boolean) {
+        return instance.post('cards/pack', {cardsPack: {name: value, private: privateStatus}})
     },
-    deletePack(id:string){
+    deletePack(id: string) {
         return instance.delete(`cards/pack?id=${id}`)
     },
-    updatePack(_id:string,name:string,isPrivate:boolean){
-        return instance.put('cards/pack',{cardsPack:{_id, name,private:isPrivate}})
+    updatePack(_id: string, name: string, isPrivate: boolean) {
+        return instance.put('cards/pack', {cardsPack: {_id, name, private: isPrivate}})
     }
 }
 
-export const cardsAPI={
+export const cardsAPI = {
     getCards(payload = {} as CardsType) {
-            return instance.get<CardsResponseType>("cards/card", {
-                params: {
-                    ...payload,
-                },
-            })
-        },
-        sendCard(payload = {} as CardRequestType) {
-            return instance.post("cards/card", {
-                card: {
-                    ...payload,
-                },
-            })
-        },
-        deleteCard(id: string) {
-            return instance.delete(`cards/card?id=${id}`);
-        },
-        updateCard(payload = {} as UpdateCardType) {
-            return instance.put(`cards/card`, {
-                card: {
-                    ...payload,
-                },
-            })
-        },
-    }
+        return instance.get<CardsResponseType>("cards/card", {
+            params: {
+                ...payload,
+            },
+        })
+    },
+    sendCard(payload = {} as CardRequestType) {
+        return instance.post("cards/card", {
+            card: {
+                ...payload,
+            },
+        })
+    },
+    deleteCard(id: string) {
+        return instance.delete(`cards/card?id=${id}`);
+    },
+    updateCard(payload = {} as UpdateCardType) {
+        return instance.put(`cards/card`, {
+            card: {
+                ...payload,
+            },
+        })
+    },
+}
 
-    export type CardPacksResponseType={
+export type CardPacksResponseType = {
     cardPacks: CardsPackType[],
     page: number,
     pageCount: number,
-    sort:string,
-    search:string,
-    isMyPacks:boolean,
-    minCardsCount:number,
-    maxCardsCount:number,
-    cardPacksTotalCount:number
+    sort: string,
+    search: string,
+    isMyPacks: boolean,
+    minCardsCount: number,
+    maxCardsCount: number,
+    cardPacksTotalCount: number
 }
 
 export type CardsType = {
@@ -103,7 +103,7 @@ export type CardResponseType = {
     updated: string
     min: number
     max: number
-    _id:string
+    _id: string
 }
 
 export type CardsResponseType = {
@@ -136,12 +136,12 @@ export type CardsPackType = {
     updated: string,
 }
 
-export type PackRequestType={
-    page:number,
-    pageCount:number,
-    sortPacks:string,
-    packName:string,
-    user_id:string,
-    min:number,
-    max:number
+export type PackRequestType = {
+    page: number,
+    pageCount: number,
+    sortPacks: string,
+    packName: string,
+    user_id: string,
+    min: number,
+    max: number
 }

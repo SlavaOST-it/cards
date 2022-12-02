@@ -3,6 +3,7 @@ import {setAppStatusAC} from '../../app/app-reducer'
 import {CardResponseType, cardsAPI, CardsType} from '../../api/cardsAPI'
 import {baseErrorHandler} from "../../utils/error-utils/error-utils";
 import {AxiosError} from "axios";
+import {getPackListTC} from "./packsList-reducer";
 
 type setCardsType = ReturnType<typeof setCardsAC>
 type setSearchCardsType = ReturnType<typeof setSearchCardsAC>

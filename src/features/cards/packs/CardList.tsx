@@ -76,6 +76,7 @@ export const CardList = () => {
             <div className={style.search}>
                 <SearchEngine setValue={setValue} value={value}/>
             </div>
+
             <div className={style.table}>
                 <CardsTable/>
             </div>

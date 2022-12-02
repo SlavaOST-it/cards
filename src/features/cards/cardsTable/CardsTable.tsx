@@ -10,7 +10,6 @@ import TableBody from "@mui/material/TableBody";
 import {styled} from "@mui/material";
 import TableCell, {tableCellClasses} from "@mui/material/TableCell";
 import {useAppSelector} from "../../../utils/hooks/hooks";
-import s from "../PacksList.module.css"
 import {BasicRating} from "../ratingCards/RatingCard";
 
 export const CardsTable = () => {
@@ -38,10 +37,10 @@ export const CardsTable = () => {
     return (
         <TableContainer component={Paper}>
             <Table aria-label="customized table">
-                <TableHead className={s.tableHeader}>
-                    <TableRow className={s.tableHeader}>
+                <TableHead className={style.tableHeader}>
+                    <TableRow className={style.tableHeader}>
                         <StyledTableCell align="center">
-                            <div className={s.cards}>Question <SelectSort/></div>
+                            <div className={style.cards}>Question <SelectSort/></div>
                         </StyledTableCell>
                         <StyledTableCell align="center">Answer</StyledTableCell>
                         <StyledTableCell align="center">Last Updated</StyledTableCell>
@@ -50,7 +49,7 @@ export const CardsTable = () => {
                 </TableHead>
                 <TableBody>
                     {cards.map((el) => (
-                        <StyledTableRow key={el._id} className={s.tableHeader}>
+                        <StyledTableRow key={el._id} className={style.tableHeader}>
                             <StyledTableCell align="center">{el.question}</StyledTableCell>
                             <StyledTableCell align="center">{el.answer}</StyledTableCell>
                             <StyledTableCell align="center">{el.updated.substr(0, 10)}</StyledTableCell>

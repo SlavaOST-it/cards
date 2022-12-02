@@ -23,10 +23,13 @@ export const appReducer = (state: InitialStateType = initialState, action: AppAc
     switch (action.type) {
         case "APP/SET-INITIALIZED":
             return {...state, isInitialized: action.value}
+
         case "APP/SET-APP-STATUS":
             return {...state, status: action.status}
+
         case 'APP/SET-ERROR':
             return {...state, error: action.error}
+
         default:
             return {...state}
     }
@@ -36,7 +39,7 @@ export const appReducer = (state: InitialStateType = initialState, action: AppAc
 export const setInitializedAC = (value: boolean) => ({type: "APP/SET-INITIALIZED", value} as const)
 export const setAppStatusAC = (status: AppStatusType) => ({
     type: 'APP/SET-APP-STATUS' as const,
-    status,
+    status
 })
 
 export const setAppErrorAC = (error: string | null) => ({type: 'APP/SET-ERROR', error} as const)
