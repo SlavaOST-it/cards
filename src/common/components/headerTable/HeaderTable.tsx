@@ -1,10 +1,11 @@
 import React, {FC} from 'react';
 import style from "../../../features/cards/PacksList.module.css";
 import Button from "@mui/material/Button";
+import {BackToPacksList} from "../backToPacksLink/BackToPacksList";
 
 type HeaderType={
     callbackToAdd:()=>void
-    title:string
+    title?:string
 }
 export const HeaderTable:FC<HeaderType> = ({callbackToAdd,title}) => {
     return (
@@ -22,4 +23,3 @@ export const HeaderTable:FC<HeaderType> = ({callbackToAdd,title}) => {
         </div>
     );
 };
-

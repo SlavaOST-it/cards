@@ -10,11 +10,9 @@ import {BasicPagination} from "../../common/components/pagination/BasicPaginatio
 import {PATH} from "../../utils/routes/routes";
 import {Navigate} from "react-router-dom";
 import {SearchEngine} from "../../common/components/search/SearchEngine";
-import {EditPackModal} from "../modals/editPackModal";
 import {PacksTable} from "./packsTable/PacksTable";
 import {AddPackModal} from "../../common/components/modals/addPackModal/AddPackModal";
 import {HeaderTable} from "../../common/components/headerTable/HeaderTable";
-
 
 
 export const PacksListFilter = () => {
@@ -73,10 +71,8 @@ export const PacksListFilter = () => {
     return (
         <div className={style.container}>
 
-            <HeaderTable title={'Packs list'} callbackToAdd={addNewPackHandler} />
+            <HeaderTable title={'Packs list'} callbackToAdd={addNewPackHandler}/>
             <AddPackModal active={openAddPackModal} setActive={addNewPackHandler}/>
-
-            {packId && <EditPackModal/>} {/*проверяем есть ли Id, если есть отрисовываем компоненту*/}
 
             {!dataPacks.length && <div>В данной колоде нету карточек удовлетворяющих поиску</div>}
 

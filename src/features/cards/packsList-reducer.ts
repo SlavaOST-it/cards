@@ -32,9 +32,6 @@ let initialState = {
     packId: '',
     packName:''
 }
-
-
-
 export type InitialStatePacksType = typeof initialState
 
 type SetDataCardsPackType = ReturnType<typeof setDataCardsPackAC>
@@ -86,8 +83,10 @@ export const packsListReducer = (state: InitialStatePacksType = initialState, ac
 
         case "PACK_LIST/SET_PACK_ID":
             return {...state, packId: action.packId}
+
         case "PACK_LIST/SET_USER_ID":
             return {...state, userID: action.useId}
+
         case "PACK_LIST/SET_PACK_NAME":
             return{...state,packName:action.packName}
 
@@ -125,7 +124,6 @@ export const setSortAC = (sort: string, selected: boolean) => {
     return {type: "PACK_LIST/SET_SORT", sort, selected} as const
 }
 
-
 export const setPackIdAC = (packId: string) => {
     return {type: "PACK_LIST/SET_PACK_ID", packId} as const
 }
@@ -136,6 +134,7 @@ export const setUserIdAC = (useId: string) => {
 export const setPackNameAC = (packName: string) => {
     return {type: "PACK_LIST/SET_PACK_NAME", packName} as const
 }
+
 
 export const getPackListTC = (): AppThunkType => async (dispatch, getState) => {
     dispatch(setAppStatusAC('loading'))
@@ -174,7 +173,6 @@ export const addNewPackTC = (newValue: string, privateStatus: boolean): AppThunk
         baseErrorHandler(e as Error | AxiosError, dispatch)
     }
 }
-
 
 export const deletePackTC = (id: string): AppThunkType => async (dispatch,) => {
     dispatch(setAppStatusAC('loading'))

@@ -36,6 +36,7 @@ export const Profile = () => {
     }
 
     const changeStatus = (e: ChangeEvent<HTMLInputElement>) => {
+
         setName(e.currentTarget.value)
         if (e.currentTarget.value.length < 1) {
             setError('Min length 1 symbol')

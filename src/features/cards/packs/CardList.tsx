@@ -9,11 +9,13 @@ import {getCardsThunk} from '../cards-reducer'
 import {HeaderTable} from "../../../common/components/headerTable/HeaderTable";
 import {CardsTable} from "../cardsTable/CardsTable";
 import {EditAndAddCardsModal} from "../../../common/components/modals/addCardsModal/EditAndAddCardsModal";
+import {BackToPacksList} from "../../../common/components/backToPacksLink/BackToPacksList";
 
 
 export const CardList = () => {
 
     const dispatch = useAppDispatch()
+    const namePack = useAppSelector(state => state.packList.packName)
     const isLoggedIn = useAppSelector(state => state.login.loggedIn)
     const packUserId = useAppSelector(state => state.cards.packUserId)
     const minGrade = useAppSelector(state => state.cards.min)
@@ -45,12 +47,19 @@ export const CardList = () => {
 
     return (
         <div className={style.container}>
+            <div>
+                <BackToPacksList/>
+            </div>
+
             <EditAndAddCardsModal answerCard={''} questionCard={''} type={'add'} cardsPackId={cardsPackId} setActive={callback} active={active}/>
-            <HeaderTable callbackToAdd={addNewCard} title={'Cards list'}/>
+            <HeaderTable callbackToAdd={addNewCard} title={namePack}/>
+
             {!dataCards.length && <div>В данной колоде нету карточек удовлетворяющих поиску</div>}
+
             <div className={style.search}>
                 <SearchEngine setValue={setValue} value={value} />
             </div>
+
             <CardsTable/>
             <BasicPagination type={'cards'}/>
         </div>
