@@ -34,6 +34,7 @@ export const CardList = () => {
     }
     const callback=()=>setActive(!active)
 
+
     useEffect(() => {
         dispatch(getCardsThunk(cardsPackId))
     }, [packUserId, minGrade, maxGrade, search, page, pageCount, sortCards])
