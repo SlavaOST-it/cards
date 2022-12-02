@@ -2,7 +2,7 @@ import React, {ChangeEvent, FC, useState} from 'react';
 import {BasicModal} from "../BasicModal";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
-import {useAppDispatch} from "../../../../app/hooks";
+import {useAppDispatch} from "../../../../utils/hooks/hooks";
 import {addNewPackTC} from "../../../../features/cards/packsList-reducer";
 
 

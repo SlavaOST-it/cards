@@ -3,9 +3,16 @@
     align-items: center;
     flex-direction: column;
 }
+.backLink{
+    display: flex;
+}
 .search{
-    width: 77%;
+    width: 80%;
     display: flex;
     justify-content: left;
     padding: 5px 0;
+}
+
+.table{
+    width: 80%;
 }

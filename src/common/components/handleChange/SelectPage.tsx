@@ -3,7 +3,7 @@ import Select, {SelectChangeEvent} from '@mui/material/Select';
 import MenuItem from "@mui/material/MenuItem";
 import {FormControl} from "@mui/material";
 import {setPageCountAC} from "../../../features/cards/packsList-reducer";
-import {useAppDispatch, useAppSelector} from "../../../app/hooks";
+import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
 import {useState} from "react";
 import {setPageCardsCountAC} from "../../../features/cards/cards-reducer";
 

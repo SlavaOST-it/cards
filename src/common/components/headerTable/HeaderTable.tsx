@@ -1,13 +1,14 @@
 import React, {FC} from 'react';
 import style from "../../../features/cards/PacksList.module.css";
 import Button from "@mui/material/Button";
-import {BackToPacksList} from "../backToPacksLink/BackToPacksList";
 
 type HeaderType={
     callbackToAdd:()=>void
     title?:string
+    titleButton: string
 }
-export const HeaderTable:FC<HeaderType> = ({callbackToAdd,title}) => {
+
+export const HeaderTable:FC<HeaderType> = ({callbackToAdd, title,titleButton}) => {
     return (
         <div className={style.header}>
             <h2>{title}</h2>
@@ -17,7 +18,7 @@ export const HeaderTable:FC<HeaderType> = ({callbackToAdd,title}) => {
                     sx={{borderRadius: 5}} size="small"
                     variant="contained"
                 >
-                    Add new pack
+                    {titleButton}
                 </Button>
             </div>
         </div>

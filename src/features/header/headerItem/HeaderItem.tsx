@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useAppDispatch, useAppSelector} from "../../../app/hooks";
+import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
 import {logoutThunkCreator} from "../../login/auth-reducer";
 import s from "./HeaderItem.module.css";
 import Stack from "@mui/material/Stack";

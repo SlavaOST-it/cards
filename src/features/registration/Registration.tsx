@@ -3,7 +3,7 @@ import {useFormik} from 'formik'
 import {Navigate} from 'react-router-dom'
 import {RegisterTC} from './registration-reducer'
 import {PATH} from '../../utils/routes/routes'
-import {useAppDispatch, useAppSelector} from '../../app/hooks'
+import {useAppDispatch, useAppSelector} from '../../utils/hooks/hooks'
 import {Button, TextField} from '@mui/material'
 import s from './Registration.module.css'
 

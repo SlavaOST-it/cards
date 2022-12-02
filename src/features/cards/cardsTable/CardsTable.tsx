@@ -9,14 +9,12 @@ import {SelectSort} from "../../../common/components/select/SelectSort";
 import TableBody from "@mui/material/TableBody";
 import {styled} from "@mui/material";
 import TableCell, {tableCellClasses} from "@mui/material/TableCell";
-import {useAppSelector} from "../../../app/hooks";
-import {ActionsCard} from "../actionsPack/ActionsCard";
+import {useAppSelector} from "../../../utils/hooks/hooks";
+import s from "../PacksList.module.css"
+import {BasicRating} from "../ratingCards/RatingCard";
 
 export const CardsTable = () => {
-
     const cards = useAppSelector(state => state.cards.cards)
-    const packName =useAppSelector(state=>state.packList.packName)
-
 
     const StyledTableCell = styled(TableCell)(({theme}) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -38,37 +36,31 @@ export const CardsTable = () => {
     }));
 
     return (
-        <div>
-            <TableContainer component={Paper}>
-                <Table sx={{width: 700}} aria-label="customized table">
-                    <TableHead>
-                        <TableRow>
-                            <StyledTableCell>Name</StyledTableCell>
-                            <StyledTableCell align="right">
-                                <div className={style.cards}>Question <SelectSort /></div>
+        <TableContainer component={Paper}>
+            <Table aria-label="customized table">
+                <TableHead className={s.tableHeader}>
+                    <TableRow className={s.tableHeader}>
+                        <StyledTableCell align="center">
+                            <div className={s.cards}>Question <SelectSort/></div>
+                        </StyledTableCell>
+                        <StyledTableCell align="center">Answer</StyledTableCell>
+                        <StyledTableCell align="center">Last Updated</StyledTableCell>
+                        <StyledTableCell align="center">Grade</StyledTableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {cards.map((el) => (
+                        <StyledTableRow key={el._id} className={s.tableHeader}>
+                            <StyledTableCell align="center">{el.question}</StyledTableCell>
+                            <StyledTableCell align="center">{el.answer}</StyledTableCell>
+                            <StyledTableCell align="center">{el.updated.substr(0, 10)}</StyledTableCell>
+                            <StyledTableCell align="center">
+                                <BasicRating grade={el.grade}/>
                             </StyledTableCell>
-                            <StyledTableCell align="right">Answer</StyledTableCell>
-                            <StyledTableCell align="right">Last Updated</StyledTableCell>
-                            <StyledTableCell align="right">Grade</StyledTableCell>
-                            <StyledTableCell align="right"></StyledTableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {cards.map((el) => (
-                            <StyledTableRow key={el._id}>
-                                <StyledTableCell component="th" scope="row">
-                                    {packName}
-                                </StyledTableCell>
-                                <StyledTableCell align="right">{el.question}</StyledTableCell>
-                                <StyledTableCell align="right">{el.answer}</StyledTableCell>
-                                <StyledTableCell align="right">{el.updated}</StyledTableCell>
-                                <StyledTableCell align="right">{el.grade}</StyledTableCell>
-                                <StyledTableCell align="right"><ActionsCard   question={el.question} answer={el.answer} cardId={el._id} /></StyledTableCell>
-                            </StyledTableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </div>
+                        </StyledTableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
     );
 };

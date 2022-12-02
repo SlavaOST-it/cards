@@ -2,7 +2,7 @@ import React, {ChangeEvent, useState} from 'react';
 import s from './Profile.module.css'
 import pencilLogo from '../../assets/img/icons/pencil.png'
 import {changeNameThunkCreator} from "./profile-reducer";
-import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import {useAppDispatch, useAppSelector} from "../../utils/hooks/hooks";
 import {Navigate} from "react-router-dom";
 import {PATH} from "../../utils/routes/routes";
 import {LogOutButton} from "../../common/components/buttons/logOutButton/LogOutButton";

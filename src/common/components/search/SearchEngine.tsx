@@ -2,7 +2,7 @@ import style from "../../../features/cards/PacksList.module.css";
 import {InputAdornment, TextField} from "@mui/material";
 import {Search} from "@mui/icons-material";
 import React, {ChangeEvent, useEffect} from 'react';
-import {useAppDispatch, useDebounce} from "../../../app/hooks";
+import {useAppDispatch, useDebounce} from "../../../utils/hooks/hooks";
 import {setSearchPacksAC} from "../../../features/cards/packsList-reducer";
 import {setSearchCardsAC} from '../../../features/cards/cards-reducer'
 

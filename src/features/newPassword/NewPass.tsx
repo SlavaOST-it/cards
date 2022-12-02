@@ -2,7 +2,7 @@ import React from 'react';
 import {Navigate, useParams} from "react-router-dom";
 import {PATH} from "../../utils/routes/routes";
 import {useFormik} from "formik";
-import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import {useAppDispatch, useAppSelector} from "../../utils/hooks/hooks";
 import {setNewPassTC} from "./newPass-reducer";
 import s from "../passwordRecovery/PasswordRecovery.module.css";
 import Button from "@mui/material/Button";

@@ -2,7 +2,7 @@ import React, {FC, useEffect, useState} from 'react';
 import teacherLogo from "../../../assets/img/icons/packs/teacher.png"
 import editLogo from "../../../assets/img/icons/packs/Edit.png"
 import deleteLogo from "../../../assets/img/icons/packs/Delete.png"
-import {useAppDispatch, useAppSelector} from "../../../app/hooks";
+import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
 import s from "./ActionsPack.module.css"
 import {DeletePackModal} from "../../../common/components/modals/deletePackModal/DeletePackModal";
 import {EditAndAddCardsModal} from "../../../common/components/modals/addCardsModal/EditAndAddCardsModal";

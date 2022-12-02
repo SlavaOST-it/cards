@@ -12,13 +12,12 @@ import {NavLink} from "react-router-dom";
 import {PATH} from "../../../utils/routes/routes";
 import {ActionsPack} from "../actionsPack/ActionsPack";
 import TableContainer from "@mui/material/TableContainer";
-import {useAppDispatch, useAppSelector} from "../../../app/hooks";
+import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
 import {setPackIdAC, setPackNameAC, setUserIdAC} from "../packsList-reducer";
 
 
 export const PacksTable = () => {
     const dispatch = useAppDispatch()
-
     const dataPacks = useAppSelector(state => state.packList.cardPacks)
 
 
@@ -44,8 +43,8 @@ export const PacksTable = () => {
         dispatch(setPackIdAC(PackID));
         dispatch(setUserIdAC(userId));
         dispatch(setPackNameAC(name));
-
     }
+
     return (
         <TableContainer component={Paper}>
             <Table aria-label="customized table" >
@@ -62,12 +61,16 @@ export const PacksTable = () => {
                     {dataPacks.map((el) => (
                         <StyledTableRow key={el._id} className={style.tableHeader}>
                             <StyledTableCell  align="center">
-                                <NavLink onClick={()=>{onClickHandler(el._id,el.user_id,el.name)}} to={PATH.cardList}>{el.name}</NavLink>
+                                <NavLink onClick={()=>{onClickHandler(el._id,el.user_id,el.name)}} to={PATH.cardList}>
+                                    {el.name}
+                                </NavLink>
                             </StyledTableCell>
                             <StyledTableCell align="center">{el.cardsCount}</StyledTableCell>
                             <StyledTableCell align="center">{el.updated.substr(0, 10)}</StyledTableCell>
                             <StyledTableCell align="center">{el.user_name}</StyledTableCell>
-                            <StyledTableCell sx={{width: 70}} align="right">{<ActionsPack userId={el.user_id} packName={el.name}  packId={el._id} />}</StyledTableCell>
+                            <StyledTableCell sx={{width: 70}} align="right">
+                                {<ActionsPack userId={el.user_id} packName={el.name}  packId={el._id} />}
+                            </StyledTableCell>
                         </StyledTableRow>
                     ))}
                 </TableBody>

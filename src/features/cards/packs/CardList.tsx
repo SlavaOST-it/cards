@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Navigate} from "react-router-dom";
 import {PATH} from "../../../utils/routes/routes";
-import {useAppDispatch, useAppSelector} from "../../../app/hooks";
+import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
 import style from "./CardList.module.css"
 import {SearchEngine} from "../../../common/components/search/SearchEngine";
 import {BasicPagination} from "../../../common/components/pagination/BasicPagination";
@@ -24,17 +24,23 @@ export const CardList = () => {
     const page = useAppSelector(state => state.cards.page)
     const pageCount = useAppSelector(state => state.cards.pageCount)
     const sortCards = useAppSelector(state => state.cards.sortCards)
-    const dataCards =useAppSelector(state=>state.cards.cards)
-    const cardsPackId=useAppSelector(state=>state.packList.packId)
+    const dataCards = useAppSelector(state => state.cards.cards)
+    const cardsPackId = useAppSelector(state => state.packList.packId)
+    const cardUserId = useAppSelector(state => state.packList.userID)
+    const myId = useAppSelector(state => state.profile._id)
 
-    const[value,setValue]=useState('')
-    const[active,setActive]=useState(false)
+    const [value, setValue] = useState('')
+    const [active, setActive] = useState(false)
 
-
-    const addNewCard=()=>{
+    const addNewCard = () => {
         setActive(true)
     }
-    const callback=()=>setActive(!active)
+
+    const learnPack = () => {
+        alert('Lear Pack')
+    }
+
+    const callback = () => setActive(!active)
 
 
     useEffect(() => {
@@ -47,20 +53,33 @@ export const CardList = () => {
 
     return (
         <div className={style.container}>
-            <div>
+            <div className={style.backLink}>
                 <BackToPacksList/>
             </div>
 
-            <EditAndAddCardsModal answerCard={''} questionCard={''} type={'add'} cardsPackId={cardsPackId} setActive={callback} active={active}/>
-            <HeaderTable callbackToAdd={addNewCard} title={namePack}/>
+            <EditAndAddCardsModal
+                answerCard={''}
+                questionCard={''}
+                type={'add'}
+                cardsPackId={cardsPackId}
+                setActive={callback}
+                active={active}
+            />
+
+            <HeaderTable callbackToAdd={myId === cardUserId ? addNewCard : learnPack}
+                         titleButton={myId === cardUserId ? "Add new card" : "Learn to pack"}
+                         title={namePack}
+            />
 
             {!dataCards.length && <div>В данной колоде нету карточек удовлетворяющих поиску</div>}
 
             <div className={style.search}>
-                <SearchEngine setValue={setValue} value={value} />
+                <SearchEngine setValue={setValue} value={value}/>
+            </div>
+            <div className={style.table}>
+                <CardsTable/>
             </div>
 
-            <CardsTable/>
             <BasicPagination type={'cards'}/>
         </div>
     );

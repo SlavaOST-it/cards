@@ -1,7 +1,7 @@
 import React, {ChangeEvent} from 'react';
 import {Pagination, Stack} from "@mui/material";
 import {setPageAC} from "../../../features/cards/packsList-reducer";
-import {useAppDispatch, useAppSelector} from "../../../app/hooks";
+import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
 import {setPageCardsAC} from '../../../features/cards/cards-reducer'
 import style from "./BasicPagination.module.css"
 import {SelectPage} from "../handleChange/SelectPage";

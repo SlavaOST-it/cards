@@ -2,7 +2,7 @@ import * as React from 'react';
 import ArrowDownwardOutlinedIcon from '@mui/icons-material/ArrowDownwardOutlined';
 import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined';
 import {setSortAC} from "../../../features/cards/packsList-reducer";
-import {useAppDispatch, useAppSelector} from "../../../app/hooks";
+import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
 import {sortCardsAC} from '../../../features/cards/cards-reducer'
 
 export const SelectSort = () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import s from "./AvatarUser.module.css";
 import customAvatar from "../../../assets/img/icons/avatar_user.png";
 import photoAppLogo from "../../../assets/img/icons/photoapparat.png";
-import {useAppSelector} from "../../../app/hooks";
+import {useAppSelector} from "../../../utils/hooks/hooks";
 
 export const AvatarUser = () => {
     const userAvatar = useAppSelector(state => state.profile.avatar)

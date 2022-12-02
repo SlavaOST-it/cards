@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import {getPackListTC, setCardsCountAC, setIsMyPacksAC} from "./packsList-reducer";
-import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import {useAppDispatch, useAppSelector} from "../../utils/hooks/hooks";
 import {RangeSlider} from "../../common/components/rangeSlider/RangeSlider";
 import {BasicPagination} from "../../common/components/pagination/BasicPagination";
 import {PATH} from "../../utils/routes/routes";
@@ -71,7 +71,7 @@ export const PacksListFilter = () => {
     return (
         <div className={style.container}>
 
-            <HeaderTable title={'Packs list'} callbackToAdd={addNewPackHandler}/>
+            <HeaderTable title={'Packs list'} callbackToAdd={addNewPackHandler} titleButton={"Add new pack"}/>
             <AddPackModal active={openAddPackModal} setActive={addNewPackHandler}/>
 
             {!dataPacks.length && <div>В данной колоде нету карточек удовлетворяющих поиску</div>}
