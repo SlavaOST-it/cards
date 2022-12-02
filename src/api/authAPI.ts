@@ -2,6 +2,7 @@ import axios from "axios"
 import {RegisterType} from '../features/registration/registration-reducer'
 import { instance } from "./instance"
 
+
 export const authAPI = {
     me() {
         return instance.post('auth/me').then(res => res.data)
