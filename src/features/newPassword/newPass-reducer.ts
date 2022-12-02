@@ -1,7 +1,8 @@
-import axios, {AxiosError} from "axios";
 import {forgotPassAPI} from "../../api/authAPI";
 import {AppThunkType} from "../../app/store";
-import {setAppErrorAC, setAppStatusAC, SetAppStatusAT} from "../../app/app-reducer";
+import {setAppStatusAC, SetAppStatusAT} from "../../app/app-reducer";
+import {baseErrorHandler} from "../../utils/error-utils/error-utils";
+import {AxiosError} from "axios";
 
 export type SetNewPassAT = ReturnType<typeof setNewPassAC>
 export type NewPassReducerActionType = SetNewPassAT | SetAppStatusAT
@@ -36,13 +37,6 @@ export const setNewPassTC = (newPassword: string, token: string | undefined): Ap
         dispatch(setNewPassAC(res.info))
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {
-        const err = e as Error | AxiosError
-        if (axios.isAxiosError(err)) {
-            const error = err.response?.data
-                ? (err.response.data as ({ error: string })).error
-                : err.message
-            dispatch(setAppStatusAC('failed'))
-            dispatch(setAppErrorAC(error))
-        }
+        baseErrorHandler(e as Error | AxiosError, dispatch)
     }
 }

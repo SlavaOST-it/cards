@@ -1,7 +1,7 @@
 import React from 'react';
 import {useNavigate} from "react-router-dom";
 import style from "./Error404.module.css"
-import {SuperButton} from "../button/SuperButton";
+import {SuperButton} from "../buttons/SuperButton";
 
 export const Error404 = () => {
     const navigate = useNavigate()

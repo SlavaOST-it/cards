@@ -19,8 +19,7 @@ export const authAPI = {
     },
     register(data: RegisterType) {
         return instance.post<RegisterResponseType>('auth/register', data)
-    },
-
+    }
 }
 
 export const profileAPI = {
@@ -50,7 +49,6 @@ export const forgotPassAPI = {
         }).then(res => res.data)
     }
 }
-
 
 //types response
 export type RegisterResponseType = {

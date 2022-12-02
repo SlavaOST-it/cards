@@ -1,21 +1,18 @@
 import React, {ChangeEvent, useState} from 'react';
-import style from './Profile.module.css'
+import s from './Profile.module.css'
 import pencilLogo from '../../assets/img/icons/pencil.png'
-import arrowLogo from "../../assets/img/icons/arrow.png"
-import photoAppLogo from "../../assets/img/icons/photoapparat.png"
 import {changeNameThunkCreator} from "./profile-reducer";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
-import {Navigate, NavLink} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 import {PATH} from "../../utils/routes/routes";
-import {logoutThunkCreator} from "../login/auth-reducer";
-import {Button, TextField} from "@mui/material";
-import customAvatar from "./../../assets/img/icons/avatar_user.png";
+import {LogOutButton} from "../../common/components/buttons/logOutButton/LogOutButton";
+import {BackToPacksList} from "../../common/components/backToPacksLink/BackToPacksList";
+import {AvatarUser} from "./avatarUser/AvatarUser";
 
 
 export const Profile = () => {
     const userName = useAppSelector(state => state.profile.name)
     const userEmail = useAppSelector(state => state.profile.email)
-    const userAvatar = useAppSelector(state => state.profile.avatar)
     const loggedIn = useAppSelector(state => state.login.loggedIn)
     const dispatch = useAppDispatch()
 
@@ -23,11 +20,11 @@ export const Profile = () => {
     const [name, setName] = useState<string>(userName)
     const [error, setError] = useState<string | null>(null)
 
-
     const activateEditMode = () => {
         setEditMode(true);
         setName(userName);
     }
+
     const activateViewMode = () => {
         setEditMode(false);
         setError(null)
@@ -36,7 +33,6 @@ export const Profile = () => {
         } else {
             dispatch(changeNameThunkCreator(name));
         }
-
     }
 
     const changeStatus = (e: ChangeEvent<HTMLInputElement>) => {
@@ -51,75 +47,47 @@ export const Profile = () => {
         }
     }
 
-    const changeAvatar = () => {
-        alert('change photo')
-    }
-    const logOutBtn = () => {
-        dispatch(logoutThunkCreator())
-    }
     if (!loggedIn) {
         return <Navigate to={PATH.login}/>
     }
 
     return (
-        <div className={style.profilePage}>
-            <div className={style.back}>
-                <NavLink to={PATH.packList} className={style.backLink}>
-                    <img src={arrowLogo} alt={'back'}/>
-                    Back to Packs List
-                </NavLink>
-            </div>
-            <div className={style.profile}>
+        <div className={s.profilePage}>
+
+            <BackToPacksList/>
+
+            <div className={s.profile}>
                 <h2>Personal Information</h2>
-                <div className={style.profile_userAvatar}>
-                    <img
-                        className={style.profile_userAvatar_photo}
-                        src={userAvatar === null ? customAvatar : userAvatar}
-                        alt={'user avatar'}/>
-                    <button className={style.viewBtn}>
-                        <img
-                            className={style.profile_changeAvatar}
-                            src={photoAppLogo}
-                            alt={'change'}
-                             onClick={changeAvatar}/>
-                    </button>
 
-                </div>
+                <AvatarUser/>
 
-                <div className={style.name}>
-                    {!editMode
+                <div className={s.name}>
+                    {editMode
                         ? (<div>
-                        <span
-                            className={style.span_name}
-                            onDoubleClick={activateEditMode}
-                        >
-                            {userName}
-                            <img src={pencilLogo} alt={'change name'}/>
-                        </span>
-
-                        </div>)
-                        : (<div>
-                            <TextField
-                                className={style.input_name}
+                            <input
+                                type='text'
+                                className={s.input_name}
                                 autoFocus={true}
                                 onBlur={activateViewMode}
                                 value={name}
                                 onChange={changeStatus}
                             />
-                            {error && (<div className={style.errorSpan}>{error}</div>)}
+                            {error && (<div className={s.errorSpan}>{error}</div>)}
+                        </div>)
+                        : (<div>
+                        <span
+                            className={s.span_name}
+                            onDoubleClick={activateEditMode}
+                        >
+                            {userName}
+                            <img src={pencilLogo} alt={'change name'}/>
+                        </span>
                         </div>)}
+                </div>
 
-                </div>
-                <div className={style.email}>
-                    {userEmail}
-                </div>
-                <Button
-                    variant={'contained'}
-                    color={'primary'}
-                    onClick={logOutBtn}
-                >
-                    Log out
-                </Button>
+                <div className={s.email}> {userEmail} </div>
+
+                <LogOutButton/>
             </div>
         </div>
     );

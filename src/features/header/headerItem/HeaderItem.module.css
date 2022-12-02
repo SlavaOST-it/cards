@@ -1,0 +1,30 @@
+.userInfo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 100px;
+
+    background-color: #ffffff;
+}
+
+.userName {
+    cursor: pointer;
+
+    margin-right: 20px;
+    padding-bottom: 3px;
+
+    color: #000000;
+    text-decoration: none;
+
+    border-bottom: 2px dashed #32557f;
+}
+
+.arrowDown{
+    height: 10px;
+}
+
+.menuLink, .menuLink:visited{
+    text-decoration: none;
+    color: black;
+}

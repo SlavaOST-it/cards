@@ -1,7 +1,8 @@
-import axios, {AxiosError} from "axios";
 import {forgotPassAPI} from "../../api/authAPI";
 import {AppThunkType} from "../../app/store";
-import {setAppErrorAC, setAppStatusAC, SetAppStatusAT} from "../../app/app-reducer";
+import {setAppStatusAC, SetAppStatusAT} from "../../app/app-reducer";
+import {baseErrorHandler} from "../../utils/error-utils/error-utils";
+import {AxiosError} from "axios";
 
 export type InfoMessageAT = ReturnType<typeof infoMessageAC>
 export type StatusSendMessageAT = ReturnType<typeof statusSendMessageAC>
@@ -15,12 +16,12 @@ type InitialStateType = typeof initialState
 
 export const passRecoveryReducer = (state: InitialStateType = initialState, action: PassRecoveryActionType) :InitialStateType => {      // вместо any указать типизицию
     switch (action.type) {
-        case "PassRECOVERY/passRecovery":
+        case "PASS_RECOVERY/passRecovery":
             return {
                 ...state,
                 textMessage: action.infoMessage
             }
-        case "PssRECOVERY/CHANGE-STATUS-SEND-MESSAGE":
+        case "PASS_RECOVERY/CHANGE-STATUS-SEND-MESSAGE":
             return {
                 ...state,
                 statusSendMessage: true
@@ -30,9 +31,9 @@ export const passRecoveryReducer = (state: InitialStateType = initialState, acti
     }
 }
 // ======ActionCreators ===== //
-export const infoMessageAC = (infoMessage: string) => ({type: "PassRECOVERY/passRecovery", infoMessage} as const)
+export const infoMessageAC = (infoMessage: string) => ({type: "PASS_RECOVERY/passRecovery", infoMessage} as const)
 export const statusSendMessageAC = (status: boolean) => ({
-    type: "PssRECOVERY/CHANGE-STATUS-SEND-MESSAGE",
+    type: "PASS_RECOVERY/CHANGE-STATUS-SEND-MESSAGE",
     status
 } as const)
 
@@ -45,13 +46,6 @@ export const sendEmailTC = (email: string):AppThunkType => async (dispatch) => {
         dispatch(statusSendMessageAC(true))
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {
-        const err = e as Error | AxiosError
-        if (axios.isAxiosError(err)) {
-            const error = err.response?.data
-                ? (err.response.data as ({ error: string })).error
-                : err.message
-            dispatch(setAppStatusAC('failed'))
-            dispatch(setAppErrorAC(error))
-        }
+        baseErrorHandler(e as Error | AxiosError, dispatch)
     }
 }

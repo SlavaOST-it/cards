@@ -3,8 +3,8 @@ export const PATH = {
     registration: '/registration',
     profile: '/profile',
     error: '/error',
-    test: '/test',
     passwordRecovery: '/passwordRecovery',
     setNewPassword: '/setNewPass/:token',
-    packList:"/cards"
+    packList: "/packs",
+    cardList: "/cards"
 }

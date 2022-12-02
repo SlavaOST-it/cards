@@ -1,7 +1,8 @@
-import axios, {AxiosError} from "axios";
 import {profileAPI} from "../../api/authAPI";
 import {AppThunkType} from "../../app/store";
-import {setAppErrorAC, setAppStatusAC, SetAppStatusAT} from "../../app/app-reducer";
+import {setAppStatusAC, SetAppStatusAT} from "../../app/app-reducer";
+import {baseErrorHandler} from "../../utils/error-utils/error-utils";
+import {AxiosError} from "axios";
 
 export type SetUserProfileAT = ReturnType<typeof setUserProfileAC>
 export type SetUserNameAC = ReturnType<typeof setUserNameAC>
@@ -27,16 +28,19 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
     switch (action.type) {
         case "PROFILE/SET_USER_PROFILE":
             return action.profile
+
         case "PROFILE/SET_USER_NAME":
             return {
                 ...state,
                 name: action.userName
             }
+
         case "PROFILE/SET_USER_PHOTO":
             return {
                 ...state,
                 avatar: action.photo
             }
+
         default:
             return {...state}
     }
@@ -53,14 +57,7 @@ export const changeNameThunkCreator = (newName: string): AppThunkType => async (
         dispatch(setUserNameAC(res.updatedUser.name))
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {
-        const err = e as Error | AxiosError
-        if (axios.isAxiosError(err)) {
-            const error = err.response?.data
-                ? (err.response.data as ({ error: string })).error
-                : err.message
-            dispatch(setAppStatusAC('failed'))
-            dispatch(setAppErrorAC(error))
-        }
+        baseErrorHandler(e as Error | AxiosError, dispatch)
     }
 }
 
@@ -71,13 +68,6 @@ export const changeAvatarThunkCreator = (avatar: string): AppThunkType => async 
         dispatch(setUserPhotoAC(res.updatedUser.avatar))
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {
-        const err = e as Error | AxiosError
-        if (axios.isAxiosError(err)) {
-            const error = err.response?.data
-                ? (err.response.data as ({ error: string })).error
-                : err.message
-            dispatch(setAppStatusAC('failed'))
-            dispatch(setAppErrorAC(error))
-        }
+        baseErrorHandler(e as Error | AxiosError, dispatch)
     }
 }

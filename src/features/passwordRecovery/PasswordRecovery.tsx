@@ -2,11 +2,13 @@ import React, {useState} from 'react';
 import {useFormik} from "formik";
 import {NavLink} from "react-router-dom";
 import {PATH} from "../../utils/routes/routes";
-import style from "./PasswordRecovery.module.css"
+import s from "./PasswordRecovery.module.css"
 import {sendEmailTC} from "./passRecovery-reducer";
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
-import mailLogo from "../../assets/img/icons/mail.png"
-import {Button, FormGroup, TextField} from "@mui/material";
+import Button from "@mui/material/Button";
+import FormGroup from "@mui/material/FormGroup";
+import TextField from "@mui/material/TextField";
+import {CheckEmail} from "./checkEmail/CheckEmail";
 
 
 type FormikErrorType = {
@@ -39,64 +41,41 @@ export const PasswordRecovery = () => {
     })
 
     return (
-        <div className={style.passRecoveryPage}>
-            <div className={style.passRec}>
-                {!statusSendMessage
-                    ? (<div>
-                        <h2>Forgot your password?</h2>
-                        <form onSubmit={formik.handleSubmit}>
-                            <FormGroup>
-                                <TextField
-                                    label="Email"
-                                    margin="normal"
-                                    placeholder={"Email"}
-                                    {...formik.getFieldProps('email')}
-                                />
-                                {formik.touched.email && formik.errors.email &&
-                                    <div style={{color: 'red'}}>{formik.errors.email}</div>}
-                                <div className={style.textInfo}>Enter your email address and we will send you further
-                                    instructions
-                                </div>
-                                <Button
-                                    type={'submit'}
-                                    variant={'outlined'}
-                                    disabled={formik.isSubmitting}
-                                >
-                                    Send Instructions
-                                </Button>
-                            </FormGroup>
-                        </form>
-                        <div className={style.textQuestion}>Did you remember your password?</div>
+        <div className={s.passRecoveryPage}>
 
-                        <div className={style.link}><NavLink to={PATH.login}>Try logging in</NavLink></div>
-                    </div>)
-                    : (<CheckEmail email={email}/>)}
-            </div>
+            {statusSendMessage
+                ? (<CheckEmail email={email}/>)
+                : (<div>
+                    <h2>Forgot your password?</h2>
+                    <form onSubmit={formik.handleSubmit}>
+                        <FormGroup>
+                            <TextField
+                                label="Email"
+                                margin="normal"
+                                placeholder={"Email"}
+                                {...formik.getFieldProps('email')}
+                            />
+                            {formik.touched.email && formik.errors.email &&
+                                <div style={{color: 'red'}}>{formik.errors.email}</div>}
+                            <div className={s.textInfo}>
+                                Enter your email address and we will send you further instructions
+                            </div>
+                            <Button
+                                type={'submit'}
+                                variant={"contained"}
+                                disabled={formik.isSubmitting}
+                            >
+                                Send Instructions
+                            </Button>
+                        </FormGroup>
+                    </form>
+                    <div className={s.textQuestion}>Did you remember your password?</div>
+
+                    <div>
+                        <NavLink to={PATH.login} className={s.link}>
+                            Try logging in
+                        </NavLink>
+                    </div>
+                </div>)}
         </div>)
 };
-
-
-type CheckEmailType = {
-    email: string
-}
-const CheckEmail = (props: CheckEmailType) => {
-    return (
-        <>
-            <h2>Check Email</h2>
-            <div>
-                <img src={mailLogo} alt={"mail"}/>
-            </div>
-            <div className={style.textInfo}>
-                We’ve sent an Email with instructions to {props.email}
-            </div>
-            <div>
-                <Button
-                    variant={'contained'}
-                    color={'primary'}
-                >
-                    <a href={PATH.login}>Back to login</a>
-                </Button>
-            </div>
-        </>
-    )
-}

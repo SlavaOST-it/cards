@@ -18,7 +18,7 @@ import TableContainer from "@mui/material/TableContainer";
 import {ActionsPack} from "./actionsPack/ActionsPack";
 import {SelectSort} from "../../common/components/select/SelectSort";
 
-export const PacksList = () => {
+export const PackListFilter = () => {
     const dispatch = useAppDispatch()
     const dataPacks = useAppSelector(state => state.packList.cardPacks)
     const page = useAppSelector(state => state.packList.page)
@@ -93,11 +93,10 @@ export const PacksList = () => {
     return (
         <div className={style.container}>
             <div className={style.header}>
-                <h2>Packs list</h2>
-                <div>
-                    <Button sx={{borderRadius: 5}} size="small" variant="contained"> Add new pack</Button>
-                </div>
+                Packs list
+                <Button sx={{borderRadius: 5}} size="small" variant="contained"> Add new pack</Button>
             </div>
+
 
             {!dataPacks.length && <div>В данной колоде нету карточек удовлетворяющих поиску</div>}
             <div className={style.filtering}>
@@ -149,9 +148,7 @@ export const PacksList = () => {
                         <TableHead>
                             <TableRow>
                                 <StyledTableCell>Name</StyledTableCell>
-                                <StyledTableCell align="right">
-                                    <div className={style.cards}>Cards <SelectSort/></div>
-                                </StyledTableCell>
+                                <StyledTableCell align="right"><div className={style.cards}>Cards <SelectSort/></div></StyledTableCell>
                                 <StyledTableCell align="right">Last Updated</StyledTableCell>
                                 <StyledTableCell align="right">Created by</StyledTableCell>
                                 <StyledTableCell align="right">Actions</StyledTableCell>

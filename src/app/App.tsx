@@ -5,19 +5,20 @@ import {Header} from "../features/header/Header";
 import {useAppDispatch, useAppSelector} from "./hooks";
 import {initializeAppTC} from "./app-reducer";
 import {ErrorSnackbar} from "../common/components/ErrorSnackbar/ErrorSnackbar";
-import {CircularProgress, LinearProgress} from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
+import LinearProgress from "@mui/material/LinearProgress";
 
 const App = () => {
     const isInitialized = useAppSelector((state) => state.app.isInitialized)
-    const dispatch = useAppDispatch()
     const loadingStatus = useAppSelector((state) => state.app.status)
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         dispatch(initializeAppTC())
     }, [])
 
     if (!isInitialized) {
-        return <div style={{marginBottom: 40, position: 'fixed', top: '60%', textAlign: 'center', width: '100%'}}>
+        return <div className="circularProgress">
             <CircularProgress/>
         </div>
     }
@@ -26,7 +27,7 @@ const App = () => {
         <div className="App">
             <ErrorSnackbar/>
             <Header/>
-            {loadingStatus === 'loading' ? <LinearProgress/> : <div></div>}
+            {loadingStatus === 'loading' && <LinearProgress/>}
             <Main/>
         </div>
     );
