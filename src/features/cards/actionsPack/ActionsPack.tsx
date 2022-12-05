@@ -11,9 +11,10 @@ type ActionsPackType = {
     packId: string,
     userId: string,
     packName: string
+    deckCover:string
 }
 
-export const ActionsPack: FC<ActionsPackType> = ({
+export const ActionsPack: FC<ActionsPackType> = ({deckCover,
                                                      userId,
                                                      packId,
                                                      packName
@@ -50,7 +51,7 @@ export const ActionsPack: FC<ActionsPackType> = ({
                     <DeletePackModal cardId={''} type={'pack'} packId={packId} name={packName} active={activeDeleteModal}
                                      setActive={onActiveModal}
                     />
-                    <EditPackModal name={packName} packId={packId} active={activeEditModal}
+                    <EditPackModal deckCover={deckCover}  name={packName} packId={packId} active={activeEditModal}
                                    setActive={onActiveEditModal}/>
                 </>
             )}

@@ -5,14 +5,14 @@ export const packsAPI = {
     getCardPacks(data: PackRequestType) {
         return instance.get<CardPacksResponseType>('cards/pack', {params: {...data}})
     },
-    createPack(value: string, privateStatus?: boolean) {
-        return instance.post('cards/pack', {cardsPack: {name: value, private: privateStatus}})
+    createPack(value: string, privateStatus?: boolean,deckCover?:string) {
+        return instance.post('cards/pack', {cardsPack: {name: value, private: privateStatus,deckCover:deckCover}})
     },
     deletePack(id: string) {
         return instance.delete(`cards/pack?id=${id}`)
     },
-    updatePack(_id: string, name: string, isPrivate: boolean) {
-        return instance.put('cards/pack', {cardsPack: {_id, name, private: isPrivate}})
+    updatePack(_id: string, name: string, isPrivate: boolean,deckCover?:string) {
+        return instance.put('cards/pack', {cardsPack: {_id, name, private: isPrivate,deckCover}})
     }
 }
 
@@ -134,6 +134,7 @@ export type CardsPackType = {
     rating: number,
     created: string,
     updated: string,
+    deckCover:string
 }
 
 export type PackRequestType = {

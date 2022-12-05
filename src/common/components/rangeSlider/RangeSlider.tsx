@@ -1,9 +1,9 @@
 import * as React from 'react';
+import {useEffect} from 'react';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
 import style from "./RangeSlider.module.css"
 import {useAppDispatch, useAppSelector, useDebounce} from "../../../utils/hooks/hooks";
-import {useEffect} from "react";
 import {setCardsCountAC} from "../../../features/cards/packsList-reducer";
 
 

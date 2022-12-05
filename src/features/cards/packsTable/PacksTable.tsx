@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {styled} from "@mui/material";
 import TableCell, {tableCellClasses} from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
@@ -14,11 +14,14 @@ import {ActionsPack} from "../actionsPack/ActionsPack";
 import TableContainer from "@mui/material/TableContainer";
 import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
 import {setPackIdAC, setPackNameAC, setUserIdAC} from "../packsList-reducer";
+import {baseDeckCover} from "../../../assets/baseDeckCover";
 
 
 export const PacksTable = () => {
     const dispatch = useAppDispatch()
     const dataPacks = useAppSelector(state => state.packList.cardPacks)
+
+    const [isImgBroken, setIsImgBroken] = useState(false)
 
 
     const StyledTableCell = styled(TableCell)(({theme}) => ({
@@ -45,12 +48,20 @@ export const PacksTable = () => {
         dispatch(setPackNameAC(name));
     }
 
+    const errorHandler = (deckCover:string) => {
+        if(deckCover.length<50){
+            setIsImgBroken(true)
+        }
+    }
+
+
     return (
         <TableContainer component={Paper}>
             <Table aria-label="customized table" >
                 <TableHead className={style.tableHeader}>
                     <TableRow className={style.tableHeader}>
-                        <StyledTableCell align="center">Name <SelectSort /></StyledTableCell>
+                        <StyledTableCell align="center">Cover</StyledTableCell>
+                        <StyledTableCell align="center"><div className={style.tableName}>Name <SelectSort /></div></StyledTableCell>
                         <StyledTableCell align="center">Cards</StyledTableCell>
                         <StyledTableCell align="center">Last Updated</StyledTableCell>
                         <StyledTableCell align="center">Created by</StyledTableCell>
@@ -60,6 +71,8 @@ export const PacksTable = () => {
                 <TableBody >
                     {dataPacks.map((el) => (
                         <StyledTableRow key={el._id} className={style.tableHeader}>
+                            <StyledTableCell align="center">
+                                <img onError={()=>errorHandler(el.deckCover)} src={el.deckCover? el.deckCover:baseDeckCover} className={style.coverImg}></img></StyledTableCell>
                             <StyledTableCell  align="center">
                                 <NavLink onClick={()=>{onClickHandler(el._id,el.user_id,el.name)}} to={PATH.cardList}>
                                     {el.name}
@@ -69,7 +82,7 @@ export const PacksTable = () => {
                             <StyledTableCell align="center">{el.updated.substr(0, 10)}</StyledTableCell>
                             <StyledTableCell align="center">{el.user_name}</StyledTableCell>
                             <StyledTableCell sx={{width: 70}} align="right">
-                                {<ActionsPack userId={el.user_id} packName={el.name}  packId={el._id} />}
+                                {<ActionsPack deckCover={el.deckCover} userId={el.user_id} packName={el.name}  packId={el._id} />}
                             </StyledTableCell>
                         </StyledTableRow>
                     ))}
