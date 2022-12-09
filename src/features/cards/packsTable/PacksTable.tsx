@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {styled} from "@mui/material";
 import TableCell, {tableCellClasses} from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
@@ -20,9 +20,6 @@ import {baseDeckCover} from "../../../assets/baseDeckCover";
 export const PacksTable = () => {
     const dispatch = useAppDispatch()
     const dataPacks = useAppSelector(state => state.packList.cardPacks)
-
-    const [isImgBroken, setIsImgBroken] = useState(false)
-
 
     const StyledTableCell = styled(TableCell)(({theme}) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -49,11 +46,8 @@ export const PacksTable = () => {
     }
 
     const errorHandler = (deckCover:string) => {
-        if(deckCover.length<50){
-            setIsImgBroken(true)
-        }
+        console.log(deckCover)
     }
-
 
     return (
         <TableContainer component={Paper}>
@@ -72,7 +66,7 @@ export const PacksTable = () => {
                     {dataPacks.map((el) => (
                         <StyledTableRow key={el._id} className={style.tableHeader}>
                             <StyledTableCell align="center">
-                                <img onError={()=>errorHandler(el.deckCover)} src={el.deckCover? el.deckCover:baseDeckCover} className={style.coverImg}></img></StyledTableCell>
+                                <img onError={()=>errorHandler(el.deckCover)} src={el.deckCover&&el.deckCover.length>100? el.deckCover:baseDeckCover} className={style.coverImg} alt={'cover'}></img></StyledTableCell>
                             <StyledTableCell  align="center">
                                 <NavLink onClick={()=>{onClickHandler(el._id,el.user_id,el.name)}} to={PATH.cardList}>
                                     {el.name}

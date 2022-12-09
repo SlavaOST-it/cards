@@ -1,8 +1,9 @@
-import React, {ChangeEvent, FC, useEffect} from 'react';
+import React, {ChangeEvent, FC, useEffect, useState} from 'react';
 import style from "../modals/addPackModal/AddPackModal.module.css";
 import Button from "@mui/material/Button";
 import {setDeckCoverAC} from "../../../features/cards/packsList-reducer";
 import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
+import {baseDeckCover} from "../../../assets/baseDeckCover";
 
 type CoverInputType={
     deckCover:string
@@ -11,12 +12,13 @@ type CoverInputType={
 export const CoverInput:FC<CoverInputType> = ({deckCover}) => {
     const dispatch =useAppDispatch()
     const myDeckCover=useAppSelector(state=>state.packList.myDeckCover)
+    const [isCoverBroken, setIsCoverBroken] = useState(false)
 
     const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length) {
             const file = e.target.files[0]
 
-            if (file.size < 150000) {
+            if (file.size < 100000) {
                 const reader = new FileReader();
                 reader.onloadend = () => {
                     const file64 = reader.result as string
@@ -28,12 +30,17 @@ export const CoverInput:FC<CoverInputType> = ({deckCover}) => {
             }
         }
     }
+    const errorHandler = () => {
+        setIsCoverBroken(true)
+        alert('Кривая картинка')
+    }
 
     useEffect(()=>{
         if(deckCover){
             dispatch(setDeckCoverAC(deckCover))
         }
     },[])
+
     return (
         <div className={style.coverBlock}>
             <div className={style.coverHeader}>
@@ -49,7 +56,7 @@ export const CoverInput:FC<CoverInputType> = ({deckCover}) => {
                 </label> </div>
             </div>
             <div className={style.coverImage}>
-                <img src={myDeckCover} alt="cover"/>
+                <img onError={errorHandler} src={ isCoverBroken ? baseDeckCover : myDeckCover} alt="cover"/>
             </div>
         </div>
     );
