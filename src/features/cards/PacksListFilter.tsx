@@ -73,7 +73,7 @@ export const PacksListFilter = () => {
     return (
         <div className={style.container}>
 
-            <HeaderTable title={'Packs list'} callbackToAdd={addNewPackHandler} />
+            <HeaderTable title={'Packs list'} callbackToAdd={addNewPackHandler} buttonTitle={'Add new pack'}/>
             <AddPackModal active={openAddPackModal} setActive={addNewPackHandler}/>
 
             {packId && <EditPackModal/>} {/*проверяем есть ли Id, если есть отрисовываем компоненту*/}

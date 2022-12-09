@@ -53,7 +53,7 @@ export const EditAndAddCardsModal:FC<EditAndAddCardsModalType> = ({answerCard,qu
 
     return (
         <BasicModal
-            title={"Add new pack"}
+            title={"Add new card"}
             nameButton={"Save"}
             active={active}
             setActive={onCancelHandler}
