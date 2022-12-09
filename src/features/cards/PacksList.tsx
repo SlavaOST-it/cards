@@ -26,7 +26,6 @@ export const PacksList = () => {
     const minCardsCount = useAppSelector(state => state.packList.minCardsCount)
     const maxCardsCount = useAppSelector(state => state.packList.maxCardsCount)
     const isLoggedIn = useAppSelector(state => state.login.loggedIn)
-    const packId = useAppSelector(state => state.packList.packId)
 
 
     const [alignment, setAlignment] = useState('All')
