@@ -13,6 +13,7 @@ export function RangeSlider() {
     const dispatch = useAppDispatch()
     const [value, setValue] = React.useState<number[]>([minCardsCount, maxCardsCount]);
     const debouncedValue = useDebounce<number[]>(value, 700)
+    const isStatus=useAppSelector(state=>state.app.status)
 
     const handleChange = (event: Event, newValue: number | number[]) => {
         setValue(newValue as number[]);
@@ -32,6 +33,7 @@ export function RangeSlider() {
                     {value[0]}
                 </div>
                 <Slider
+                    disabled={isStatus==='loading'}
                     getAriaLabel={() => 'cards count range'}
                     value={value}
                     onChange={handleChange}
