@@ -45,9 +45,6 @@ export const PacksTable = () => {
         dispatch(setPackNameAC(name));
     }
 
-    const errorHandler = (deckCover:string) => {
-        console.log(deckCover)
-    }
 
     return (
         <TableContainer component={Paper}>
@@ -66,7 +63,7 @@ export const PacksTable = () => {
                     {dataPacks.map((el) => (
                         <StyledTableRow key={el._id} className={style.tableHeader}>
                             <StyledTableCell align="center">
-                                <img onError={()=>errorHandler(el.deckCover)} src={el.deckCover&&el.deckCover.length>100? el.deckCover:baseDeckCover} className={style.coverImg} alt={'cover'}></img></StyledTableCell>
+                                <img  src={el.deckCover&&el.deckCover.length>100? el.deckCover:baseDeckCover} className={style.coverImg} alt={'cover'}></img></StyledTableCell>
                             <StyledTableCell  align="center">
                                 <NavLink onClick={()=>{onClickHandler(el._id,el.user_id,el.name)}} to={PATH.cardList}>
                                     {el.name}
