@@ -3,6 +3,8 @@ import {Pagination, Stack} from "@mui/material";
 import {setPageAC} from "../../../features/cards/packsList-reducer";
 import {useAppDispatch, useAppSelector} from "../../../app/hooks";
 import {setPageCardsAC} from '../../../features/cards/cards-reducer'
+import style from "./BasicPagination.module.css"
+import {SelectPage} from "../handleChange/SelectPage";
 
 type BasicPaginationType = { type: PaginationType }
 type PaginationType = 'cards' | 'packs'
@@ -13,6 +15,7 @@ export const BasicPagination = (props: BasicPaginationType) => {
     const cardsTotalCount = useAppSelector(state => state.cards.cardsTotalCount)
     const pagePacksCount = useAppSelector(state => state.packList.pageCount)
     const pageCardsCount = useAppSelector(state => state.cards.pageCount)
+
     const onChangeHandler = (e: ChangeEvent<unknown>, page: number) => {
         dispatch(setPageAC(page))
         dispatch(setPageCardsAC(page))
@@ -24,7 +27,10 @@ export const BasicPagination = (props: BasicPaginationType) => {
 
     return (
         <Stack sx={{p: 1}} spacing={2}>
-            <Pagination onChange={onChangeHandler} count={countPacks} color="primary"/>
+            <div className={style.container}>
+                <Pagination onChange={onChangeHandler} count={countPacks} color="primary"/>
+                Show <div className={style.page}><SelectPage/></div> Cards per Page
+            </div>
         </Stack>
     );
 };

@@ -9,16 +9,18 @@ import style from "../PacksList.module.css";
 import {SelectSort} from "../../../common/components/select/SelectSort";
 import TableBody from "@mui/material/TableBody";
 import {NavLink} from "react-router-dom";
-import {setPackUserIdAC} from "../cards-reducer";
 import {PATH} from "../../../utils/routes/routes";
 import {ActionsPack} from "../actionsPack/ActionsPack";
 import TableContainer from "@mui/material/TableContainer";
 import {useAppDispatch, useAppSelector} from "../../../app/hooks";
+import {setPackIdAC, setPackNameAC, setUserIdAC} from "../packsList-reducer";
 
 
 export const PacksTable = () => {
     const dispatch = useAppDispatch()
+
     const dataPacks = useAppSelector(state => state.packList.cardPacks)
+
 
     const StyledTableCell = styled(TableCell)(({theme}) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -38,6 +40,12 @@ export const PacksTable = () => {
         },
     }));
 
+    const onClickHandler=(PackID:string,userId:string,name:string)=>{
+        dispatch(setPackIdAC(PackID));
+        dispatch(setUserIdAC(userId));
+        dispatch(setPackNameAC(name));
+
+    }
     return (
         <TableContainer component={Paper}>
             <Table aria-label="customized table" >
@@ -54,12 +62,12 @@ export const PacksTable = () => {
                     {dataPacks.map((el) => (
                         <StyledTableRow key={el._id} className={style.tableHeader}>
                             <StyledTableCell  align="center">
-                                <NavLink onClick={()=>dispatch(setPackUserIdAC(el._id))} to={PATH.cardList}>{el.name}</NavLink>
+                                <NavLink onClick={()=>{onClickHandler(el._id,el.user_id,el.name)}} to={PATH.cardList}>{el.name}</NavLink>
                             </StyledTableCell>
                             <StyledTableCell align="center">{el.cardsCount}</StyledTableCell>
                             <StyledTableCell align="center">{el.updated.substr(0, 10)}</StyledTableCell>
                             <StyledTableCell align="center">{el.user_name}</StyledTableCell>
-                            <StyledTableCell sx={{width: 70}} align="right">{<ActionsPack  id={el._id} userId={el.user_id}/>}</StyledTableCell>
+                            <StyledTableCell sx={{width: 70}} align="right">{<ActionsPack userId={el.user_id} packName={el.name}  packId={el._id} />}</StyledTableCell>
                         </StyledTableRow>
                     ))}
                 </TableBody>

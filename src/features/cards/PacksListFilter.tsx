@@ -1,4 +1,4 @@
-import React, {useEffect, useState, FC} from 'react';
+import React, {useEffect, useState} from 'react';
 import style from "./PacksList.module.css"
 import Button from "@mui/material/Button";
 import ToggleButton from "@mui/material/ToggleButton";
@@ -13,6 +13,8 @@ import {SearchEngine} from "../../common/components/search/SearchEngine";
 import {EditPackModal} from "../modals/editPackModal";
 import {PacksTable} from "./packsTable/PacksTable";
 import {AddPackModal} from "../../common/components/modals/addPackModal/AddPackModal";
+import {HeaderTable} from "../../common/components/headerTable/HeaderTable";
+
 
 
 export const PacksListFilter = () => {
@@ -26,8 +28,8 @@ export const PacksListFilter = () => {
     const minCardsCount = useAppSelector(state => state.packList.minCardsCount)
     const maxCardsCount = useAppSelector(state => state.packList.maxCardsCount)
     const isLoggedIn = useAppSelector(state => state.login.loggedIn)
-    // const isOpenModal = useAppSelector(state => state.packList.isOpenModal)
     const packId = useAppSelector(state => state.packList.packId)
+
 
     const [alignment, setAlignment] = useState('All')
     const [value, setValue] = useState('')
@@ -70,19 +72,8 @@ export const PacksListFilter = () => {
 
     return (
         <div className={style.container}>
-            <div className={style.header}>
-                <h2>Packs list</h2>
-                <div>
-                    <Button
-                        onClick={addNewPackHandler}
-                        sx={{borderRadius: 5}} size="small"
-                        variant="contained"
-                    >
-                        Add new pack
-                    </Button>
-                </div>
-            </div>
 
+            <HeaderTable title={'Packs list'} callbackToAdd={addNewPackHandler} />
             <AddPackModal active={openAddPackModal} setActive={addNewPackHandler}/>
 
             {packId && <EditPackModal/>} {/*проверяем есть ли Id, если есть отрисовываем компоненту*/}
@@ -121,11 +112,9 @@ export const PacksListFilter = () => {
                     </Button>
                 </div>
             </div>
-
             <div className={style.table}>
                 <PacksTable/>
             </div>
-
             <BasicPagination type={'packs'}/>
         </div>
     );
