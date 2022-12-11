@@ -1,9 +1,8 @@
 import {AppThunkType} from '../../app/store'
 import {setAppStatusAC} from '../../app/app-reducer'
-import {CardResponseType, cardsAPI, CardsType} from '../../api/cardsAPI'
+import {CardResponseType, cardsAPI, CardsType, packsAPI} from '../../api/cardsAPI'
 import {baseErrorHandler} from "../../utils/error-utils/error-utils";
 import {AxiosError} from "axios";
-import {getPackListTC} from "./packsList-reducer";
 
 type setCardsType = ReturnType<typeof setCardsAC>
 type setSearchCardsType = ReturnType<typeof setSearchCardsAC>
@@ -63,7 +62,7 @@ export type GetCardsParamsType = {
     sortCards: string
     page: number
     pageCount: number
-    id: string 
+    id: string
 }
 
 export const cardsReducer = (state = initialState, action: CardsActionsType): InitialStateType => {
@@ -113,29 +112,28 @@ export const setCardIdAC = (cardId: string) => {
     return {type: "CARDS/SET_CARD_ID", cardId} as const
 }
 
-export const getCardsThunk = (packId: string): AppThunkType =>
-    async (dispatch, getState) => {
-        dispatch(setAppStatusAC('loading'))
-        try {
-            const {page, pageCount, sortCards, cardQuestion} = getState().cards
-            const payload: CardsType = {
-                cardAnswer: '',
-                cardQuestion: cardQuestion,
-                cardsPack_id: packId,
-                page: page,
-                pageCount: pageCount,
-                sortCards: sortCards,
-                max: 0,
-                min: 0,
-            }
-            const res = await cardsAPI.getCards(payload)
-            dispatch(setCardsAC(res.data.cards))
-            dispatch(setCardsTotalCountAC(res.data.cardsTotalCount))
-            dispatch(setAppStatusAC('succeed'))
-        } catch (e) {
-            return baseErrorHandler(e as Error | AxiosError, dispatch)
+export const getCardsThunk = (packId: string): AppThunkType => async (dispatch, getState) => {
+    dispatch(setAppStatusAC('loading'))
+    try {
+        const {page, pageCount, sortCards, cardQuestion} = getState().cards
+        const payload: CardsType = {
+            cardAnswer: '',
+            cardQuestion: cardQuestion,
+            cardsPack_id: packId,
+            page: page,
+            pageCount: pageCount,
+            sortCards: sortCards,
+            max: 0,
+            min: 0,
         }
+        const res = await cardsAPI.getCards(payload)
+        dispatch(setCardsAC(res.data.cards))
+        dispatch(setCardsTotalCountAC(res.data.cardsTotalCount))
+        dispatch(setAppStatusAC('succeed'))
+    } catch (e) {
+        return baseErrorHandler(e as Error | AxiosError, dispatch)
     }
+}
 
 export const addCardThunk = (cardsPack_id: string, question: string, answer: string): AppThunkType => async (dispatch) => {
     dispatch(setAppStatusAC('loading'))
@@ -146,7 +144,6 @@ export const addCardThunk = (cardsPack_id: string, question: string, answer: str
     } catch (e) {
         baseErrorHandler(e as Error | AxiosError, dispatch)
     }
-
 }
 
 export const deleteCardThunk = (cardsPack_id: string, cardsId: string): AppThunkType => async (dispatch) => {
