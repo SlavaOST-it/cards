@@ -35,37 +35,40 @@ export const PacksTable = () => {
         '&:nth-of-type(odd)': {
             backgroundColor: theme.palette.action.hover,
         },
-        '&:last-child td, &:last-child th': {
-        },
+        '&:last-child td, &:last-child th': {},
     }));
 
-    const onClickHandler=(PackID:string,userId:string,name:string)=>{
+    const onClickHandler = (PackID: string, userId: string, name: string) => {
         dispatch(setPackIdAC(PackID));
         dispatch(setUserIdAC(userId));
         dispatch(setPackNameAC(name));
     }
 
-
     return (
         <TableContainer component={Paper}>
-            <Table aria-label="customized table" >
+            <Table aria-label="customized table">
                 <TableHead className={style.tableHeader}>
                     <TableRow className={style.tableHeader}>
                         <StyledTableCell align="center">Cover</StyledTableCell>
-                        <StyledTableCell align="center"><div className={style.tableName}>Name <SelectSort /></div></StyledTableCell>
+                        <StyledTableCell align="center">
+                            <div className={style.tableName}>Name <SelectSort/></div>
+                        </StyledTableCell>
                         <StyledTableCell align="center">Cards</StyledTableCell>
                         <StyledTableCell align="center">Last Updated</StyledTableCell>
                         <StyledTableCell align="center">Created by</StyledTableCell>
                         <StyledTableCell sx={{width: 120}} align="center">Actions</StyledTableCell>
                     </TableRow>
                 </TableHead>
-                <TableBody >
+                <TableBody>
                     {dataPacks.map((el) => (
                         <StyledTableRow key={el._id} className={style.tableHeader}>
                             <StyledTableCell align="center">
-                                <img  src={el.deckCover&&el.deckCover.length>100? el.deckCover:baseDeckCover} className={style.coverImg} alt={'cover'}></img></StyledTableCell>
-                            <StyledTableCell  align="center">
-                                <NavLink onClick={()=>{onClickHandler(el._id,el.user_id,el.name)}} to={PATH.cardList}>
+                                <img src={el.deckCover && el.deckCover.length > 100 ? el.deckCover : baseDeckCover}
+                                     className={style.coverImg} alt={'cover'}></img></StyledTableCell>
+                            <StyledTableCell align="center">
+                                <NavLink onClick={() => {
+                                    onClickHandler(el._id, el.user_id, el.name)
+                                }} to={PATH.cardList}>
                                     {el.name}
                                 </NavLink>
                             </StyledTableCell>
@@ -73,7 +76,8 @@ export const PacksTable = () => {
                             <StyledTableCell align="center">{el.updated.substr(0, 10)}</StyledTableCell>
                             <StyledTableCell align="center">{el.user_name}</StyledTableCell>
                             <StyledTableCell sx={{width: 70}} align="right">
-                                {<ActionsPack deckCover={el.deckCover} userId={el.user_id} packName={el.name}  packId={el._id} />}
+                                {<ActionsPack deckCover={el.deckCover} userId={el.user_id} packName={el.name}
+                                              packId={el._id}/>}
                             </StyledTableCell>
                         </StyledTableRow>
                     ))}

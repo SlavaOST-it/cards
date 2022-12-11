@@ -98,6 +98,7 @@ export const packsListReducer = (state: InitialStatePacksType = initialState, ac
 
         case "PACK_LIST/SET_PACK_NAME":
             return {...state, packName: action.packName}
+
         case "PACK_LIST/SET_DECK_COVER":
             return {...state,myDeckCover:action.deckCover}
 
