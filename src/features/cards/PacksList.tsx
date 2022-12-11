@@ -70,7 +70,10 @@ export const PacksList = () => {
     return (
         <div className={style.container}>
 
-            <HeaderTable title={'Packs list'} callbackToAdd={addNewPackHandler} titleButton={"Add new pack"}/>
+            <div>
+                <HeaderTable title={'Packs list'} callbackToAdd={addNewPackHandler} titleButton={"Add new pack"}/>
+            </div>
+
             <AddPackModal active={openAddPackModal} setActive={addNewPackHandler}/>
 
             {!dataPacks.length && <div>В данной колоде нету карточек удовлетворяющих поиску</div>}
@@ -90,9 +93,9 @@ export const PacksList = () => {
                     >
                         <ToggleButton onClick={onClickMyHandler} value="My">My</ToggleButton>
                         <ToggleButton onClick={onClickAllHandler} value="All">All</ToggleButton>
-
                     </ToggleButtonGroup>
                 </div>
+
                 <div className={style.numberOfCards}>
                     Number of cards
                     <RangeSlider/>
@@ -107,10 +110,14 @@ export const PacksList = () => {
                     </Button>
                 </div>
             </div>
-            <div className={style.table}>
+
+            <div>
                 <PacksTable/>
             </div>
-            <BasicPagination type={'packs'}/>
+
+            <div className={style.pagination}>
+                <BasicPagination type={'packs'}/>
+            </div>
         </div>
     );
 };

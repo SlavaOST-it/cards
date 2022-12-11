@@ -1,19 +1,9 @@
 .container {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-}
-
-.header {
     width: 80%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 34px;
+    margin: 0 auto;
 }
 
 .filtering {
-    width: 80%;
     display: flex;
     justify-content: space-between;
     align-items: start;
@@ -31,10 +21,6 @@
     flex-direction: column;
     align-items: center;
     min-width: 150px;
-}
-
-.table {
-    width: 80%;
 }
 
 .button {
@@ -62,4 +48,9 @@
 
 .tableName{
     display: flex;
+}
+
+.pagination{
+    display: flex;
+    justify-content: center;
 }
