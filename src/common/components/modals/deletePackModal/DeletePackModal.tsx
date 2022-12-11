@@ -41,7 +41,7 @@ export const DeletePackModal: FC<DeletePackModalType> = ({cardId,packId, active,
         <BasicModal active={active} setActive={onCloseHandler} onSaveCallback={onSaveCallback} nameButton={"Delete"}
                     title={`Delete ${type}`} styleButton={styleButtonMUI}>
             <div>
-                Do you really want to remove {name}?
+                Do you really want to remove <b>{name}</b>?
                 All cards will be deleted.
             </div>
         </BasicModal>
