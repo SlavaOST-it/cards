@@ -3,44 +3,34 @@
     margin: 0 auto;
 }
 
-.headerPage {
+.profile{
     display: flex;
-    justify-content: space-between;
-
-    -webkit-box-shadow: 0 -5px 5px -5px rgba(34, 60, 80, 0.6) inset;
-    -moz-box-shadow: 0 -5px 5px -5px rgba(34, 60, 80, 0.6) inset;
-    box-shadow: 0 -5px 5px -5px rgba(34, 60, 80, 0.6) inset;
-}
-
-.headerPage_infoUser {
-    display: flex;
+    flex-direction: column;
     align-items: center;
-}
-
-.headerPage_infoUser_name {
-    font-size: 18px;
-    font-weight: bold;
-    margin-right: 20px;
-}
-
-.headerPage_infoUser_avatar {
-    margin: 0;
-    padding: 10px 0;
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
 }
 
 .profile h2 {
     padding: 20px 0;
 }
 
+.avatarBlock{
+    display: flex;
+    align-items: flex-end;
+}
 
-.profile_changeAvatar {
+.avatar{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.changeAvatarBtn {
     left: -50px;
     z-index: 1;
 
-    height: 50px;
+    height: 28px;
+    border: none;
+    opacity: 0.8;
 }
 
 .name {

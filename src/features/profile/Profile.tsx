@@ -1,13 +1,17 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useRef, useState} from 'react';
 import s from './Profile.module.css'
 import pencilLogo from '../../assets/img/icons/pencil.png'
-import {changeNameThunkCreator} from "./profile-reducer";
+import {changeAvatarThunkCreator, changeNameThunkCreator, setUserPhotoAC} from "./profile-reducer";
 import {useAppDispatch, useAppSelector} from "../../utils/hooks/hooks";
 import {Navigate} from "react-router-dom";
 import {PATH} from "../../utils/routes/routes";
 import {LogOutButton} from "../../common/components/buttons/logOutButton/LogOutButton";
 import {BackToPacksList} from "../../common/components/backToPacksLink/BackToPacksList";
 import {AvatarUser} from "./avatarUser/AvatarUser";
+import photoCamera from "../../assets/img/icons/photo-camera-svgrepo-com.svg";
+import {convertFileToBase64} from "../../utils/convertFileToBase64/convertFileToBase64";
+import customAvatar from "../../assets/img/icons/avatar_user.png"
+import {setAppErrorAC} from "../../app/app-reducer";
 
 
 export const Profile = () => {
@@ -19,6 +23,7 @@ export const Profile = () => {
     const [editMode, setEditMode] = useState<boolean>(false)
     const [name, setName] = useState<string>(userName)
     const [error, setError] = useState<string | null>(null)
+    const [isAvaBroken, setIsAvaBroken] = useState(false)
 
     const activateEditMode = () => {
         setEditMode(true);
@@ -35,8 +40,7 @@ export const Profile = () => {
         }
     }
 
-    const changeStatus = (e: ChangeEvent<HTMLInputElement>) => {
-
+    const changeNameHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setName(e.currentTarget.value)
         if (e.currentTarget.value.length < 1) {
             setError('Min length 1 symbol')
@@ -46,6 +50,36 @@ export const Profile = () => {
         } else {
             setError(null)
         }
+    }
+
+    const inputRef = useRef<HTMLInputElement>(null)
+
+    const selectFileHandler = () => {
+        inputRef && inputRef.current?.click();
+    }
+
+    const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length) {
+            const file = e.target.files[0]
+            if (file.size < 1000000) {
+                convertFileToBase64(file, (file64: string) => {
+                    dispatch(changeAvatarThunkCreator(file64))
+                })
+            } else {
+                dispatch(setAppErrorAC('Файл слишком большого размера'))
+                console.error('Error: ', 'Файл слишком большого размера')
+            }
+        }
+    }
+
+    const errorHandler = () => {
+        setIsAvaBroken(true)
+        dispatch(setAppErrorAC('Кривая картинка'))
+    }
+
+    if(isAvaBroken){
+        dispatch(setUserPhotoAC(customAvatar))
+        setIsAvaBroken(false)
     }
 
     if (!loggedIn) {
@@ -60,7 +94,30 @@ export const Profile = () => {
             <div className={s.profile}>
                 <h2>Personal Information</h2>
 
-                <AvatarUser/>
+                <div className={s.avatarBlock}>
+                    <div>
+                        <AvatarUser
+                            onError={errorHandler}
+                            className={s.avatar}/>
+                    </div>
+
+                    <div>
+                        <button className={s.changeAvatarBtn} onClick={selectFileHandler}>
+                            <img
+                                className={s.changeAvatarBtn}
+                                src={photoCamera}
+                                alt={'change_photo'}
+                            />
+                        </button>
+                        <input
+                            style={{display: 'none'}}
+                            ref={inputRef}
+                            type="file"
+                            accept={"image/*"}
+                            onChange={uploadHandler}
+                        />
+                    </div>
+                </div>
 
                 <div className={s.name}>
                     {editMode
@@ -71,7 +128,7 @@ export const Profile = () => {
                                 autoFocus={true}
                                 onBlur={activateViewMode}
                                 value={name}
-                                onChange={changeStatus}
+                                onChange={changeNameHandler}
                             />
                             {error && (<div className={s.errorSpan}>{error}</div>)}
                         </div>)

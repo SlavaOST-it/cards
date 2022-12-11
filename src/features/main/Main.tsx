@@ -8,7 +8,7 @@ import {PasswordRecovery} from "../passwordRecovery/PasswordRecovery";
 import Registration from '../registration/Registration';
 import {NewPass} from "../newPassword/NewPass";
 import {PacksList} from "../cards/PacksList";
-import {CardList} from "../cards/packs/CardList";
+import {CardList} from "../cards/cards/CardList";
 
 export const Main = () => {
 

@@ -63,7 +63,7 @@ export type GetCardsParamsType = {
     sortCards: string
     page: number
     pageCount: number
-    id: string
+    id: string 
 }
 
 export const cardsReducer = (state = initialState, action: CardsActionsType): InitialStateType => {
