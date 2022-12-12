@@ -2,7 +2,6 @@
     width: 120px;
     display: flex;
     justify-content: center;
-    border: none;
 }
 .button{
     padding: 0 15px;

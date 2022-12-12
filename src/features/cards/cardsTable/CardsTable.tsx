@@ -11,6 +11,7 @@ import {styled} from "@mui/material";
 import TableCell, {tableCellClasses} from "@mui/material/TableCell";
 import {useAppSelector} from "../../../utils/hooks/hooks";
 import {BasicRating} from "../ratingCards/RatingCard";
+import {ActionsPack} from "../actionsPack/ActionsPack";
 
 export const CardsTable = () => {
     const cards = useAppSelector(state => state.cards.cards)
@@ -53,8 +54,19 @@ export const CardsTable = () => {
                             <StyledTableCell align="center">{el.question}</StyledTableCell>
                             <StyledTableCell align="center">{el.answer}</StyledTableCell>
                             <StyledTableCell align="center">{el.updated.substr(0, 10)}</StyledTableCell>
-                            <StyledTableCell align="center">
-                                <BasicRating grade={el.grade}/>
+                            <StyledTableCell sx={{width: 50}} align="right">
+                                <div className={style.grade}>
+                                    <BasicRating grade={el.grade}/>
+                                    <ActionsPack type={'card'}
+                                                 userId={el.user_id}
+                                                 packId={el.cardsPack_id}
+                                                 cardId={el._id}
+                                                 question={el.question}
+                                                 answer={el.answer}
+                                                 packName={''}
+                                                 deckCover={''}
+                                    />
+                                </div>
                             </StyledTableCell>
                         </StyledTableRow>
                     ))}

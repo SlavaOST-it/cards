@@ -6,19 +6,29 @@ import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import s from "./ActionsPack.module.css"
 import {DeletePackModal} from "../../../common/components/modals/deletePackModal/DeletePackModal";
 import {EditPackModal} from "../../../common/components/modals/changePackModal/EditPackModal";
+import {ChangeCardModal} from "../../../common/components/modals/changeCardModal/ChangeCardModal";
+
 
 type ActionsPackType = {
+    type: 'pack' | 'card'
     packId: string,
+    cardId: string
     userId: string,
     packName: string
     deckCover: string
+    question: string
+    answer: string
 }
 
 export const ActionsPack: FC<ActionsPackType> = ({
+                                                     type,
                                                      deckCover,
                                                      userId,
                                                      packId,
-                                                     packName
+                                                     cardId,
+                                                     packName,
+                                                     question,
+                                                     answer
                                                  }) => {
 
     const myId = useAppSelector(state => state.profile._id)
@@ -26,40 +36,90 @@ export const ActionsPack: FC<ActionsPackType> = ({
 
     const [activeDeleteModal, setActiveDeleteModal] = useState(false)
     const [activeEditModal, setActiveEditModal] = useState(false)
+    const [activeEditCardModal, setActiveEditCardModal] = useState(false)
 
     const learnPackHandler = () => {
-        alert('111')
+        alert('Learn pack')
     }
 
     const onActiveModal = () => setActiveDeleteModal(!activeDeleteModal)
     const onActiveEditModal = () => setActiveEditModal(!activeEditModal)
+    const onActiveEditCardModal = () => setActiveEditCardModal(!activeEditCardModal)
 
     const disableButton = loadingStatus === 'loading'
 
     return (
-        <button disabled={disableButton} className={s.actionBtn}>
-            {packId.length && <div className={s.button} onClick={learnPackHandler}>
-                <SchoolOutlinedIcon fontSize={'small'}/>
-            </div>}
-
-            {myId === userId && (
+        <div className={s.actionBtn}>
+            {type === 'pack' && (
                 <>
-                    <button disabled={disableButton} className={s.button} onClick={onActiveEditModal}>
-                        <BorderColorOutlinedIcon fontSize={'small'}/>
-                    </button>
+                    <LearnAction disabled={disableButton} onClickCallback={learnPackHandler}/>
 
-                    <button disabled={disableButton} className={s.button} onClick={onActiveModal}>
-                        <DeleteIcon fontSize={'small'}/>
-                    </button>
-
-                    <DeletePackModal cardId={''} type={'pack'} packId={packId} name={packName}
-                                     active={activeDeleteModal}
-                                     setActive={onActiveModal}
-                    />
-                    <EditPackModal deckCover={deckCover} name={packName} packId={packId} active={activeEditModal}
-                                   setActive={onActiveEditModal}/>
+                    {myId === userId && (
+                        <>
+                            <EditAction disabled={disableButton} onClickCallback={onActiveEditModal}/>
+                            <DeleteAction disabled={disableButton} onClickCallback={onActiveModal}/>
+                        </>
+                    )}
                 </>
             )}
-        </button>
+
+            {(type === 'card' && myId === userId) && (
+                <>
+                    <EditAction disabled={disableButton} onClickCallback={onActiveEditCardModal}/>
+                    <DeleteAction disabled={disableButton} onClickCallback={onActiveModal}/>
+                </>
+
+            )}
+
+            <DeletePackModal cardId={cardId}
+                             type={type}
+                             packId={packId}
+                             name={packName}
+                             active={activeDeleteModal}
+                             setActive={onActiveModal}
+            />
+            <EditPackModal deckCover={deckCover}
+                           name={packName}
+                           packId={packId}
+                           active={activeEditModal}
+                           setActive={onActiveEditModal}
+            />
+            <ChangeCardModal cardId={cardId}
+                             packId={packId}
+                             active={activeEditCardModal}
+                             setActive={onActiveEditCardModal}
+                             question={question}
+                             answer={answer}
+            />
+        </div>
     );
 };
+
+type ActionsType = {
+    disabled: boolean
+    onClickCallback: () => void
+}
+
+const LearnAction = (props: ActionsType) => {
+    return (
+        <button className={s.button} disabled={props.disabled} onClick={props.onClickCallback}>
+            <SchoolOutlinedIcon fontSize={'small'}/>
+        </button>
+    )
+}
+
+const EditAction = (props: ActionsType) => {
+    return (
+        <button disabled={props.disabled} className={s.button} onClick={props.onClickCallback}>
+            <BorderColorOutlinedIcon fontSize={'small'}/>
+        </button>
+    )
+}
+
+const DeleteAction = (props: ActionsType) => {
+    return (
+        <button disabled={props.disabled} className={s.button} onClick={props.onClickCallback}>
+            <DeleteIcon fontSize={'small'}/>
+        </button>
+    )
+}

@@ -43,7 +43,6 @@ export const CardList = () => {
 
     const callback = () => setActive(!active)
 
-
     useEffect(() => {
         dispatch(getCardsThunk(cardsPackId))
     }, [packUserId, minGrade, maxGrade, search, page, pageCount, sortCards])
@@ -58,8 +57,6 @@ export const CardList = () => {
             <BackToPacksList/>
 
             <div className={style.wrapper}>
-
-
                 <EditAndAddCardsModal
                     answerCard={''}
                     questionCard={''}
@@ -84,10 +81,10 @@ export const CardList = () => {
                 <div className={style.table}>
                     <CardsTable/>
                 </div>
+
                 <div className={style.pagination}>
                     <BasicPagination type={'cards'}/>
                 </div>
-
             </div>
         </div>
     );
