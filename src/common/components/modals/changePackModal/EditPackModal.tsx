@@ -33,13 +33,11 @@ export const EditPackModal:FC<EditPackModalType> = ({deckCover,name,packId,activ
         dispatch(changePackTC(packId,value, checkValue,myDeckCover))
         dispatch(setDeckCoverAC(baseDeckCover))
         setActive(false)
-
     }
 
     const onCancelHandler = () => {
         setActive(false)
     }
-
 
     const onChangeChecked = (e: ChangeEvent<HTMLInputElement>) => {
         setCheckValue(e.currentTarget.checked)

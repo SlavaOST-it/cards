@@ -16,27 +16,26 @@ import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
 import {setPackIdAC, setPackNameAC, setUserIdAC} from "../packsList-reducer";
 import {baseDeckCover} from "../../../assets/baseDeckCover";
 
+const StyledTableCell = styled(TableCell)(({theme}) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+    },
+}));
+
+const StyledTableRow = styled(TableRow)(({theme}) => ({
+    '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    '&:last-child td, &:last-child th': {},
+}));
 
 export const PacksTable = () => {
     const dispatch = useAppDispatch()
     const dataPacks = useAppSelector(state => state.packList.cardPacks)
-
-    const StyledTableCell = styled(TableCell)(({theme}) => ({
-        [`&.${tableCellClasses.head}`]: {
-            backgroundColor: theme.palette.common.black,
-            color: theme.palette.common.white,
-        },
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-        },
-    }));
-
-    const StyledTableRow = styled(TableRow)(({theme}) => ({
-        '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.action.hover,
-        },
-        '&:last-child td, &:last-child th': {},
-    }));
 
     const onClickHandler = (PackID: string, userId: string, name: string) => {
         dispatch(setPackIdAC(PackID));
@@ -76,8 +75,15 @@ export const PacksTable = () => {
                             <StyledTableCell align="center">{el.updated.substr(0, 10)}</StyledTableCell>
                             <StyledTableCell align="center">{el.user_name}</StyledTableCell>
                             <StyledTableCell sx={{width: 70}} align="right">
-                                {<ActionsPack deckCover={el.deckCover} userId={el.user_id} packName={el.name}
-                                              packId={el._id}/>}
+                                {<ActionsPack type={'pack'}
+                                              deckCover={el.deckCover}
+                                              userId={el.user_id}
+                                              packName={el.name}
+                                              packId={el._id}
+                                              cardId={''}
+                                              answer={''}
+                                              question={''}
+                                />}
                             </StyledTableCell>
                         </StyledTableRow>
                     ))}
