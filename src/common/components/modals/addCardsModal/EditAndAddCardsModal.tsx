@@ -3,6 +3,7 @@ import {BasicModal} from '../BasicModal'
 import TextField from '@mui/material/TextField'
 import {useAppDispatch, useAppSelector} from '../../../../utils/hooks/hooks'
 import {addCardThunk, changeCardThunk} from '../../../../features/cards/cards-reducer'
+import {Box} from '@mui/material'
 
 const styleButtonMUI = {
     borderRadius: 10,
@@ -88,39 +89,47 @@ export const EditAndAddCardsModal: FC<EditAndAddCardsModalType> = ({
             disabledButton={question.length === 0 || answer.length === 0}
             styleButton={styleButtonMUI}
         >
-            <div>
-                <TextField value={question}
-                           margin="normal"
-                           fullWidth={true}
-                           select
-                           SelectProps={{
-                               native: true,
-                           }}
-                           onChange={onChangeQuestionHandler}
-                >
-                    {cardQuestion.map((option) => (
-                        <option key={option.value} value={option.value}>
-                            {option.label}
-                        </option>
-                    ))}
-                </TextField>
-            </div>
-            <div>
-                <TextField value={answer}
-                           margin="normal" fullWidth={true}
-                           select
-                           SelectProps={{
-                               native: true,
-                           }}
-                           onChange={onChangeAnswerHandler}>
-                    {cardAnswer.map((option) => (
-                        <option key={option.value} value={option.value}>
-                            {option.label}
-                        </option>
-                    ))}
-                </TextField>
-            </div>
-
+            <Box
+                component="form"
+                sx={{
+                    '& .MuiTextField-root': {m: 1, width: '25ch'},
+                }}
+                noValidate
+                autoComplete="off"
+            >
+                <div>
+                    <TextField value={question}
+                               margin="normal"
+                               fullWidth={true}
+                               select
+                               SelectProps={{
+                                   native: true,
+                               }}
+                               onChange={onChangeQuestionHandler}
+                    >
+                        {cardQuestion.map((option) => (
+                            <option key={option.value} value={option.value}>
+                                {option.label}
+                            </option>
+                        ))}
+                    </TextField>
+                </div>
+                <div>
+                    <TextField value={answer}
+                               margin="normal" fullWidth={true}
+                               select
+                               SelectProps={{
+                                   native: true,
+                               }}
+                               onChange={onChangeAnswerHandler}>
+                        {cardAnswer.map((option) => (
+                            <option key={option.value} value={option.value}>
+                                {option.label}
+                            </option>
+                        ))}
+                    </TextField>
+                </div>
+            </Box>
         </BasicModal>
     )
 }
