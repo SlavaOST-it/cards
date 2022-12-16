@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Navigate} from "react-router-dom";
 import {PATH} from "../../../utils/routes/routes";
-import {useAppDispatch, useAppSelector} from "../../../app/hooks";
 import style from "./CardList.module.css"
 import {SearchEngine} from "../../../common/components/search/SearchEngine";
 import {BasicPagination} from "../../../common/components/pagination/BasicPagination";
@@ -10,6 +9,7 @@ import {HeaderTable} from "../../../common/components/headerTable/HeaderTable";
 import {CardsTable} from "../cardsTable/CardsTable";
 import {EditAndAddCardsModal} from "../../../common/components/modals/addCardsModal/EditAndAddCardsModal";
 import {BackToPacksList} from '../../../common/components/backToPacksLink/BackToPacksList'
+import {useAppDispatch, useAppSelector} from '../../../utils/hooks/hooks'
 
 
 export const CardList = () => {
@@ -48,7 +48,7 @@ export const CardList = () => {
         <div className={style.container}>
             <BackToPacksList/>
             <EditAndAddCardsModal answerCard={''} questionCard={''} type={'add'} cardsPackId={cardsPackId} setActive={callback} active={active}/>
-            <HeaderTable callbackToAdd={addNewCard} title={'Cards list'} buttonTitle={'Add new card'}/>
+            <HeaderTable callbackToAdd={addNewCard} title={'Cards list'} titleButton={'Add new card'}/>
             {!dataCards.length && <div>В данной колоде нету карточек удовлетворяющих поиску</div>}
             <div className={style.search}>
                 <SearchEngine setValue={setValue} value={value} />

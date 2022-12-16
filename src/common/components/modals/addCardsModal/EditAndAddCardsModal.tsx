@@ -1,9 +1,8 @@
-import React, {ChangeEvent, FC, useState} from 'react';
-import {BasicModal} from "../BasicModal";
-import TextField from "@mui/material/TextField";
-import {useAppDispatch, useAppSelector} from "../../../../utils/hooks/hooks";
-import {addCardThunk, changeCardThunk} from "../../../../features/cards/cards-reducer";
-
+import React, {ChangeEvent, FC, useState} from 'react'
+import {BasicModal} from '../BasicModal'
+import TextField from '@mui/material/TextField'
+import {useAppDispatch, useAppSelector} from '../../../../utils/hooks/hooks'
+import {addCardThunk, changeCardThunk} from '../../../../features/cards/cards-reducer'
 
 const styleButtonMUI = {
     borderRadius: 10,
@@ -11,15 +10,22 @@ const styleButtonMUI = {
 }
 type EditAndAddCardsModalType = {
     active: boolean
-    setActive: (active:boolean)=>void
-    cardsPackId:string
-    type:'edit'|'add'
-    answerCard:string
-    questionCard:string
+    setActive: (active: boolean) => void
+    cardsPackId: string
+    type: 'edit' | 'add'
+    answerCard: string
+    questionCard: string
 }
-export const EditAndAddCardsModal:FC<EditAndAddCardsModalType> = ({answerCard,questionCard,type,active, setActive,cardsPackId}) => {
+export const EditAndAddCardsModal: FC<EditAndAddCardsModalType> = ({
+                                                                       answerCard,
+                                                                       questionCard,
+                                                                       type,
+                                                                       active,
+                                                                       setActive,
+                                                                       cardsPackId
+                                                                   }) => {
     const dispatch = useAppDispatch()
-    const cardID=useAppSelector(state=>state.cards.cardId)
+    const cardID = useAppSelector(state => state.cards.cardId)
 
     const [question, setQuestion] = useState(questionCard)
     const [answer, setAnswer] = useState(answerCard)
@@ -34,13 +40,13 @@ export const EditAndAddCardsModal:FC<EditAndAddCardsModalType> = ({answerCard,qu
     }
 
     const onSaveHandler = () => {
-        if(type==='add'){
-            dispatch(addCardThunk(cardsPackId,question,answer))
+        if (type === 'add') {
+            dispatch(addCardThunk(cardsPackId, question, answer))
             setActive(false)
             setQuestion('')
             setAnswer('')
-        }else{
-            dispatch(changeCardThunk(cardsPackId,cardID,question,answer))
+        } else {
+            dispatch(changeCardThunk(cardsPackId, cardID, question, answer))
             setActive(false)
         }
 
@@ -50,26 +56,71 @@ export const EditAndAddCardsModal:FC<EditAndAddCardsModalType> = ({answerCard,qu
         setActive(false)
     }
 
+    const cardQuestion = [
+        {
+            value: 'Question as string',
+            label: 'Question as string',
+        },
+        {
+            value: 'Question as image',
+            label: 'Question as image',
+        },
+    ]
+
+    const cardAnswer = [
+        {
+            value: 'Answer as string',
+            label: 'Answer as string',
+        },
+        {
+            value: 'Answer as image',
+            label: 'Answer as image',
+        },
+    ]
 
     return (
         <BasicModal
-            title={"Add new card"}
-            nameButton={"Save"}
+            title={'Add new card'}
+            nameButton={'Save'}
             active={active}
             setActive={onCancelHandler}
             onSaveCallback={onSaveHandler}
-            disabledButton={question.length === 0||answer.length === 0}
+            disabledButton={question.length === 0 || answer.length === 0}
             styleButton={styleButtonMUI}
         >
             <div>
-                <TextField value={question} label="Card question" margin="normal" fullWidth={true} placeholder={"Card question"}
-                           onChange={onChangeQuestionHandler}/>
+                <TextField value={question}
+                           margin="normal"
+                           fullWidth={true}
+                           select
+                           SelectProps={{
+                               native: true,
+                           }}
+                           onChange={onChangeQuestionHandler}
+                >
+                    {cardQuestion.map((option) => (
+                        <option key={option.value} value={option.value}>
+                            {option.label}
+                        </option>
+                    ))}
+                </TextField>
             </div>
             <div>
-                <TextField value={answer} label="Card answer" margin="normal" fullWidth={true} placeholder={"Card answer"}
-                           onChange={onChangeAnswerHandler}/>
+                <TextField value={answer}
+                           margin="normal" fullWidth={true}
+                           select
+                           SelectProps={{
+                               native: true,
+                           }}
+                           onChange={onChangeAnswerHandler}>
+                    {cardAnswer.map((option) => (
+                        <option key={option.value} value={option.value}>
+                            {option.label}
+                        </option>
+                    ))}
+                </TextField>
             </div>
 
         </BasicModal>
-    );
-};
+    )
+}
