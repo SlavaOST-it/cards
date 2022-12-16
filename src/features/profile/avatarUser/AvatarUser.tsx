@@ -1,29 +1,22 @@
-import React from 'react';
-import s from "./AvatarUser.module.css";
+import React, {FC} from 'react';
+import {useAppSelector} from "../../../utils/hooks/hooks";
 import customAvatar from "../../../assets/img/icons/avatar_user.png";
-import photoAppLogo from "../../../assets/img/icons/photoapparat.png";
-import {useAppSelector} from "../../../app/hooks";
 
-export const AvatarUser = () => {
+
+type AvatarUserType = {
+    onError?: ()=> void
+    className?: string
+}
+export const AvatarUser: FC<AvatarUserType> = ({onError, className}) => {
     const userAvatar = useAppSelector(state => state.profile.avatar)
 
-    const changeAvatarHandle = () => {
-        alert('change photo')
-    }
-
     return (
-        <div className={s.profile_userAvatar}>
+        <div>
             <img
-                className={s.profile_userAvatar_photo}
+                className={className ? className : ""}
                 src={userAvatar === null ? customAvatar : userAvatar}
+                onError={onError}
                 alt={'user avatar'}/>
-            <button className={s.viewBtn}>
-                <img
-                    className={s.profile_changeAvatar}
-                    src={photoAppLogo}
-                    alt={'change'}
-                    onClick={changeAvatarHandle}/>
-            </button>
         </div>
     );
 };

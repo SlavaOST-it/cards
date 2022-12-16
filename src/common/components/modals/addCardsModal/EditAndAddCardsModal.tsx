@@ -1,7 +1,7 @@
 import React, {ChangeEvent, FC, useState} from 'react';
 import {BasicModal} from "../BasicModal";
 import TextField from "@mui/material/TextField";
-import {useAppDispatch, useAppSelector} from "../../../../app/hooks";
+import {useAppDispatch, useAppSelector} from "../../../../utils/hooks/hooks";
 import {addCardThunk, changeCardThunk} from "../../../../features/cards/cards-reducer";
 
 

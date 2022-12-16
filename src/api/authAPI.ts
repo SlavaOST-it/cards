@@ -1,6 +1,7 @@
 import axios from "axios"
 import {RegisterType} from '../features/registration/registration-reducer'
-import { instance } from "./instance"
+import {instance} from "./instance"
+
 
 export const authAPI = {
     me() {
@@ -28,7 +29,7 @@ export const profileAPI = {
             .then(res => res.data)
     },
     updatePhoto(avatar: string) {
-        return instance.put(`/auth/me` + avatar)
+        return instance.put(`/auth/me`, {avatar})
             .then(res => res.data)
     }
 }

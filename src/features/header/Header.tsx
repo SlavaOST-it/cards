@@ -1,5 +1,5 @@
 import React from 'react';
-import {useAppSelector} from "../../app/hooks";
+import {useAppSelector} from "../../utils/hooks/hooks";
 import incubatorLogo from "../../assets/img/icons/incubator_logo.png"
 import s from './Header.module.css'
 import {HeaderItem} from "./headerItem/HeaderItem";

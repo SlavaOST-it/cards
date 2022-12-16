@@ -1,21 +1,18 @@
 import React, {useState} from 'react';
-import {useAppDispatch, useAppSelector} from "../../../app/hooks";
+import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
 import {logoutThunkCreator} from "../../login/auth-reducer";
 import s from "./HeaderItem.module.css";
-import Stack from "@mui/material/Stack";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import avatarUser from "../../../assets/img/icons/avatar_user.png";
 import arrowDown from "../../../assets/img/icons/down-arrow-svgrepo-com.svg";
 import {NavLink} from "react-router-dom";
 import {PATH} from "../../../utils/routes/routes";
+import {AvatarUser} from "../../profile/avatarUser/AvatarUser";
 
 
 export const HeaderItem = () => {
     const dispatch = useAppDispatch()
-    const userAvatar = useAppSelector(state => state.profile.avatar)
     const userName = useAppSelector(state => state.profile.name)
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -45,16 +42,14 @@ export const HeaderItem = () => {
                 aria-expanded={open ? 'true' : undefined}
                 onClick={onClickHandle}
             >
-                <Stack direction="row" spacing={2}>
-                    <Avatar
-                        sx={{width: 36, height: 36}}
-                        alt={'User Name'}
-                        src={userAvatar === null ? avatarUser : userAvatar}
-                    />
-
-                </Stack>
-                <img className={s.arrowDown} src={arrowDown} alt={'arrow menu'}/>
+                <div>
+                    <AvatarUser className={s.avatar}/>
+                </div>
+                <div>
+                    <img className={s.arrowDown} src={arrowDown} alt={'arrow menu'}/>
+                </div>
             </Button>
+
             <Menu
                 id="basic-menu"
                 anchorEl={anchorEl}

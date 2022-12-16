@@ -4,20 +4,18 @@ import Button from "@mui/material/Button";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import {getPackListTC, setCardsCountAC, setIsMyPacksAC} from "./packsList-reducer";
-import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import {useAppDispatch, useAppSelector} from "../../utils/hooks/hooks";
 import {RangeSlider} from "../../common/components/rangeSlider/RangeSlider";
 import {BasicPagination} from "../../common/components/pagination/BasicPagination";
 import {PATH} from "../../utils/routes/routes";
 import {Navigate} from "react-router-dom";
 import {SearchEngine} from "../../common/components/search/SearchEngine";
-import {EditPackModal} from "../modals/editPackModal";
 import {PacksTable} from "./packsTable/PacksTable";
 import {AddPackModal} from "../../common/components/modals/addPackModal/AddPackModal";
 import {HeaderTable} from "../../common/components/headerTable/HeaderTable";
 
 
-
-export const PacksListFilter = () => {
+export const PacksList = () => {
     const dispatch = useAppDispatch()
     const dataPacks = useAppSelector(state => state.packList.cardPacks)
     const page = useAppSelector(state => state.packList.page)
@@ -28,7 +26,6 @@ export const PacksListFilter = () => {
     const minCardsCount = useAppSelector(state => state.packList.minCardsCount)
     const maxCardsCount = useAppSelector(state => state.packList.maxCardsCount)
     const isLoggedIn = useAppSelector(state => state.login.loggedIn)
-    const packId = useAppSelector(state => state.packList.packId)
 
 
     const [alignment, setAlignment] = useState('All')
@@ -73,10 +70,11 @@ export const PacksListFilter = () => {
     return (
         <div className={style.container}>
 
-            <HeaderTable title={'Packs list'} callbackToAdd={addNewPackHandler} buttonTitle={'Add new pack'}/>
-            <AddPackModal active={openAddPackModal} setActive={addNewPackHandler}/>
+            <div>
+                <HeaderTable title={'Packs list'} callbackToAdd={addNewPackHandler} titleButton={"Add new pack"}/>
+            </div>
 
-            {packId && <EditPackModal/>} {/*проверяем есть ли Id, если есть отрисовываем компоненту*/}
+            <AddPackModal active={openAddPackModal} setActive={addNewPackHandler}/>
 
             {!dataPacks.length && <div>В данной колоде нету карточек удовлетворяющих поиску</div>}
 
@@ -95,9 +93,9 @@ export const PacksListFilter = () => {
                     >
                         <ToggleButton onClick={onClickMyHandler} value="My">My</ToggleButton>
                         <ToggleButton onClick={onClickAllHandler} value="All">All</ToggleButton>
-
                     </ToggleButtonGroup>
                 </div>
+
                 <div className={style.numberOfCards}>
                     Number of cards
                     <RangeSlider/>
@@ -112,10 +110,14 @@ export const PacksListFilter = () => {
                     </Button>
                 </div>
             </div>
-            <div className={style.table}>
+
+            <div>
                 <PacksTable/>
             </div>
-            <BasicPagination type={'packs'}/>
+
+            <div className={style.pagination}>
+                <BasicPagination type={'packs'}/>
+            </div>
         </div>
     );
 };

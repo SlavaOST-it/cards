@@ -9,6 +9,7 @@ import {NewPassReducerActionType, setNewPassReducer} from '../features/newPasswo
 import {CardsActionsType, cardsReducer} from '../features/cards/cards-reducer'
 import {ActionPackListType, packsListReducer} from '../features/cards/packsList-reducer'
 
+
 const rootReducer = combineReducers({
     app: appReducer,
     login: authReducer,
@@ -21,9 +22,8 @@ const rootReducer = combineReducers({
 })
 
 // ===== Принимаем типизацию всех редьюсеров ===== //
-
-export type AppStateType = ReturnType<typeof rootReducer>
 export const store = legacy_createStore(rootReducer, applyMiddleware(thunkMiddleware))
+
 type ReduxActionType =
     AppActionType
     | SetRegisterInType

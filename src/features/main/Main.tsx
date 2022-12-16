@@ -7,8 +7,8 @@ import {Error404} from "../../common/components/errorPage/Error404";
 import {PasswordRecovery} from "../passwordRecovery/PasswordRecovery";
 import Registration from '../registration/Registration';
 import {NewPass} from "../newPassword/NewPass";
-import {PacksListFilter} from "../cards/PacksListFilter";
-import {CardList} from "../cards/packs/CardList";
+import {PacksList} from "../cards/PacksList";
+import {CardList} from "../cards/cards/CardList";
 
 export const Main = () => {
 
@@ -21,7 +21,7 @@ export const Main = () => {
                 <Route path={PATH.profile} element={<Profile/>}/>
                 <Route path={PATH.passwordRecovery} element={<PasswordRecovery/>}/>
                 <Route path={PATH.setNewPassword} element={<NewPass/>}/>
-                <Route path={PATH.packList} element={<PacksListFilter/>}/>
+                <Route path={PATH.packList} element={<PacksList/>}/>
                 <Route path={PATH.cardList} element={<CardList/>}/>
                 <Route path={'/*'} element={<Error404/>}/>
             </Routes>
