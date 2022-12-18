@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField'
 import {useAppDispatch, useAppSelector} from '../../../../utils/hooks/hooks'
 import {addCardThunk, changeCardThunk} from '../../../../features/cards/cards-reducer'
 import {Box} from '@mui/material'
+import Button from '@mui/material/Button'
 
 const styleButtonMUI = {
     borderRadius: 10,
@@ -50,37 +51,44 @@ export const EditAndAddCardsModal: FC<EditAndAddCardsModalType> = ({
             dispatch(changeCardThunk(cardsPackId, cardID, question, answer))
             setActive(false)
         }
-
     }
 
     const onCancelHandler = () => {
         setActive(false)
     }
 
-    const cardQuestion = [
-        {
-            value: 'Question as string',
-            label: 'Question as string',
-        },
-        {
-            value: 'Question as image',
-            label: 'Question as image',
-        },
-    ]
+    export const InputTypeFile = () => {
 
-    const cardAnswer = [
-        {
-            value: 'Answer as string',
-            label: 'Answer as string',
-        },
-        {
-            value: 'Answer as image',
-            label: 'Answer as image',
-        },
-    ]
+        const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
+            if (e.target.files && e.target.files.length) {
+                const file = e.target.files[0]
+                console.log('file: ', file)
+            }
+        };
 
-    return (
-        <BasicModal
+        const cardQuestion = [
+            {
+                value: 'Question as string',
+                label: 'Question as string',
+            },
+            {
+                value: 'Question as image',
+                label: 'Question as image',
+            },
+        ]
+
+        const cardAnswer = [
+            {
+                value: 'Answer as string',
+                label: 'Answer as string',
+            },
+            {
+                value: 'Answer as image',
+                label: 'Answer as image',
+            },
+        ]
+
+        return <div><BasicModal
             title={'Add new card'}
             nameButton={'Save'}
             active={active}
@@ -130,6 +138,28 @@ export const EditAndAddCardsModal: FC<EditAndAddCardsModalType> = ({
                     </TextField>
                 </div>
             </Box>
+            <div>
+                <TextField value={question} label="Card question" margin="normal" fullWidth={true}
+                           placeholder={'Card question'}
+                           onChange={onChangeQuestionHandler}/>
+            </div>
+            <div>
+                <TextField value={answer} label="Card answer" margin="normal" fullWidth={true}
+                           placeholder={'Card answer'}
+                           onChange={onChangeAnswerHandler}/>
+            </div>
         </BasicModal>
-    )
+            <div>
+                <label>
+                    <input type="file"
+                           onChange={uploadHandler}
+                           style={{display: 'none'}}
+                    />
+                    <Button variant="contained" component="span">
+                        Upload button
+                    </Button>
+                </label>
+            </div>
+        </div>
+    }
 }
