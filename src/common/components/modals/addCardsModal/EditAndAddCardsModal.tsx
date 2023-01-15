@@ -1,9 +1,9 @@
-import React, {ChangeEvent, FC, useState} from 'react'
-import {BasicModal} from '../BasicModal'
+import React, { ChangeEvent, FC, useState } from 'react'
+import { BasicModal } from '../BasicModal'
 import TextField from '@mui/material/TextField'
-import {useAppDispatch, useAppSelector} from '../../../../utils/hooks/hooks'
-import {addCardThunk, changeCardThunk} from '../../../../features/cards/cards-reducer'
-import {Box} from '@mui/material'
+import { useAppDispatch, useAppSelector } from '../../../../utils/hooks/hooks'
+import { addCardThunk, changeCardThunk } from '../../../../features/cards/cards-reducer'
+import { Box } from '@mui/material'
 import Button from '@mui/material/Button'
 
 const styleButtonMUI = {
@@ -19,13 +19,13 @@ type EditAndAddCardsModalType = {
     questionCard: string
 }
 export const EditAndAddCardsModal: FC<EditAndAddCardsModalType> = ({
-                                                                       answerCard,
-                                                                       questionCard,
-                                                                       type,
-                                                                       active,
-                                                                       setActive,
-                                                                       cardsPackId
-                                                                   }) => {
+    answerCard,
+    questionCard,
+    type,
+    active,
+    setActive,
+    cardsPackId
+}) => {
     const dispatch = useAppDispatch()
     const cardID = useAppSelector(state => state.cards.cardId)
 
@@ -57,109 +57,106 @@ export const EditAndAddCardsModal: FC<EditAndAddCardsModalType> = ({
         setActive(false)
     }
 
-    export const InputTypeFile = () => {
+    const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length) {
+            const file = e.target.files[0]
+            console.log('file: ', file)
+        }
+    };
 
-        const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
-            if (e.target.files && e.target.files.length) {
-                const file = e.target.files[0]
-                console.log('file: ', file)
-            }
-        };
+    const cardQuestion = [
+        {
+            value: 'Question as string',
+            label: 'Question as string',
+        },
+        {
+            value: 'Question as image',
+            label: 'Question as image',
+        },
+    ]
 
-        const cardQuestion = [
-            {
-                value: 'Question as string',
-                label: 'Question as string',
-            },
-            {
-                value: 'Question as image',
-                label: 'Question as image',
-            },
-        ]
+    const cardAnswer = [
+        {
+            value: 'Answer as string',
+            label: 'Answer as string',
+        },
+        {
+            value: 'Answer as image',
+            label: 'Answer as image',
+        },
+    ]
 
-        const cardAnswer = [
-            {
-                value: 'Answer as string',
-                label: 'Answer as string',
-            },
-            {
-                value: 'Answer as image',
-                label: 'Answer as image',
-            },
-        ]
-
-        return <div><BasicModal
-            title={'Add new card'}
-            nameButton={'Save'}
-            active={active}
-            setActive={onCancelHandler}
-            onSaveCallback={onSaveHandler}
-            disabledButton={question.length === 0 || answer.length === 0}
-            styleButton={styleButtonMUI}
+    return <div><BasicModal
+        title={'Add new card'}
+        nameButton={'Save'}
+        active={active}
+        setActive={onCancelHandler}
+        onSaveCallback={onSaveHandler}
+        disabledButton={question.length === 0 || answer.length === 0}
+        styleButton={styleButtonMUI}
+    >
+        <Box
+            component="form"
+            sx={{
+                '& .MuiTextField-root': { m: 1, width: '25ch' },
+            }}
+            noValidate
+            autoComplete="off"
         >
-            <Box
-                component="form"
-                sx={{
-                    '& .MuiTextField-root': {m: 1, width: '25ch'},
-                }}
-                noValidate
-                autoComplete="off"
-            >
-                <div>
-                    <TextField value={question}
-                               margin="normal"
-                               fullWidth={true}
-                               select
-                               SelectProps={{
-                                   native: true,
-                               }}
-                               onChange={onChangeQuestionHandler}
-                    >
-                        {cardQuestion.map((option) => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
-                            </option>
-                        ))}
-                    </TextField>
-                </div>
-                <div>
-                    <TextField value={answer}
-                               margin="normal" fullWidth={true}
-                               select
-                               SelectProps={{
-                                   native: true,
-                               }}
-                               onChange={onChangeAnswerHandler}>
-                        {cardAnswer.map((option) => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
-                            </option>
-                        ))}
-                    </TextField>
-                </div>
-            </Box>
             <div>
-                <TextField value={question} label="Card question" margin="normal" fullWidth={true}
-                           placeholder={'Card question'}
-                           onChange={onChangeQuestionHandler}/>
+                <TextField value={question}
+                    margin="normal"
+                    fullWidth={true}
+                    select
+                    SelectProps={{
+                        native: true,
+                    }}
+                    onChange={onChangeQuestionHandler}
+                >
+                    {cardQuestion.map((option) => (
+                        <option key={option.value} value={option.value}>
+                            {option.label}
+                        </option>
+                    ))}
+                </TextField>
             </div>
             <div>
-                <TextField value={answer} label="Card answer" margin="normal" fullWidth={true}
-                           placeholder={'Card answer'}
-                           onChange={onChangeAnswerHandler}/>
+                <TextField value={answer}
+                    margin="normal" fullWidth={true}
+                    select
+                    SelectProps={{
+                        native: true,
+                    }}
+                    onChange={onChangeAnswerHandler}>
+                    {cardAnswer.map((option) => (
+                        <option key={option.value} value={option.value}>
+                            {option.label}
+                        </option>
+                    ))}
+                </TextField>
             </div>
-        </BasicModal>
-            <div>
-                <label>
-                    <input type="file"
-                           onChange={uploadHandler}
-                           style={{display: 'none'}}
-                    />
-                    <Button variant="contained" component="span">
-                        Upload button
-                    </Button>
-                </label>
-            </div>
+        </Box>
+        <div>
+            <TextField value={question} label="Card question" margin="normal" fullWidth={true}
+                placeholder={'Card question'}
+                onChange={onChangeQuestionHandler} />
         </div>
-    }
+        <div>
+            <TextField value={answer} label="Card answer" margin="normal" fullWidth={true}
+                placeholder={'Card answer'}
+                onChange={onChangeAnswerHandler} />
+        </div>
+    </BasicModal>
+        <div>
+            <label>
+                <input type="file"
+                    onChange={uploadHandler}
+                    style={{ display: 'none' }}
+                />
+                <Button variant="contained" component="span">
+                    Upload button
+                </Button>
+            </label>
+        </div>
+    </div>
 }
