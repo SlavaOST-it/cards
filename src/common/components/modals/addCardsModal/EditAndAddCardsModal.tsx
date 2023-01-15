@@ -56,7 +56,7 @@ export const EditAndAddCardsModal: FC<EditAndAddCardsModalType> = ({
     const onCancelHandler = () => {
         setActive(false)
     }
-
+    
     const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length) {
             const file = e.target.files[0]
