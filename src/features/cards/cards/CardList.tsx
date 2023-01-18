@@ -38,7 +38,7 @@ export const CardList = () => {
     }
 
     const learnPack = () => {
-        alert('Lear Pack')
+        alert('Learn Pack')
     }
 
     const callback = () => setActive(!active)
