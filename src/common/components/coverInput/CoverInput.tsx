@@ -2,8 +2,8 @@ import React, {ChangeEvent, FC, useEffect, useState} from 'react';
 import style from "../modals/addPackModal/AddPackModal.module.css";
 import Button from "@mui/material/Button";
 import {setDeckCoverAC} from "../../../features/cards/packsList-reducer";
-import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
 import {baseDeckCover} from "../../../assets/baseDeckCover";
+import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
 
 type CoverInputType={
     deckCover:string

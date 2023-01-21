@@ -9,8 +9,8 @@ import {SelectSort} from "../../../common/components/select/SelectSort";
 import TableBody from "@mui/material/TableBody";
 import {styled} from "@mui/material";
 import TableCell, {tableCellClasses} from "@mui/material/TableCell";
-import {useAppSelector} from "../../../utils/hooks/hooks";
 import {BasicRating} from "../ratingCards/RatingCard";
+import {useAppSelector} from "../../../utils/hooks/hooks";
 
 export const CardsTable = () => {
     const cards = useAppSelector(state => state.cards.cards)

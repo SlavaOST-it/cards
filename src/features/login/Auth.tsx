@@ -2,7 +2,6 @@ import React from 'react';
 import {useFormik} from "formik";
 import style from './Auth.module.css'
 import {loginThunkCreator} from "./auth-reducer";
-import {useAppDispatch, useAppSelector} from "../../utils/hooks/hooks";
 import {Navigate, NavLink} from "react-router-dom";
 import {
     Button,
@@ -19,6 +18,7 @@ import {
 } from "@mui/material";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import {PATH} from "../../utils/routes/routes";
+import {useAppDispatch, useAppSelector} from "../../utils/hooks/hooks";
 
 
 type FormikErrorType = {

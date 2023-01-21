@@ -4,7 +4,6 @@ import Button from "@mui/material/Button";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import {getPackListTC, setCardsCountAC, setIsMyPacksAC} from "./packsList-reducer";
-import {useAppDispatch, useAppSelector} from "../../utils/hooks/hooks";
 import {RangeSlider} from "../../common/components/rangeSlider/RangeSlider";
 import {BasicPagination} from "../../common/components/pagination/BasicPagination";
 import {PATH} from "../../utils/routes/routes";
@@ -13,6 +12,7 @@ import {SearchEngine} from "../../common/components/search/SearchEngine";
 import {PacksTable} from "./packsTable/PacksTable";
 import {AddPackModal} from "../../common/components/modals/addPackModal/AddPackModal";
 import {HeaderTable} from "../../common/components/headerTable/HeaderTable";
+import {useAppDispatch, useAppSelector} from "../../utils/hooks/hooks";
 
 
 export const PacksList = () => {

@@ -2,10 +2,10 @@ import React, {FC, useState} from 'react';
 import teacherLogo from "../../../assets/img/icons/packs/teacher.png"
 import editLogo from "../../../assets/img/icons/packs/Edit.png"
 import deleteLogo from "../../../assets/img/icons/packs/Delete.png"
-import {useAppSelector} from "../../../utils/hooks/hooks";
 import s from "./ActionsPack.module.css"
 import {DeletePackModal} from "../../../common/components/modals/deletePackModal/DeletePackModal";
 import {EditPackModal} from "../../../common/components/modals/changePackModal/EditPackModal";
+import {useAppSelector} from "../../../utils/hooks/hooks";
 
 type ActionsPackType = {
     packId: string,

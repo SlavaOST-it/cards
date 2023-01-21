@@ -4,11 +4,11 @@ import {NavLink} from "react-router-dom";
 import {PATH} from "../../utils/routes/routes";
 import s from "./PasswordRecovery.module.css"
 import {sendEmailTC} from "./passRecovery-reducer";
-import {useAppDispatch, useAppSelector} from "../../utils/hooks/hooks";
 import Button from "@mui/material/Button";
 import FormGroup from "@mui/material/FormGroup";
 import TextField from "@mui/material/TextField";
 import {CheckEmail} from "./checkEmail/CheckEmail";
+import {useAppDispatch, useAppSelector} from "../../utils/hooks/hooks";
 
 
 type FormikErrorType = {
