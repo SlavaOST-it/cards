@@ -14,7 +14,7 @@ export const CoverInput:FC<CoverInputType> = ({deckCover}) => {
     const myDeckCover=useAppSelector(state=>state.packList.myDeckCover)
     const [isCoverBroken, setIsCoverBroken] = useState(false)
 
-    const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
+     const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length) {
             const file = e.target.files[0]
 
