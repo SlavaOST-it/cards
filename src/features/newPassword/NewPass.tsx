@@ -2,7 +2,6 @@ import React from 'react';
 import {Navigate, useParams} from "react-router-dom";
 import {PATH} from "../../utils/routes/routes";
 import {useFormik} from "formik";
-import {useAppDispatch, useAppSelector} from "../../utils/hooks/hooks";
 import {setNewPassTC} from "./newPass-reducer";
 import s from "../passwordRecovery/PasswordRecovery.module.css";
 import Button from "@mui/material/Button";
@@ -10,6 +9,7 @@ import FormGroup from "@mui/material/FormGroup";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import {FormControl, IconButton, InputAdornment, InputLabel} from "@mui/material";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
+import {useAppDispatch, useAppSelector} from "../../utils/hooks/hooks";
 
 type FormikErrorType = {
     password?: string

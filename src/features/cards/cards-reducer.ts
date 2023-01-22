@@ -1,8 +1,8 @@
-import { AppThunkType } from '../../app/store'
-import { setAppStatusAC } from '../../app/app-reducer'
-import { CardResponseType, cardsAPI, CardsType, packsAPI } from '../../api/cardsAPI'
-import { baseErrorHandler } from "../../utils/error-utils/error-utils";
-import { AxiosError } from "axios";
+import {AppThunkType} from '../../app/store'
+import {setAppStatusAC} from '../../app/app-reducer'
+import {CardResponseType, cardsAPI, CardsType} from '../../api/cardsAPI'
+import {baseErrorHandler} from "../../utils/error-utils/error-utils";
+import {AxiosError} from "axios";
 
 type setCardsType = ReturnType<typeof setCardsAC>
 type setSearchCardsType = ReturnType<typeof setSearchCardsAC>
@@ -11,6 +11,9 @@ type setPageCardsAC = ReturnType<typeof setPageCardsAC>
 type setPageCardsCountType = ReturnType<typeof setPageCardsCountAC>
 type setCardsTotalCountType = ReturnType<typeof setCardsTotalCountAC>
 type setCardIdType = ReturnType<typeof setCardIdAC>
+type setFormatType = ReturnType<typeof setFormatAC>
+type setQuestionCoverType = ReturnType<typeof setQuestionCoverAC>
+type setAnswerCoverType = ReturnType<typeof setAnswerCoverAC>
 
 export type CardsActionsType =
     setCardsType
@@ -20,6 +23,9 @@ export type CardsActionsType =
     | setPageCardsCountType
     | setCardsTotalCountType
     | setCardIdType
+    | setFormatType
+    | setQuestionCoverType
+    | setAnswerCoverType
 
 type InitialStateType = {
     cards: CardResponseType[]
@@ -35,6 +41,9 @@ type InitialStateType = {
     grade: number
     selected: boolean
     cardId: string
+    format: string
+    answerImg: string
+    questionImg: string
 }
 
 const initialState: InitialStateType = {
@@ -50,7 +59,10 @@ const initialState: InitialStateType = {
     tokenDeathTime: 0,
     grade: 7,
     selected: true,
-    cardId: ''
+    cardId: '',
+    format: "string",
+    answerImg: '',
+    questionImg: ''
 }
 
 export type GetCardsParamsType = {
@@ -82,7 +94,13 @@ export const cardsReducer = (state = initialState, action: CardsActionsType): In
         case "CARDS/SET_PAGE_TOTAL_COUNT":
             return { ...state, cardsTotalCount: action.totalCount }
         case "CARDS/SET_CARD_ID":
-            return { ...state, cardId: action.cardId }
+            return {...state, cardId: action.cardId}
+        case "CARDS/SET_FORMAT":
+            return {...state, format: action.format}
+        case "CARDS/SET_QUESTION_IMG":
+            return {...state, questionImg: action.questionImg}
+        case "CARDS/SET_ANSWER_IMG":
+            return {...state, answerImg: action.answerImg}
         default:
             return state
     }
@@ -109,7 +127,16 @@ export const setCardsTotalCountAC = (totalCount: number) => {
     return { type: "CARDS/SET_PAGE_TOTAL_COUNT", totalCount } as const
 }
 export const setCardIdAC = (cardId: string) => {
-    return { type: "CARDS/SET_CARD_ID", cardId } as const
+    return {type: "CARDS/SET_CARD_ID", cardId} as const
+}
+export const setFormatAC = (format: string) => {
+    return {type: "CARDS/SET_FORMAT", format} as const
+}
+export const setQuestionCoverAC = (questionImg: string) => {
+    return {type: "CARDS/SET_QUESTION_IMG", questionImg} as const
+}
+export const setAnswerCoverAC = (answerImg: string) => {
+    return {type: "CARDS/SET_ANSWER_IMG", answerImg} as const
 }
 
 export const getCardsThunk = (packId: string): AppThunkType => async (dispatch, getState) => {
@@ -135,10 +162,18 @@ export const getCardsThunk = (packId: string): AppThunkType => async (dispatch, 
     }
 }
 
-export const addCardThunk = (cardsPack_id: string, question: string, answer: string): AppThunkType => async (dispatch) => {
+export const addCardThunk = (cardsPack_id: string, question: string, answer: string,questionImg:string,answerImg:string): AppThunkType => async (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     try {
-        await cardsAPI.sendCard({ cardsPack_id, question, answer })
+        if(question.length>0){
+            debugger
+            await cardsAPI.sendCard({cardsPack_id, question, answer})
+        }
+        if(questionImg.length>0){
+            await cardsAPI.sendCard({cardsPack_id,questionImg,answerImg})
+            dispatch(setQuestionCoverAC(''))
+            dispatch(setAnswerCoverAC(''))
+        }
         dispatch(getCardsThunk(cardsPack_id))
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {

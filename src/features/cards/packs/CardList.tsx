@@ -8,8 +8,8 @@ import {getCardsThunk} from '../cards-reducer'
 import {HeaderTable} from "../../../common/components/headerTable/HeaderTable";
 import {CardsTable} from "../cardsTable/CardsTable";
 import {EditAndAddCardsModal} from "../../../common/components/modals/addCardsModal/EditAndAddCardsModal";
-import {BackToPacksList} from '../../../common/components/backToPacksLink/BackToPacksList'
-import {useAppDispatch, useAppSelector} from '../../../utils/hooks/hooks'
+import {BackToPacksList} from "../../../common/components/backToPacksLink/BackToPacksList";
+import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
 
 
 export const CardList = () => {

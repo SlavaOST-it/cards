@@ -2,16 +2,12 @@ import React, {ChangeEvent, useRef, useState} from 'react';
 import s from './Profile.module.css'
 import pencilLogo from '../../assets/img/icons/pencil.png'
 import {changeAvatarThunkCreator, changeNameThunkCreator, setUserPhotoAC} from "./profile-reducer";
-import {useAppDispatch, useAppSelector} from "../../utils/hooks/hooks";
 import {Navigate} from "react-router-dom";
 import {PATH} from "../../utils/routes/routes";
 import {LogOutButton} from "../../common/components/buttons/logOutButton/LogOutButton";
 import {BackToPacksList} from "../../common/components/backToPacksLink/BackToPacksList";
 import {AvatarUser} from "./avatarUser/AvatarUser";
-import {convertFileToBase64} from "../../utils/convertFileToBase64/convertFileToBase64";
-import customAvatar from "../../assets/img/icons/avatar_user.png"
-import {setAppErrorAC} from "../../app/app-reducer";
-import photoapparat from '../../assets/img/icons/photoapparat.png'
+import {useAppDispatch, useAppSelector} from "../../utils/hooks/hooks";
 
 
 export const Profile = () => {
