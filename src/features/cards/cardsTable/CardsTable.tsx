@@ -50,8 +50,8 @@ export const CardsTable = () => {
                 <TableBody>
                     {cards.map((el) => (
                         <StyledTableRow key={el._id} className={style.tableHeader}>
-                            <StyledTableCell align="center">{el.question}</StyledTableCell>
-                            <StyledTableCell align="center">{el.answer}</StyledTableCell>
+                            <StyledTableCell align="center">{el.questionImg?<img className={style.coverImg} src={el.questionImg}/>:el.question }</StyledTableCell>
+                            <StyledTableCell align="center">{el.answerImg?<img className={style.coverImg} src={el.answerImg}/>:el.answer}</StyledTableCell>
                             <StyledTableCell align="center">{el.updated.substr(0, 10)}</StyledTableCell>
                             <StyledTableCell align="center">
                                 <BasicRating grade={el.grade}/>

@@ -3,7 +3,6 @@ import {setAppStatusAC} from '../../app/app-reducer'
 import {CardResponseType, cardsAPI, CardsType} from '../../api/cardsAPI'
 import {baseErrorHandler} from "../../utils/error-utils/error-utils";
 import {AxiosError} from "axios";
-import {getPackListTC} from "./packsList-reducer";
 
 type setCardsType = ReturnType<typeof setCardsAC>
 type setSearchCardsType = ReturnType<typeof setSearchCardsAC>
@@ -164,10 +163,18 @@ export const getCardsThunk = (packId: string): AppThunkType =>
         }
     }
 
-export const addCardThunk = (cardsPack_id: string, question: string, answer: string): AppThunkType => async (dispatch) => {
+export const addCardThunk = (cardsPack_id: string, question: string, answer: string,questionImg:string,answerImg:string): AppThunkType => async (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     try {
-        await cardsAPI.sendCard({cardsPack_id, question, answer})
+        if(question.length>0){
+            debugger
+            await cardsAPI.sendCard({cardsPack_id, question, answer})
+        }
+        if(questionImg.length>0){
+            await cardsAPI.sendCard({cardsPack_id,questionImg,answerImg})
+            dispatch(setQuestionCoverAC(''))
+            dispatch(setAnswerCoverAC(''))
+        }
         dispatch(getCardsThunk(cardsPack_id))
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {

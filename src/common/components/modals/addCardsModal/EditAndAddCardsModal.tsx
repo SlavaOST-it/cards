@@ -4,8 +4,6 @@ import TextField from "@mui/material/TextField";
 import {addCardThunk, changeCardThunk} from "../../../../features/cards/cards-reducer";
 import {useAppDispatch, useAppSelector} from "../../../../utils/hooks/hooks";
 import {SelectVariants} from "../../select/SelectVariants";
-import {baseDeckCover} from "../../../../assets/baseDeckCover";
-import {Link} from "@mui/material";
 import {PictureCard} from "../../pictureCard/PictureCard";
 
 
@@ -32,6 +30,9 @@ export const EditAndAddCardsModal: FC<EditAndAddCardsModalType> = ({
     const dispatch = useAppDispatch()
     const cardID = useAppSelector(state => state.cards.cardId)
     const format=useAppSelector(state=>state.cards.format)
+    const questionImg = useAppSelector(state => state.cards.questionImg)
+    const answerImg = useAppSelector(state => state.cards.answerImg)
+
 
     const [question, setQuestion] = useState(questionCard)
     const [answer, setAnswer] = useState(answerCard)
@@ -47,11 +48,17 @@ export const EditAndAddCardsModal: FC<EditAndAddCardsModalType> = ({
 
     const onSaveHandler = () => {
         if (type === 'add') {
-            dispatch(addCardThunk(cardsPackId, question, answer))
+            dispatch(addCardThunk(cardsPackId, question, answer,questionImg, answerImg))
             setActive(false)
             setQuestion('')
             setAnswer('')
-        } else {
+        }
+       /* if(type==='add'&&format==='picture'){
+            dispatch(addCardThunk(cardsPackId, questionImg, answerImg))
+            setActive(false)
+        }*/
+        else {
+            debugger
             dispatch(changeCardThunk(cardsPackId, cardID, question, answer))
             setActive(false)
         }
@@ -63,7 +70,7 @@ export const EditAndAddCardsModal: FC<EditAndAddCardsModalType> = ({
         setActive(false)
     }
 
-
+const buttonDisableHandler=question.length === 0 || answer.length === 0||questionImg.length===0||answerImg.length===0
     return (
         <BasicModal
             title={"Add new card"}
@@ -71,7 +78,7 @@ export const EditAndAddCardsModal: FC<EditAndAddCardsModalType> = ({
             active={active}
             setActive={onCancelHandler}
             onSaveCallback={onSaveHandler}
-            disabledButton={question.length === 0 || answer.length === 0}
+            /*disabledButton={buttonDisableHandler}*/
             styleButton={styleButtonMUI}
         >
             <SelectVariants/>
