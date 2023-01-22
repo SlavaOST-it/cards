@@ -62,19 +62,13 @@ export const EditAndAddCardsModal: FC<EditAndAddCardsModalType> = ({
             dispatch(changeCardThunk(cardsPackId, cardID, question, answer))
             setActive(false)
         }
+
     }
 
 
     const onCancelHandler = () => {
         setActive(false)
     }
-    
-    const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files.length) {
-            const file = e.target.files[0]
-            console.log('file: ', file)
-        }
-    };
 
 const buttonDisableHandler=question.length === 0 || answer.length === 0||questionImg.length===0||answerImg.length===0
     return (

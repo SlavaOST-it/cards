@@ -11,6 +11,7 @@ import {styled} from "@mui/material";
 import TableCell, {tableCellClasses} from "@mui/material/TableCell";
 import {BasicRating} from "../ratingCards/RatingCard";
 import {useAppSelector} from "../../../utils/hooks/hooks";
+import { ActionsPack } from '../actionsPack/ActionsPack';
 
 export const CardsTable = () => {
     const cards = useAppSelector(state => state.cards.cards)
