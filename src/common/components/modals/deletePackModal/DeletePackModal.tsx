@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
-import {useAppDispatch} from "../../../../utils/hooks/hooks";
 import {BasicModal} from "../BasicModal";
 import {deletePackTC} from "../../../../features/cards/packsList-reducer";
 import {deleteCardThunk} from "../../../../features/cards/cards-reducer";
+import {useAppDispatch} from "../../../../utils/hooks/hooks";
 
 
 const styleButtonMUI = {

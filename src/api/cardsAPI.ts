@@ -104,6 +104,8 @@ export type CardResponseType = {
     min: number
     max: number
     _id: string
+    answerImg:string
+    questionImg:string
 }
 
 export type CardsResponseType = {

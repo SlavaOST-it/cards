@@ -1,9 +1,9 @@
 import React from 'react';
-import {useAppSelector} from "../../utils/hooks/hooks";
 import incubatorLogo from "../../assets/img/icons/incubator_logo.png"
 import s from './Header.module.css'
 import {HeaderItem} from "./headerItem/HeaderItem";
 import {SignInButton} from "../../common/components/buttons/signInButton/SignInButton";
+import {useAppSelector} from "../../utils/hooks/hooks";
 
 
 export const Header = () => {

@@ -42,6 +42,7 @@ export const ActionsPack: FC<ActionsPackType> = ({
         alert('Learn pack')
     }
 
+
     const onActiveModal = () => setActiveDeleteModal(!activeDeleteModal)
     const onActiveEditModal = () => setActiveEditModal(!activeEditModal)
     const onActiveEditCardModal = () => setActiveEditCardModal(!activeEditCardModal)

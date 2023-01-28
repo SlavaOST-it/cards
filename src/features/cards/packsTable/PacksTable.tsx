@@ -12,9 +12,9 @@ import {NavLink} from "react-router-dom";
 import {PATH} from "../../../utils/routes/routes";
 import {ActionsPack} from "../actionsPack/ActionsPack";
 import TableContainer from "@mui/material/TableContainer";
-import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
 import {setPackIdAC, setPackNameAC, setUserIdAC} from "../packsList-reducer";
 import {baseDeckCover} from "../../../assets/baseDeckCover";
+import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
