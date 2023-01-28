@@ -30,6 +30,7 @@ export const CoverInput:FC<CoverInputType> = ({deckCover}) => {
             }
         }
     }
+
     const errorHandler = () => {
         setIsCoverBroken(true)
         alert('Кривая картинка')

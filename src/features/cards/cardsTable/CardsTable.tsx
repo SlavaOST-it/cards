@@ -11,9 +11,11 @@ import {styled} from "@mui/material";
 import TableCell, {tableCellClasses} from "@mui/material/TableCell";
 import {BasicRating} from "../ratingCards/RatingCard";
 import {useAppSelector} from "../../../utils/hooks/hooks";
+import {baseDeckCover} from "../../../assets/baseDeckCover";
 
 export const CardsTable = () => {
     const cards = useAppSelector(state => state.cards.cards)
+
 
     const StyledTableCell = styled(TableCell)(({theme}) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -34,6 +36,7 @@ export const CardsTable = () => {
         },
     }));
 
+
     return (
         <TableContainer component={Paper}>
             <Table aria-label="customized table">
@@ -50,8 +53,8 @@ export const CardsTable = () => {
                 <TableBody>
                     {cards.map((el) => (
                         <StyledTableRow key={el._id} className={style.tableHeader}>
-                            <StyledTableCell align="center">{el.questionImg?<img className={style.coverImg} src={el.questionImg}/>:el.question }</StyledTableCell>
-                            <StyledTableCell align="center">{el.answerImg?<img className={style.coverImg} src={el.answerImg}/>:el.answer}</StyledTableCell>
+                            <StyledTableCell align="center">{el.questionImg?<img  className={style.coverImg} src={el.questionImg.length>100?el.questionImg:baseDeckCover} alt={'questionImg'}/>:el.question }</StyledTableCell>
+                            <StyledTableCell align="center">{el.answerImg?<img className={style.coverImg} src={el.answerImg.length>100?el.answerImg:baseDeckCover} alt={'answerImg'}/>:el.answer}</StyledTableCell>
                             <StyledTableCell align="center">{el.updated.substr(0, 10)}</StyledTableCell>
                             <StyledTableCell align="center">
                                 <BasicRating grade={el.grade}/>
