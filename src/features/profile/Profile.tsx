@@ -8,7 +8,7 @@ import {PATH} from "../../utils/routes/routes";
 import {LogOutButton} from "../../common/components/buttons/logOutButton/LogOutButton";
 import {BackToPacksList} from "../../common/components/backToPacksLink/BackToPacksList";
 import {AvatarUser} from "./avatarUser/AvatarUser";
-import photoCamera from "../../assets/img/icons/photo-camera-svgrepo-com.svg";
+import photoCamera from "../../assets/img/icons/photoapparat.png";
 import {convertFileToBase64} from "../../utils/convertFileToBase64/convertFileToBase64";
 import customAvatar from "../../assets/img/icons/avatar_user.png"
 import {setAppErrorAC} from "../../app/app-reducer";
