@@ -42,8 +42,8 @@ type InitialStateType = {
     selected: boolean
     cardId: string
     format: string
-    answerImg: string
-    questionImg: string
+    answerCover: string
+    questionCover: string
 }
 
 const initialState: InitialStateType = {
@@ -61,8 +61,8 @@ const initialState: InitialStateType = {
     selected: true,
     cardId: '',
     format: "string",
-    answerImg: '',
-    questionImg: ''
+    answerCover: '',
+    questionCover: ''
 }
 
 export type GetCardsParamsType = {
@@ -98,9 +98,9 @@ export const cardsReducer = (state = initialState, action: CardsActionsType): In
         case "CARDS/SET_FORMAT":
             return {...state, format: action.format}
         case "CARDS/SET_QUESTION_IMG":
-            return {...state, questionImg: action.questionImg}
+            return {...state, questionCover: action.questionCover}
         case "CARDS/SET_ANSWER_IMG":
-            return {...state, answerImg: action.answerImg}
+            return {...state, answerCover: action.answerCover}
         default:
             return state
     }
@@ -132,11 +132,11 @@ export const setCardIdAC = (cardId: string) => {
 export const setFormatAC = (format: string) => {
     return {type: "CARDS/SET_FORMAT", format} as const
 }
-export const setQuestionCoverAC = (questionImg: string) => {
-    return {type: "CARDS/SET_QUESTION_IMG", questionImg} as const
+export const setQuestionCoverAC = (questionCover: string) => {
+    return {type: "CARDS/SET_QUESTION_IMG", questionCover} as const
 }
-export const setAnswerCoverAC = (answerImg: string) => {
-    return {type: "CARDS/SET_ANSWER_IMG", answerImg} as const
+export const setAnswerCoverAC = (answerCover: string) => {
+    return {type: "CARDS/SET_ANSWER_IMG", answerCover} as const
 }
 
 export const getCardsThunk = (packId: string): AppThunkType => async (dispatch, getState) => {

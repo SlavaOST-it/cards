@@ -1,11 +1,13 @@
 import React, {FC, useState} from 'react';
-import teacherLogo from "../../../assets/img/icons/packs/teacher.png"
-import editLogo from "../../../assets/img/icons/packs/Edit.png"
-import deleteLogo from "../../../assets/img/icons/packs/Delete.png"
+import {useAppSelector} from "../../../utils/hooks/hooks";
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import s from "./ActionsPack.module.css"
 import {DeletePackModal} from "../../../common/components/modals/deletePackModal/DeletePackModal";
 import {EditPackModal} from "../../../common/components/modals/changePackModal/EditPackModal";
-import {useAppSelector} from "../../../utils/hooks/hooks";
+import {ChangeCardModal} from "../../../common/components/modals/changeCardModal/ChangeCardModal";
+
 
 type ActionsPackType = {
     type: 'pack' | 'card'
@@ -39,6 +41,7 @@ export const ActionsPack: FC<ActionsPackType> = ({
     const learnPackHandler = () => {
         alert('Learn pack')
     }
+
 
     const onActiveModal = () => setActiveDeleteModal(!activeDeleteModal)
     const onActiveEditModal = () => setActiveEditModal(!activeEditModal)

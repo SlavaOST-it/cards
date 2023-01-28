@@ -3,11 +3,12 @@ import {Link} from "@mui/material";
 import style from "./PictureCard.module.css"
 import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
 import {uploadHandler} from "../../../utils/uploadHandler/uploadHandler";
+import {baseDeckCover} from "../../../assets/baseDeckCover";
 
 export const PictureCard = () => {
     const dispatch = useAppDispatch()
-    const cardQuestionImage = useAppSelector(state => state.cards.questionImg)
-    const cardAnswerImage = useAppSelector(state => state.cards.answerImg)
+    const cardQuestionImage = useAppSelector(state =>state.cards.questionCover)
+    const cardAnswerImage = useAppSelector(state => state.cards.answerCover)
 
     return (
         <div className={style.container}>
@@ -24,7 +25,7 @@ export const PictureCard = () => {
                 </label>
             </div>
             <div className={style.picture}>
-                <img src={cardQuestionImage} alt="cover"/>
+                <img src={cardQuestionImage?cardQuestionImage:baseDeckCover} alt="cover"/>
             </div>
             <div className={style.block}>
                 <div>Answer:</div>
@@ -39,7 +40,7 @@ export const PictureCard = () => {
                 </label>
             </div>
             <div className={style.picture}>
-                <img src={cardAnswerImage} alt="cover"/>
+                <img  src={cardAnswerImage?cardAnswerImage:baseDeckCover} alt="cover"/>
             </div>
         </div>
     );

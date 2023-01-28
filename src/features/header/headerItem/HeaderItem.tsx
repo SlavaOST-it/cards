@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
 import {logoutThunkCreator} from "../../login/auth-reducer";
 import s from "./HeaderItem.module.css";
 import Button from "@mui/material/Button";
@@ -7,7 +8,7 @@ import MenuItem from "@mui/material/MenuItem";
 import arrowDown from "../../../assets/img/icons/down-arrow-svgrepo-com.svg";
 import {NavLink} from "react-router-dom";
 import {PATH} from "../../../utils/routes/routes";
-import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
+import {AvatarUser} from "../../profile/avatarUser/AvatarUser";
 
 
 export const HeaderItem = () => {

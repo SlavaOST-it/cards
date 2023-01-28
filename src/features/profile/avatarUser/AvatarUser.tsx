@@ -2,11 +2,11 @@ import React, {FC} from 'react';
 import {useAppSelector} from "../../../utils/hooks/hooks";
 import customAvatar from "../../../assets/img/icons/avatar_user.png";
 
-import photoAppLogo from "../../../assets/img/icons/photoapparat.png";
-import {useAppSelector} from "../../../utils/hooks/hooks";
-
-
-export const AvatarUser = () => {
+type AvatarUserType = {
+    onError?: ()=> void
+    className?: string
+}
+export const AvatarUser: FC<AvatarUserType> = ({onError, className}) => {
     const userAvatar = useAppSelector(state => state.profile.avatar)
 
     return (
