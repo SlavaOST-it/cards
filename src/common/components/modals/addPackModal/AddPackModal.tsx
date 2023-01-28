@@ -2,10 +2,10 @@ import React, {ChangeEvent, FC, useState} from 'react';
 import {BasicModal} from "../BasicModal";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
-import {useAppDispatch, useAppSelector} from "../../../../utils/hooks/hooks";
 import {addNewPackTC, setDeckCoverAC} from "../../../../features/cards/packsList-reducer";
 import {CoverInput} from "../../coverInput/CoverInput";
 import {baseDeckCover} from "../../../../assets/baseDeckCover";
+import {useAppDispatch, useAppSelector} from "../../../../utils/hooks/hooks";
 
 
 const styleButtonMUI = {

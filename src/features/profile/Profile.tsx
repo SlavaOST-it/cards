@@ -14,6 +14,7 @@ import customAvatar from "../../assets/img/icons/avatar_user.png"
 import {setAppErrorAC} from "../../app/app-reducer";
 
 
+
 export const Profile = () => {
     const userName = useAppSelector(state => state.profile.name)
     const userEmail = useAppSelector(state => state.profile.email)

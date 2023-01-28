@@ -2,8 +2,8 @@ import React, {ChangeEvent, FC, useEffect, useState} from 'react';
 import style from "../modals/addPackModal/AddPackModal.module.css";
 import Button from "@mui/material/Button";
 import {setDeckCoverAC} from "../../../features/cards/packsList-reducer";
-import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
 import {baseDeckCover} from "../../../assets/baseDeckCover";
+import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
 
 type CoverInputType={
     deckCover:string
@@ -14,7 +14,7 @@ export const CoverInput:FC<CoverInputType> = ({deckCover}) => {
     const myDeckCover=useAppSelector(state=>state.packList.myDeckCover)
     const [isCoverBroken, setIsCoverBroken] = useState(false)
 
-    const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
+     const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length) {
             const file = e.target.files[0]
 
@@ -30,6 +30,7 @@ export const CoverInput:FC<CoverInputType> = ({deckCover}) => {
             }
         }
     }
+
     const errorHandler = () => {
         setIsCoverBroken(true)
         alert('Кривая картинка')
