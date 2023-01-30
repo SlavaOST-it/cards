@@ -195,11 +195,13 @@ export const changeCardThunk = (
     _id: string,
     newQuestion: string,
     newAnswer: string,
-    comment?: string
+    answerImg:string,
+    questionImg:string,
+    comment?: string,
 ): AppThunkType => async (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     try {
-        await cardsAPI.updateCard({_id: _id, question: newQuestion, answer: newAnswer, comments: comment})
+            await cardsAPI.updateCard({_id: _id, question: newQuestion, answer: newAnswer, questionImg,answerImg,comments: comment})
         dispatch(getCardsThunk(cardsPack_id))
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {

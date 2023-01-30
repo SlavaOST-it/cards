@@ -28,6 +28,3 @@ export const uploadHandler = (e: ChangeEvent<HTMLInputElement>,dispatch:AppDispa
         }
     }
 }
-const errorHandler = () => {
-    alert('Кривая картинка')
-}
