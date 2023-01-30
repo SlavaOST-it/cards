@@ -53,8 +53,8 @@ export const CardsTable = () => {
                 <TableBody>
                     {cards.map((el) => (
                         <StyledTableRow key={el._id} className={style.tableHeader}>
-                            <StyledTableCell align="center">{el.questionImg?<img  className={style.coverImg} src={el.questionImg.length>100?el.questionImg:baseDeckCover} alt={'questionImg'}/>:el.question }</StyledTableCell>
-                            <StyledTableCell align="center">{el.answerImg?<img className={style.coverImg} src={el.answerImg.length>100?el.answerImg:baseDeckCover} alt={'answerImg'}/>:el.answer}</StyledTableCell>
+                            <StyledTableCell align="center">{el.questionImg&&el.questionImg!=='null'?<img  className={style.coverImg} src={el.questionImg.length>100?el.questionImg:baseDeckCover} alt={'questionImg'}/>:el.question }</StyledTableCell>
+                            <StyledTableCell align="center">{el.answerImg&&el.answerImg!=='null'?<img className={style.coverImg} src={el.answerImg.length>100?el.answerImg:baseDeckCover} alt={'answerImg'}/>:el.answer}</StyledTableCell>
                             <StyledTableCell align="center">{el.updated.substr(0, 10)}</StyledTableCell>
                             <StyledTableCell sx={{width: 50}} align="right">
                                 <div className={style.grade}>
@@ -65,6 +65,8 @@ export const CardsTable = () => {
                                                  cardId={el._id}
                                                  question={el.question}
                                                  answer={el.answer}
+                                                 questionImg={el.questionImg}
+                                                 answerImg={el.answerImg}
                                                  packName={''}
                                                  deckCover={''}
                                     />

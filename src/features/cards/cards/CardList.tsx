@@ -4,7 +4,7 @@ import {PATH} from "../../../utils/routes/routes";
 import style from "./CardList.module.css"
 import {SearchEngine} from "../../../common/components/search/SearchEngine";
 import {BasicPagination} from "../../../common/components/pagination/BasicPagination";
-import {getCardsThunk} from '../cards-reducer'
+import {getCardsThunk, setAnswerCoverAC, setQuestionCoverAC} from '../cards-reducer'
 import {HeaderTable} from "../../../common/components/headerTable/HeaderTable";
 import {CardsTable} from "../cardsTable/CardsTable";
 import {AddCardsModal} from "../../../common/components/modals/addCardsModal/AddCardsModal";
@@ -27,7 +27,6 @@ export const CardList = () => {
     const dataCards = useAppSelector(state => state.cards.cards)
     const cardsPackId = useAppSelector(state => state.packList.packId)
     const cardUserId = useAppSelector(state => state.packList.userID)
-    const cardCount = useAppSelector(state => state.packList.cardPacks)
     const myId = useAppSelector(state => state.profile._id)
 
     const [value, setValue] = useState('')
@@ -35,6 +34,8 @@ export const CardList = () => {
 
     const addNewCard = () => {
         setActive(true)
+        dispatch(setQuestionCoverAC(''))
+        dispatch(setAnswerCoverAC(''))
     }
 
     const learnPack = () => {
@@ -58,7 +59,6 @@ export const CardList = () => {
 
             <div className={style.wrapper}>
                 <AddCardsModal
-                    type={"add"}
                     answerCard={''}
                     questionCard={''}
                     cardsPackId={cardsPackId}

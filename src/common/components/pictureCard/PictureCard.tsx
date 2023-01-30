@@ -1,15 +1,28 @@
-import React from 'react';
+import React, {FC, useEffect} from 'react';
 import {Link} from "@mui/material";
 import style from "./PictureCard.module.css"
 import {useAppDispatch, useAppSelector} from "../../../utils/hooks/hooks";
 import {uploadHandler} from "../../../utils/uploadHandler/uploadHandler";
 import {baseDeckCover} from "../../../assets/baseDeckCover";
+import {setAnswerCoverAC, setQuestionCoverAC} from "../../../features/cards/cards-reducer";
 
-export const PictureCard = () => {
+type PictureCardType = {
+    questionImage: string,
+    answerImage: string
+}
+
+export const PictureCard: FC<PictureCardType> = ({
+                                                     questionImage,
+                                                     answerImage
+                                                 }) => {
     const dispatch = useAppDispatch()
-    const cardQuestionImage = useAppSelector(state =>state.cards.questionCover)
-    const cardAnswerImage = useAppSelector(state => state.cards.answerCover)
+    const questionInputImg = useAppSelector(state => state.cards.questionCover)
+    const answerInputImg = useAppSelector(state => state.cards.answerCover)
 
+    useEffect(()=>{
+        dispatch(setQuestionCoverAC(questionImage))
+        dispatch(setAnswerCoverAC(answerImage))
+    },[])
     return (
         <div className={style.container}>
             <div className={style.block}>
@@ -25,7 +38,8 @@ export const PictureCard = () => {
                 </label>
             </div>
             <div className={style.picture}>
-                <img src={cardQuestionImage?cardQuestionImage:baseDeckCover} alt="cover"/>
+                <img src={questionInputImg && questionInputImg.length > 100 ? questionInputImg : baseDeckCover}
+                     alt="cover"/>
             </div>
             <div className={style.block}>
                 <div>Answer:</div>
@@ -40,7 +54,8 @@ export const PictureCard = () => {
                 </label>
             </div>
             <div className={style.picture}>
-                <img  src={cardAnswerImage?cardAnswerImage:baseDeckCover} alt="cover"/>
+                <img src={answerInputImg && answerInputImg.length > 100 ? answerInputImg : baseDeckCover}
+                     alt="cover"/>
             </div>
         </div>
     );
