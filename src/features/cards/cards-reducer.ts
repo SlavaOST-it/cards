@@ -1,6 +1,6 @@
 import {AppThunkType} from '../../app/store'
 import {setAppStatusAC} from '../../app/app-reducer'
-import {CardResponseType, cardsAPI, CardsType, packsAPI} from '../../api/cardsAPI'
+import {CardResponseType, cardsAPI, CardsType} from '../../api/cardsAPI'
 import {baseErrorHandler} from "../../utils/error-utils/error-utils";
 import {AxiosError} from "axios";
 
@@ -166,7 +166,6 @@ export const addCardThunk = (cardsPack_id: string, question: string, answer: str
     dispatch(setAppStatusAC('loading'))
     try {
         if(question.length>0){
-            debugger
             await cardsAPI.sendCard({cardsPack_id, question, answer})
         }
         if(questionImg.length>0){
@@ -196,11 +195,13 @@ export const changeCardThunk = (
     _id: string,
     newQuestion: string,
     newAnswer: string,
-    comment?: string
+    answerImg:string,
+    questionImg:string,
+    comment?: string,
 ): AppThunkType => async (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     try {
-        await cardsAPI.updateCard({_id: _id, question: newQuestion, answer: newAnswer, comments: comment})
+            await cardsAPI.updateCard({_id: _id, question: newQuestion, answer: newAnswer, questionImg,answerImg,comments: comment})
         dispatch(getCardsThunk(cardsPack_id))
         dispatch(setAppStatusAC('succeed'))
     } catch (e) {

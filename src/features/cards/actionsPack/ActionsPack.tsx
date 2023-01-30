@@ -3,9 +3,6 @@ import {useAppSelector} from "../../../utils/hooks/hooks";
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
-import teacherLogo from "../../../assets/img/icons/packs/teacher.png"
-import editLogo from "../../../assets/img/icons/packs/Edit.png"
-import deleteLogo from "../../../assets/img/icons/packs/Delete.png"
 import s from "./ActionsPack.module.css"
 import {DeletePackModal} from "../../../common/components/modals/deletePackModal/DeletePackModal";
 import {EditPackModal} from "../../../common/components/modals/changePackModal/EditPackModal";
@@ -21,6 +18,8 @@ type ActionsPackType = {
     deckCover: string
     question: string
     answer: string
+    questionImg: string
+    answerImg: string
 }
 
 export const ActionsPack: FC<ActionsPackType> = ({
@@ -31,7 +30,9 @@ export const ActionsPack: FC<ActionsPackType> = ({
                                                      cardId,
                                                      packName,
                                                      question,
-                                                     answer
+                                                     answer,
+                                                     questionImg,
+                                                     answerImg
                                                  }) => {
 
     const myId = useAppSelector(state => state.profile._id)
@@ -94,6 +95,8 @@ export const ActionsPack: FC<ActionsPackType> = ({
                              setActive={onActiveEditCardModal}
                              question={question}
                              answer={answer}
+                             questionImg={questionImg}
+                             answerImg={answerImg}
             />
         </div>
     );

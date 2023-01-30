@@ -7,11 +7,11 @@ import {setFormatAC} from "../../../features/cards/cards-reducer";
 import {useAppDispatch} from "../../../utils/hooks/hooks";
 
 export  function SelectVariants() {
-    const [age, setAge] = React.useState('');
+    const [format, setFormat] = React.useState('');
     const dispatch =useAppDispatch()
 
     const handleChange = (event: SelectChangeEvent) => {
-        setAge(event.target.value);
+        setFormat(event.target.value);
         dispatch( setFormatAC(event.target.value))
     };
 
@@ -22,7 +22,7 @@ export  function SelectVariants() {
                 <Select
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
-                    value={age}
+                    value={format}
                     onChange={handleChange}
                     label="Choose a question format"
                 >
