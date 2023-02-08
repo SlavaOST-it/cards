@@ -83,6 +83,8 @@ export const PacksTable = () => {
                                               cardId={''}
                                               answer={''}
                                               question={''}
+                                              answerImg={''}
+                                              questionImg={''}
                                 />}
                             </StyledTableCell>
                         </StyledTableRow>

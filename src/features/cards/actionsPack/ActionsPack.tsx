@@ -18,6 +18,8 @@ type ActionsPackType = {
     deckCover: string
     question: string
     answer: string
+    questionImg: string
+    answerImg: string
 }
 
 export const ActionsPack: FC<ActionsPackType> = ({
@@ -28,7 +30,9 @@ export const ActionsPack: FC<ActionsPackType> = ({
                                                      cardId,
                                                      packName,
                                                      question,
-                                                     answer
+                                                     answer,
+                                                     questionImg,
+                                                     answerImg
                                                  }) => {
 
     const myId = useAppSelector(state => state.profile._id)
@@ -91,6 +95,8 @@ export const ActionsPack: FC<ActionsPackType> = ({
                              setActive={onActiveEditCardModal}
                              question={question}
                              answer={answer}
+                             questionImg={questionImg}
+                             answerImg={answerImg}
             />
         </div>
     );

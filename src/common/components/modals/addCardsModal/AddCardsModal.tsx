@@ -1,7 +1,7 @@
 import React, {ChangeEvent, FC, useState} from 'react';
 import {BasicModal} from "../BasicModal";
 import TextField from "@mui/material/TextField";
-import {addCardThunk, changeCardThunk} from "../../../../features/cards/cards-reducer";
+import {addCardThunk} from "../../../../features/cards/cards-reducer";
 import {useAppDispatch, useAppSelector} from "../../../../utils/hooks/hooks";
 import {SelectVariants} from "../../select/SelectVariants";
 import {PictureCard} from "../../pictureCard/PictureCard";
@@ -15,20 +15,17 @@ type EditAndAddCardsModalType = {
     active: boolean
     setActive: (active: boolean) => void
     cardsPackId: string
-    type: 'edit' | 'add'
     answerCard: string
     questionCard: string
 }
-export const EditAndAddCardsModal: FC<EditAndAddCardsModalType> = ({
+export const AddCardsModal: FC<EditAndAddCardsModalType> = ({
                                                                        answerCard,
                                                                        questionCard,
-                                                                       type,
                                                                        active,
                                                                        setActive,
                                                                        cardsPackId
                                                                    }) => {
     const dispatch = useAppDispatch()
-    const cardID = useAppSelector(state => state.cards.cardId)
     const format=useAppSelector(state=>state.cards.format)
     const questionImg = useAppSelector(state => state.cards.questionCover)
     const answerImg = useAppSelector(state => state.cards.answerCover)
@@ -47,17 +44,10 @@ export const EditAndAddCardsModal: FC<EditAndAddCardsModalType> = ({
     }
 
     const onSaveHandler = () => {
-        if (type === 'add') {
             dispatch(addCardThunk(cardsPackId, question, answer,questionImg, answerImg))
             setActive(false)
             setQuestion('')
             setAnswer('')
-        }
-        else {
-            dispatch(changeCardThunk(cardsPackId, cardID, question, answer))
-            setActive(false)
-        }
-
     }
 
 
@@ -65,7 +55,7 @@ export const EditAndAddCardsModal: FC<EditAndAddCardsModalType> = ({
         setActive(false)
     }
 
-const buttonDisableHandler=question&& answer?question.length === 0 || answer.length === 0:questionImg.length===0||answerImg.length===0
+ const buttonDisableHandler=question&& answer?question.length === 0 || answer.length === 0:questionImg.length===0||answerImg.length===0
     return (
         <BasicModal
             title={"Add new card"}
@@ -89,7 +79,7 @@ const buttonDisableHandler=question&& answer?question.length === 0 || answer.len
                                    onChange={onChangeAnswerHandler}/>
                     </div>
                 </div> :
-           <PictureCard/>
+           <PictureCard answerImage={answerImg} questionImage={questionImg}/>
             }
 
         </BasicModal>
